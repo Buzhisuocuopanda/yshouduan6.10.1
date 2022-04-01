@@ -1,0 +1,13 @@
+image: $SONAR_MAVEN_JDK11_CP6
+
+
+code_sonar:
+  stage: test
+  script:
+    - ls -lh
+    - echo "rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME"
+    - mvn clean install -Dmaven.test.skip=true --settings /usr/local/mvn/settings.xml -U
+    - mvn sonar:sonar -Dsonar.projectVersion=v1.0 -Dsonar.projectKey=rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME -Dsonar.projectName=rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_ADMIN_TOKEN --settings /usr/local/mvn/settings.xml
+  only:
+    refs:
+      - develop

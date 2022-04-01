@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.SwMeetingCycleRuleMapper">
+  <resultMap id="BaseResultMap" type="com.authine.cloudpivot.ext.entity.SwMeetingCycleRule">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="sequece_no" jdbcType="VARCHAR" property="sequeceNo" />
+    <result column="rate" jdbcType="TINYINT" property="rate" />
+    <result column="meeting_date" jdbcType="TINYINT" property="meetingDate" />
+    <result column="cycle_start_date" jdbcType="TIMESTAMP" property="cycleStartDate" />
+    <result column="cycle_end_date" jdbcType="TIMESTAMP" property="cycleEndDate" />
+    <result column="cycle_start_time" jdbcType="VARCHAR" property="cycleStartTime" />
+    <result column="cycle_end_time" jdbcType="VARCHAR" property="cycleEndTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, creater, update_time, updater, organization, sequece_no, rate, meeting_date, 
+    cycle_start_date, cycle_end_date, cycle_start_time, cycle_end_time
+  </sql>
+  <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRuleCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sw_meeting_cycle_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sw_meeting_cycle_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sw_meeting_cycle_rule
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRuleCriteria">
+    delete from sw_meeting_cycle_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRule">
+    insert into sw_meeting_cycle_rule (id, create_time, creater, 
+      update_time, updater, organization, 
+      sequece_no, rate, meeting_date, 
+      cycle_start_date, cycle_end_date, cycle_start_time, 
+      cycle_end_time)
+    values (#{id,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, 
+      #{sequeceNo,jdbcType=VARCHAR}, #{rate,jdbcType=TINYINT}, #{meetingDate,jdbcType=TINYINT}, 
+      #{cycleStartDate,jdbcType=TIMESTAMP}, #{cycleEndDate,jdbcType=TIMESTAMP}, #{cycleStartTime,jdbcType=VARCHAR}, 
+      #{cycleEndTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRule">
+    insert into sw_meeting_cycle_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+      <if test="meetingDate != null">
+        meeting_date,
+      </if>
+      <if test="cycleStartDate != null">
+        cycle_start_date,
+      </if>
+      <if test="cycleEndDate != null">
+        cycle_end_date,
+      </if>
+      <if test="cycleStartTime != null">
+        cycle_start_time,
+      </if>
+      <if test="cycleEndTime != null">
+        cycle_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="sequeceNo != null">
+        #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=TINYINT},
+      </if>
+      <if test="meetingDate != null">
+        #{meetingDate,jdbcType=TINYINT},
+      </if>
+      <if test="cycleStartDate != null">
+        #{cycleStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycleEndDate != null">
+        #{cycleEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycleStartTime != null">
+        #{cycleStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleEndTime != null">
+        #{cycleEndTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRuleCriteria" resultType="java.lang.Long">
+    select count(*) from sw_meeting_cycle_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sw_meeting_cycle_rule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organization != null">
+        organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sequeceNo != null">
+        sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate != null">
+        rate = #{record.rate,jdbcType=TINYINT},
+      </if>
+      <if test="record.meetingDate != null">
+        meeting_date = #{record.meetingDate,jdbcType=TINYINT},
+      </if>
+      <if test="record.cycleStartDate != null">
+        cycle_start_date = #{record.cycleStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cycleEndDate != null">
+        cycle_end_date = #{record.cycleEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cycleStartTime != null">
+        cycle_start_time = #{record.cycleStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleEndTime != null">
+        cycle_end_time = #{record.cycleEndTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sw_meeting_cycle_rule
+    set id = #{record.id,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR},
+      organization = #{record.organization,jdbcType=VARCHAR},
+      sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      rate = #{record.rate,jdbcType=TINYINT},
+      meeting_date = #{record.meetingDate,jdbcType=TINYINT},
+      cycle_start_date = #{record.cycleStartDate,jdbcType=TIMESTAMP},
+      cycle_end_date = #{record.cycleEndDate,jdbcType=TIMESTAMP},
+      cycle_start_time = #{record.cycleStartTime,jdbcType=VARCHAR},
+      cycle_end_time = #{record.cycleEndTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRule">
+    update sw_meeting_cycle_rule
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=TINYINT},
+      </if>
+      <if test="meetingDate != null">
+        meeting_date = #{meetingDate,jdbcType=TINYINT},
+      </if>
+      <if test="cycleStartDate != null">
+        cycle_start_date = #{cycleStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycleEndDate != null">
+        cycle_end_date = #{cycleEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycleStartTime != null">
+        cycle_start_time = #{cycleStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleEndTime != null">
+        cycle_end_time = #{cycleEndTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingCycleRule">
+    update sw_meeting_cycle_rule
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      organization = #{organization,jdbcType=VARCHAR},
+      sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=TINYINT},
+      meeting_date = #{meetingDate,jdbcType=TINYINT},
+      cycle_start_date = #{cycleStartDate,jdbcType=TIMESTAMP},
+      cycle_end_date = #{cycleEndDate,jdbcType=TIMESTAMP},
+      cycle_start_time = #{cycleStartTime,jdbcType=VARCHAR},
+      cycle_end_time = #{cycleEndTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
