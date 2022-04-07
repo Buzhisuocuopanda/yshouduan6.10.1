@@ -46,6 +46,12 @@ public class SwMeetingZoom implements Serializable {
 
     private String bizObjectId;
 
+    private String tranNo;
+
+    private String workflowInstance;
+
+    private String ysReult;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -216,6 +222,30 @@ public class SwMeetingZoom implements Serializable {
         this.bizObjectId = bizObjectId == null ? null : bizObjectId.trim();
     }
 
+    public String getTranNo() {
+        return tranNo;
+    }
+
+    public void setTranNo(String tranNo) {
+        this.tranNo = tranNo == null ? null : tranNo.trim();
+    }
+
+    public String getWorkflowInstance() {
+        return workflowInstance;
+    }
+
+    public void setWorkflowInstance(String workflowInstance) {
+        this.workflowInstance = workflowInstance == null ? null : workflowInstance.trim();
+    }
+
+    public String getYsReult() {
+        return ysReult;
+    }
+
+    public void setYsReult(String ysReult) {
+        this.ysReult = ysReult == null ? null : ysReult.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -248,7 +278,10 @@ public class SwMeetingZoom implements Serializable {
             && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()))
             && (this.getMeetingAdminName() == null ? other.getMeetingAdminName() == null : this.getMeetingAdminName().equals(other.getMeetingAdminName()))
             && (this.getCreateName() == null ? other.getCreateName() == null : this.getCreateName().equals(other.getCreateName()))
-            && (this.getBizObjectId() == null ? other.getBizObjectId() == null : this.getBizObjectId().equals(other.getBizObjectId()));
+            && (this.getBizObjectId() == null ? other.getBizObjectId() == null : this.getBizObjectId().equals(other.getBizObjectId()))
+            && (this.getTranNo() == null ? other.getTranNo() == null : this.getTranNo().equals(other.getTranNo()))
+            && (this.getWorkflowInstance() == null ? other.getWorkflowInstance() == null : this.getWorkflowInstance().equals(other.getWorkflowInstance()))
+            && (this.getYsReult() == null ? other.getYsReult() == null : this.getYsReult().equals(other.getYsReult()));
     }
 
     @Override
@@ -276,6 +309,9 @@ public class SwMeetingZoom implements Serializable {
         result = prime * result + ((getMeetingAdminName() == null) ? 0 : getMeetingAdminName().hashCode());
         result = prime * result + ((getCreateName() == null) ? 0 : getCreateName().hashCode());
         result = prime * result + ((getBizObjectId() == null) ? 0 : getBizObjectId().hashCode());
+        result = prime * result + ((getTranNo() == null) ? 0 : getTranNo().hashCode());
+        result = prime * result + ((getWorkflowInstance() == null) ? 0 : getWorkflowInstance().hashCode());
+        result = prime * result + ((getYsReult() == null) ? 0 : getYsReult().hashCode());
         return result;
     }
 
@@ -306,6 +342,9 @@ public class SwMeetingZoom implements Serializable {
         sb.append(", meetingAdminName=").append(meetingAdminName);
         sb.append(", createName=").append(createName);
         sb.append(", bizObjectId=").append(bizObjectId);
+        sb.append(", tranNo=").append(tranNo);
+        sb.append(", workflowInstance=").append(workflowInstance);
+        sb.append(", ysReult=").append(ysReult);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -6,6 +6,7 @@ import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
+import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.JSONObject;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,8 @@ public class SwMeetingZoomController extends SwBaseController {
     )
 
     //添加会议室
-    @RequestMapping("/addMeetingZoom")
+
+    @PostMapping("/addMeetingZoom")
     public ResponseResult addMeetingZoom(@Valid @RequestBody SwMesstingZoomVo swMesstingZoomVo, BindingResult bindingResult)
     {
         try {
@@ -62,6 +65,28 @@ public class SwMeetingZoomController extends SwBaseController {
             return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
+
+  //添加会议室
+/*  @ApiOperation("创建会议室")
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  @ResponseBody
+  public ResponseResult create(@Valid @RequestBody SwMesstingZoomDto swMesstingZoomDto, BindingResult bindingResult){
+        try{
+            ValidUtils.bindvaild(bindingResult);
+            swMeetingZoomService.create(swMesstingZoomDto);
+        }catch(DuplicateKeyException e) {
+            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomDto), "一个流程只能审核通过一次");
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "一个流程只能审核通过一次");
+        }catch(SwException e){
+            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$",JSONObject.valueToString(swMesstingZoomDto),e.getMessage());
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
+        }catch(Exception e)
+        {
+            log.error("【添加会议室接口调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomDto), ExceptionUtils.getStackTrace(e));
+            return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+        }
+        }*/
+
 
 
 
@@ -163,4 +188,7 @@ public class SwMeetingZoomController extends SwBaseController {
 //          }
 //
 //    }
+
+
+
 }

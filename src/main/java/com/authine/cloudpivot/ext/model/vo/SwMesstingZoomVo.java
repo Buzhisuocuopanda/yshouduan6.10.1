@@ -82,4 +82,13 @@ public class SwMesstingZoomVo {
     @NotBlank(message = "创建者姓名不能为空")
     //创建人姓名
     private String createname;
+
+
+    private String bizObjectId;
+    @NotBlank
+    private String tranNo;
+
+    private String workflowInstance;
+
+    private String ysReult;
 }

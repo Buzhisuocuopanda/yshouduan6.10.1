@@ -1,15 +1,19 @@
 package com.authine.cloudpivot.ext.service.meeting.impl;
 
 import com.authine.cloudpivot.engine.spi.FileStoreService;
+import com.authine.cloudpivot.ext.constant.SwStatusConstant;
+import com.authine.cloudpivot.ext.entity.HOrgUser;
 import com.authine.cloudpivot.ext.entity.SwMeetingZoom;
 import com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
+import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
+import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
@@ -34,12 +38,26 @@ public class SwMeetingZoomServiceImpl implements SwMeetingZoomService {
 private SwMeetingZoomMapper swMeetingZoomMapper;
 @Resource
 private FileStoreService fileStoreService;
+@Resource
+private HOrgUserMapper hOrgUserMapper;
 
-
-//添加新建会议室
+//新建会议室
 @Transactional
 @Override
 public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
+
+    //检查创建用户是否存在
+    HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swMesstingZoomVo.getCreater());
+    if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
+        throw new SwException("该创建者没有查到");
+    }
+    //检查会议室是否可用
+    SwMeetingZoom swz = swMeetingZoomMapper.selectByPrimaryKey(swMesstingZoomVo.getTranNo());
+    if(swz!=null
+    ){
+        throw new SwException("会议室无法创建");
+    }
+
         SwMeetingZoom swMeetingZoom= BeanCopyUtils.coypToClass(swMesstingZoomVo,SwMeetingZoom.class,null);
         Date date=new Date();
         swMeetingZoom.setId(IdUtils.getId());
@@ -59,6 +77,11 @@ public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
         swMeetingZoom.setIsDisabled(new Byte("1"));
         swMeetingZoom.setDeleted(new Byte("0"));
         swMeetingZoom.setIfCheck(new Byte("1"));
+
+        swMeetingZoom.setBizObjectId(swMesstingZoomVo.getBizObjectId());
+        swMeetingZoom.setTranNo(swMesstingZoomVo.getTranNo());
+        swMeetingZoom.setWorkflowInstance(swMesstingZoomVo.getWorkflowInstance());
+        swMeetingZoom.setYsReult(swMesstingZoomVo.getYsReult());
         swMeetingZoomMapper.insert(swMeetingZoom);
         }
 
@@ -126,4 +149,9 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoomListUpdateVo.setCreatename(swMeetingZoom.getCreateName());
         return swMeetingZoomListUpdateVo;
         }
-   }
+
+    @Override
+    public void create(SwMesstingZoomDto swMesstingZoomDto) {
+
+    }
+}

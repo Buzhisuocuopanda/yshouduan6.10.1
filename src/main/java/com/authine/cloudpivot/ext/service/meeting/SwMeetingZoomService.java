@@ -5,6 +5,7 @@ import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingzhouqiDo;
+import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
@@ -24,6 +25,9 @@ public interface SwMeetingZoomService {
 
     //会议室查看
     SwMeetingZoomListUpdateVo meetingList(String meetingId);
+
+    //创建会议室
+    void create(SwMesstingZoomDto swMesstingZoomDto);
 
 //    //流程审核后修改会议状态
 //    void updateMeetingzhouqi(SwMeetingzhouqiDo swMeetingzhouqiDo);
