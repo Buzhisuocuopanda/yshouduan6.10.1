@@ -565,7 +565,7 @@ public class SwMeetingServiceImpl implements SwMeetingService {
         if(StringUtils.isBlank(scheduleResult) || !WorkflowInstanceStatus.COMPLETED.toString().equals(scheduleResult)){
             //审核中
 
-            return "orange";
+            return "#FFDD55";
         }else if(WorkflowInstanceStatus.COMPLETED.toString().equals(scheduleResult) && TimeUtil.belongCalendar(now,startTime,endTime)){
             //进行中
             return "#87CEEB";

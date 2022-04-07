@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.controller.meeting;
 
+import com.authine.cloudpivot.ext.utils.HttpRequestUtils;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -27,19 +28,19 @@ public class SwDemoTokenController {
     private static final String CLIENT_SECRET = "0a417ecce58c31b32364ce19ca8fcd15";
 
     //获取token的地址
-    private static final String ACCESS_TOKEN_URL="http://127.0.0.1:8080/api/oauth/token";
+    private static final String ACCESS_TOKEN_URL="http://117.78.3.177/api/oauth/token";
     //read、write
     private static final String SCOPE = "read";
 
     //资源服务地址
-    private static final String RESOURCE_HOST = "http://127.0.0.1:8080";
+    private static final String RESOURCE_HOST = "http://117.78.3.177";
 
     /**
      * OpenAPI 获取token
      * @return
      */
     @GetMapping("/token")
-    public static String accessToken(){
+    public  String accessToken(){
         String accessToken = null;
         OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
@@ -70,4 +71,11 @@ public class SwDemoTokenController {
         }
         return accessToken;
     }
+
+//    @GetMapping("/formload")
+//    public String formload(){
+//        String s = accessToken();
+//        HttpRequestUtils.httpGet()
+//    }
+
 }

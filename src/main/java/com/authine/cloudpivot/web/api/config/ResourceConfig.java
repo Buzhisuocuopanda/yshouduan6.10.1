@@ -92,6 +92,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
 //            http.headers().cacheControl().disable();
             http.authorizeRequests()
                     // swagger start
+                    .antMatchers("/api/meeting/**").hasAuthority("openapi")
                     .antMatchers("/swagger-ui.html").permitAll()
                     .antMatchers("/doc.html").permitAll()
                     .antMatchers("/swagger-resources/**").permitAll()
@@ -136,6 +137,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
                     //test
                     .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                     .antMatchers("/api/**").hasAuthority("AUTH_SYSTEM_MANAGE")
+
                     .anyRequest().authenticated()
                     .and().exceptionHandling().authenticationEntryPoint(point).accessDeniedHandler(accessDeniedHandler);
         } else {
