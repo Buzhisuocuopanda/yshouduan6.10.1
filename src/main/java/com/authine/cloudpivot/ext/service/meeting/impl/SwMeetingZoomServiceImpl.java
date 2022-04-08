@@ -96,6 +96,21 @@ public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo SwMesstingZoomVo) {
         swMeetingZoom.setUpdateTime(date);
         swMeetingZoom.setId(IdUtils.getId());
         swMeetingZoom.setTranNo(IdUtils.getId());
+        swMeetingZoom.setAddress(SwMesstingZoomVo.getAddress());
+        swMeetingZoom.setYsReult(SwMesstingZoomVo.getYsReult());
+        swMeetingZoom.setWorkflowInstance(SwMesstingZoomVo.getWorkflowInstance());
+        swMeetingZoom.setDeleted(SwMesstingZoomVo.getDeleted());
+        swMeetingZoom.setMeetingAdmin(SwMesstingZoomVo.getMeetingadmin());
+        swMeetingZoom.setSequeceNo(SwMesstingZoomVo.getSequeceno());
+        swMeetingZoom.setIsDisabled(SwMesstingZoomVo.getIsdisabled());
+        swMeetingZoom.setYsReult(SwMesstingZoomVo.getYsReult());
+        swMeetingZoom.setBizObjectId(SwMesstingZoomVo.getBizObjectId());
+        swMeetingZoom.setIfCheck(SwMesstingZoomVo.getIfcheck());
+        swMeetingZoom.setPeopleNum(SwMesstingZoomVo.getPeoplenum());
+        swMeetingZoom.setOrganization(SwMesstingZoomVo.getOrganization());
+        swMeetingZoom.setMeetingType(SwMesstingZoomVo.getMeetingtype());
+        swMeetingZoom.setSlot(SwMesstingZoomVo.getSlot());
+        swMeetingZoom.setMeetingName(SwMesstingZoomVo.getMeetingname());
         swMeetingZoomMapper.insert(swMeetingZoom);
 
         SwMeetingResult swMeetingResult=new SwMeetingResult();
