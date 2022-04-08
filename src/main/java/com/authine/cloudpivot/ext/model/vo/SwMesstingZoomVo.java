@@ -86,8 +86,8 @@ public class SwMesstingZoomVo {
     private String SwMeetingZoomId;
 
     private String bizObjectId;
-    @NotBlank
-    private String tranNo;
+   /* @NotBlank
+    private String tranNo;*/
 
     private String workflowInstance;
 

@@ -57,7 +57,6 @@ public class SwMeetingZoomController extends SwBaseController {
             res=swMeetingZoomService.addMeetingZoom(swMesstingZoomVo);
             return this.getOkResponseResult(res, "添加成功");
 
-
         } catch (SwException e) {
             log.error("【新建会议室】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomVo), e.getMessage());
             return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
