@@ -5,6 +5,7 @@ import com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria;
 import java.util.List;
 
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
+import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

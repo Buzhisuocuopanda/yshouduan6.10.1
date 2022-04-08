@@ -265,7 +265,6 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
 
 
     }
-}
 
     //编辑会议室
     @Override
@@ -273,3 +272,4 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoomMapper.updateMeetingZoom(swMeetingZoomListUpdateVo);
     }
 }
+
