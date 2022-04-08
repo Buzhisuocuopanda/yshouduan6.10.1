@@ -25,6 +25,9 @@ public interface SwMeetingZoomService {
 
     void updateMeetingZoom(SwMesstingZoomDto swMesstingZoomDto);
 
+    //编辑会议室
+    void updateMeetingZoom(SwMeetingZoomListUpdateVo swMeetingZoomListUpdateVo);
+
 //    //流程审核后修改会议状态
 //    void updateMeetingzhouqi(SwMeetingzhouqiDo swMeetingzhouqiDo);
 }

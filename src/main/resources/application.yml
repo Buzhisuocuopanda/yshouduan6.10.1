@@ -360,7 +360,7 @@ organization:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/6.7?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false
     username: root
-    password: 1234
+    password: test123456
     hikari:
       maximum-pool-size: 10                                     # 连接池最大连接数. 根据系统并发用户数设置合理值
       minimum-idle: 5

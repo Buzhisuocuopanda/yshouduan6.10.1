@@ -88,8 +88,7 @@
   <sql id="Base_Column_List">
     id, creater, create_time, updater, update_time, sequece_no, organization, meeting_name, 
     meeting_uri, meeting_type, slot, device, address, people_num, meeting_admin, if_check, 
-    is_disabled, deleted, meeting_admin_name, create_name, biz_object_id, tran_no, workflow_instance, 
-    ys_reult
+    is_disabled, deleted, meeting_admin_name, create_name, biz_object_id
   </sql>
   <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria" resultMap="BaseResultMap">
     select
@@ -128,8 +127,7 @@
       meeting_type, slot, device, 
       address, people_num, meeting_admin, 
       if_check, is_disabled, deleted, 
-      meeting_admin_name, create_name, biz_object_id, 
-      tran_no, workflow_instance, ys_reult
+      meeting_admin_name, create_name, biz_object_id
       )
     values (#{id,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{sequeceNo,jdbcType=VARCHAR}, 
@@ -137,8 +135,7 @@
       #{meetingType,jdbcType=VARCHAR}, #{slot,jdbcType=INTEGER}, #{device,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{peopleNum,jdbcType=INTEGER}, #{meetingAdmin,jdbcType=VARCHAR}, 
       #{ifCheck,jdbcType=TINYINT}, #{isDisabled,jdbcType=TINYINT}, #{deleted,jdbcType=TINYINT}, 
-      #{meetingAdminName,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}, 
-      #{tranNo,jdbcType=VARCHAR}, #{workflowInstance,jdbcType=VARCHAR}, #{ysReult,jdbcType=VARCHAR}
+      #{meetingAdminName,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
@@ -207,15 +204,6 @@
       <if test="bizObjectId != null">
         biz_object_id,
       </if>
-      <if test="tranNo != null">
-        tran_no,
-      </if>
-      <if test="workflowInstance != null">
-        workflow_instance,
-      </if>
-      <if test="ysReult != null">
-        ys_reult,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -280,15 +268,6 @@
       </if>
       <if test="bizObjectId != null">
         #{bizObjectId,jdbcType=VARCHAR},
-      </if>
-      <if test="tranNo != null">
-        #{tranNo,jdbcType=VARCHAR},
-      </if>
-      <if test="workflowInstance != null">
-        #{workflowInstance,jdbcType=VARCHAR},
-      </if>
-      <if test="ysReult != null">
-        #{ysReult,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -364,15 +343,6 @@
       <if test="record.bizObjectId != null">
         biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
       </if>
-      <if test="record.tranNo != null">
-        tran_no = #{record.tranNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.workflowInstance != null">
-        workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ysReult != null">
-        ys_reult = #{record.ysReult,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -400,10 +370,7 @@
       deleted = #{record.deleted,jdbcType=TINYINT},
       meeting_admin_name = #{record.meetingAdminName,jdbcType=VARCHAR},
       create_name = #{record.createName,jdbcType=VARCHAR},
-      biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
-      tran_no = #{record.tranNo,jdbcType=VARCHAR},
-      workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
-      ys_reult = #{record.ysReult,jdbcType=VARCHAR}
+      biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -471,15 +438,6 @@
       <if test="bizObjectId != null">
         biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
       </if>
-      <if test="tranNo != null">
-        tran_no = #{tranNo,jdbcType=VARCHAR},
-      </if>
-      <if test="workflowInstance != null">
-        workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
-      </if>
-      <if test="ysReult != null">
-        ys_reult = #{ysReult,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -504,36 +462,30 @@
       deleted = #{deleted,jdbcType=TINYINT},
       meeting_admin_name = #{meetingAdminName,jdbcType=VARCHAR},
       create_name = #{createName,jdbcType=VARCHAR},
-      biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
-      tran_no = #{tranNo,jdbcType=VARCHAR},
-      workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
-      ys_reult = #{ysReult,jdbcType=VARCHAR}
+      biz_object_id = #{bizObjectId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
-
-
-  <select id="backMeetingzoom" resultType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
-    select
-    <include refid="Base_Column_List"/>
-    from
-    sw_meeting_zoom sw
-    where
-    sw.deleted=0
-    <if test="userId!=null and userId!=''">
-      and sw.creater=#{userId}
+    <select id="backMeetingzoom" resultType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+          select
+          <include refid="Base_Column_List"/>
+          from
+          sw_meeting_zoom sw
+          where
+          sw.deleted=0
+          <if test="userId!=null and userId!=''">
+              and sw.creater=#{userId}
+          </if>
+          <if test="createname != null and createname !=''">
+              and sw.create_name like CONCAT(CONCAT('%',#{createname},'%'))
+          <if test="meetingadminname != null and meetingadminname !=''">
+              and sw.meeting_admin_name=#{meetingadminname}
+          </if>
+          <if test="meetingname != null and meetingname !=''">
+              and sw.meeting_name=#{meetingname}
+          </if>
+          order by sw.meeting_name desc
     </if>
-    <if test="createname != null and createname !=''">
-      and sw.create_name like CONCAT(CONCAT('%',#{createname},'%'))
-      <if test="meetingadminname != null and meetingadminname !=''">
-        and sw.meeting_admin_name=#{meetingadminname}
-      </if>
-      <if test="meetingname != null and meetingname !=''">
-        and sw.meeting_name=#{meetingname}
-      </if>
-      order by sw.meeting_name desc
-    </if>
-  </select>
+      </select>
 
   <select id="meetingZoomList" resultType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo">
       SELECT
@@ -571,4 +523,15 @@
          m.id = #{meetingId}
   </select>
 
+    <update id="updateMeetingZoom" parameterType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo">
+     update `sw_meeting_zoom` m
+      set m.creater = #{creater},
+      m.meeting_name = #{meetingname},
+      m.meeting_type = #{meetingtype},
+      m.slot = #{slot},
+      m.address = #{address},
+      m.meeting_admin_name = #{meetingadminname},
+      m.create_name = #{createname}
+    where m.id = #{id}
+    </update>
 </mapper>
