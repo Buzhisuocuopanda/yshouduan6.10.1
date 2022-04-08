@@ -1504,6 +1504,216 @@ public class SwMeetingZoomCriteria {
             addCriterion("biz_object_id not between", value1, value2, "bizObjectId");
             return (Criteria) this;
         }
+
+        public Criteria andTranNoIsNull() {
+            addCriterion("tran_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoIsNotNull() {
+            addCriterion("tran_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoEqualTo(String value) {
+            addCriterion("tran_no =", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoNotEqualTo(String value) {
+            addCriterion("tran_no <>", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoGreaterThan(String value) {
+            addCriterion("tran_no >", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoGreaterThanOrEqualTo(String value) {
+            addCriterion("tran_no >=", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoLessThan(String value) {
+            addCriterion("tran_no <", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoLessThanOrEqualTo(String value) {
+            addCriterion("tran_no <=", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoLike(String value) {
+            addCriterion("tran_no like", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoNotLike(String value) {
+            addCriterion("tran_no not like", value, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoIn(List<String> values) {
+            addCriterion("tran_no in", values, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoNotIn(List<String> values) {
+            addCriterion("tran_no not in", values, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoBetween(String value1, String value2) {
+            addCriterion("tran_no between", value1, value2, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTranNoNotBetween(String value1, String value2) {
+            addCriterion("tran_no not between", value1, value2, "tranNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceIsNull() {
+            addCriterion("workflow_instance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceIsNotNull() {
+            addCriterion("workflow_instance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceEqualTo(String value) {
+            addCriterion("workflow_instance =", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceNotEqualTo(String value) {
+            addCriterion("workflow_instance <>", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceGreaterThan(String value) {
+            addCriterion("workflow_instance >", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceGreaterThanOrEqualTo(String value) {
+            addCriterion("workflow_instance >=", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceLessThan(String value) {
+            addCriterion("workflow_instance <", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceLessThanOrEqualTo(String value) {
+            addCriterion("workflow_instance <=", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceLike(String value) {
+            addCriterion("workflow_instance like", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceNotLike(String value) {
+            addCriterion("workflow_instance not like", value, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceIn(List<String> values) {
+            addCriterion("workflow_instance in", values, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceNotIn(List<String> values) {
+            addCriterion("workflow_instance not in", values, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceBetween(String value1, String value2) {
+            addCriterion("workflow_instance between", value1, value2, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkflowInstanceNotBetween(String value1, String value2) {
+            addCriterion("workflow_instance not between", value1, value2, "workflowInstance");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultIsNull() {
+            addCriterion("ys_reult is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultIsNotNull() {
+            addCriterion("ys_reult is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultEqualTo(String value) {
+            addCriterion("ys_reult =", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultNotEqualTo(String value) {
+            addCriterion("ys_reult <>", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultGreaterThan(String value) {
+            addCriterion("ys_reult >", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultGreaterThanOrEqualTo(String value) {
+            addCriterion("ys_reult >=", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultLessThan(String value) {
+            addCriterion("ys_reult <", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultLessThanOrEqualTo(String value) {
+            addCriterion("ys_reult <=", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultLike(String value) {
+            addCriterion("ys_reult like", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultNotLike(String value) {
+            addCriterion("ys_reult not like", value, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultIn(List<String> values) {
+            addCriterion("ys_reult in", values, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultNotIn(List<String> values) {
+            addCriterion("ys_reult not in", values, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultBetween(String value1, String value2) {
+            addCriterion("ys_reult between", value1, value2, "ysReult");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsReultNotBetween(String value1, String value2) {
+            addCriterion("ys_reult not between", value1, value2, "ysReult");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

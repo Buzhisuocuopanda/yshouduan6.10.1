@@ -1,17 +1,21 @@
 package com.authine.cloudpivot.ext.service.meeting.impl;
 
 import com.authine.cloudpivot.engine.spi.FileStoreService;
-import com.authine.cloudpivot.ext.entity.SwMeetingZoom;
-import com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria;
+import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
+import com.authine.cloudpivot.ext.mapper.BizWorkflowInstanceMapper;
+import com.authine.cloudpivot.ext.mapper.HBizCommentMapper;
+import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
+import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
+import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomResult;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
 import com.authine.cloudpivot.ext.service.meeting.SwMeetingZoomService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
@@ -34,12 +38,29 @@ public class SwMeetingZoomServiceImpl implements SwMeetingZoomService {
 private SwMeetingZoomMapper swMeetingZoomMapper;
 @Resource
 private FileStoreService fileStoreService;
-
-
-//添加新建会议室
+@Resource
+private HOrgUserMapper hOrgUserMapper;
+@Resource
+private BizWorkflowInstanceMapper bizWorkflowInstanceMapper;
+    @Resource
+    private HBizCommentMapper hBizCommentMapper;
+//新建会议室
 @Transactional
 @Override
-public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
+public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
+
+    //检查创建用户是否存在
+    HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swMesstingZoomVo.getCreater());
+    if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
+        throw new SwException("该创建者没有查到");
+    }
+    //检查会议室是否可用
+    SwMeetingZoom swz = swMeetingZoomMapper.selectByPrimaryKey(swMesstingZoomVo.getTranNo());
+    if(swz!=null
+    ){
+        throw new SwException("会议室无法创建");
+    }
+
         SwMeetingZoom swMeetingZoom= BeanCopyUtils.coypToClass(swMesstingZoomVo,SwMeetingZoom.class,null);
         Date date=new Date();
         swMeetingZoom.setId(IdUtils.getId());
@@ -59,7 +80,16 @@ public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
         swMeetingZoom.setIsDisabled(new Byte("1"));
         swMeetingZoom.setDeleted(new Byte("0"));
         swMeetingZoom.setIfCheck(new Byte("1"));
+
+        swMeetingZoom.setBizObjectId(swMesstingZoomVo.getBizObjectId());
+        swMeetingZoom.setTranNo(swMesstingZoomVo.getTranNo());
+        swMeetingZoom.setWorkflowInstance(swMesstingZoomVo.getWorkflowInstance());
+        swMeetingZoom.setYsReult(swMesstingZoomVo.getYsReult());
         swMeetingZoomMapper.insert(swMeetingZoom);
+
+        SwMeetingZoomResult swMeetingZoomResult=new SwMeetingZoomResult();
+        swMeetingZoomResult.setTranNo(swMeetingZoom.getTranNo());
+        return swMeetingZoomResult;
         }
 
 
@@ -128,6 +158,114 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoomListUpdateVo.setCreatename(swMeetingZoom.getCreateName());
         return swMeetingZoomListUpdateVo;
         }
+
+    @Override
+    public void create(SwMesstingZoomDto swMesstingZoomDto) {
+
+    }
+   /* @Transactional
+    @Override
+    public void updateMeetingZoom(SwMesstingZoomDto swMesstingZoomDto) {
+        SwMeetingZoom swMeetingZoom=new SwMeetingZoom();
+
+        BizWorkflowInstanceCriteria example= new BizWorkflowInstanceCriteria();
+        example.createCriteria()
+                .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
+        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(example);
+          if(bizWorkflowInstances.size()>0){
+              BizWorkflowInstance bizWorkflowInstance =bizWorkflowInstances.get(0);
+
+              HBizCommentCriteria comex=new HBizCommentCriteria();
+              comex.setOrderByClause("createdTime desc");
+              comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
+                                    .andActivitynameEqualTo("审批");
+
+              swMeetingZoom.setSequeceNo(swMesstingZoomDto.getSequeceNo());
+              swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());
+              swMeetingZoom.setUpdateTime(new Date());
+              if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
+                  swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
+              }
+              if(StringUtils.isNotBlank(swMesstingZoomDto.getBizObjectId())){
+                  swMeetingZoom.setBizObjectId(swMesstingZoomDto.getBizObjectId());
+              }
+
+
+              swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
+
+              SwMeetingZoomCriteria exapmle=new SwMeetingZoomCriteria();
+              exapmle
+                      .createCriteria()
+                      .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                      .andTranNoEqualTo(swMesstingZoomDto.getTranNo());
+              int i=swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,exapmle);
+              return;
+
+
+          }
+
+
+    }*/
+
+
+    @Transactional
+    @Override
+    public void updateMeetingZoom(SwMesstingZoomDto swMesstingZoomDto) {
+        SwMeetingZoom swMeetingZoom=new SwMeetingZoom();
+
+        //根据单据号查审核信息
+        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
+        exapmle.createCriteria()
+                .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
+        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(exapmle);
+        String auditMsg="";
+        if(bizWorkflowInstances.size()>0){
+            BizWorkflowInstance bizWorkflowInstance = bizWorkflowInstances.get(0);
+
+            HBizCommentCriteria comex=new HBizCommentCriteria();
+            comex.setOrderByClause("createdTime desc");
+            comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
+                    .andActivitynameEqualTo("审批");
+
+           /* List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
+            if(hBizComments.size()>0){
+                auditMsg=hBizComments.get(0).getContent();
+            }*/
+
+        }
+
+        swMeetingZoom.setSequeceNo(swMesstingZoomDto.getSequeceNo());
+        swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());
+        swMeetingZoom.setUpdateTime(new Date());
+/*
+        swMeetingZoom.setAuidtMsg(auditMsg);
+*/
+        if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
+            swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
+        }
+        if(StringUtils.isNotBlank(swMesstingZoomDto.getBizObjectId())){
+            swMeetingZoom.setBizObjectId(swMesstingZoomDto.getBizObjectId());
+
+        }
+
+        swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
+//        swMeeting.setSequeceNo(swMeetingAuditDo.getState());
+//        swMeeting.setAuidtMsg(swMeetingAuditDo.getAuditMsg());
+//        swMeeting.setMeetingStatus(getAuditStatus(swMeetingAuditDo.getState()));
+//        swMeeting.setMeetingStatus(getAuditStatus(swMeetingAuditDo.getState()));
+ //       swMeetingZoom.setYsReult(swMesstingZoomDto.getState());
+        SwMeetingZoomCriteria example=new SwMeetingZoomCriteria();
+        example
+                .createCriteria()
+                .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                .andTranNoEqualTo(swMesstingZoomDto.getTranNo());
+        int i = swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,example);
+        return;
+
+
+
+    }
+}
 
     //编辑会议室
     @Override

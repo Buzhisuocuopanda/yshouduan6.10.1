@@ -23,6 +23,9 @@
     <result column="meeting_admin_name" jdbcType="VARCHAR" property="meetingAdminName" />
     <result column="create_name" jdbcType="VARCHAR" property="createName" />
     <result column="biz_object_id" jdbcType="VARCHAR" property="bizObjectId" />
+    <result column="tran_no" jdbcType="VARCHAR" property="tranNo" />
+    <result column="workflow_instance" jdbcType="VARCHAR" property="workflowInstance" />
+    <result column="ys_reult" jdbcType="VARCHAR" property="ysReult" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -519,16 +522,4 @@
        WHERE
          m.id = #{meetingId}
   </select>
-
-    <update id="updateMeetingZoom" parameterType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo">
-     update `sw_meeting_zoom` m
-      set m.creater = #{creater},
-      m.meeting_name = #{meetingname},
-      m.meeting_type = #{meetingtype},
-      m.slot = #{slot},
-      m.address = #{address},
-      m.meeting_admin_name = #{meetingadminname},
-      m.create_name = #{createname}
-    where m.id = #{id}
-    </update>
 </mapper>
