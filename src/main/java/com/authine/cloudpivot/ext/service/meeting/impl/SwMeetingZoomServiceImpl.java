@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.service.meeting.impl;
 
 import com.authine.cloudpivot.engine.spi.FileStoreService;
+import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
@@ -10,13 +11,12 @@ import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
+import com.authine.cloudpivot.ext.model.doo.SwMeetingDo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
+import com.authine.cloudpivot.ext.model.dto.MeetingDetailModel;
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomResult;
-import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
+import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.meeting.SwMeetingZoomService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
@@ -44,16 +44,16 @@ private BizWorkflowInstanceMapper bizWorkflowInstanceMapper;
     @Resource
     private HBizCommentMapper hBizCommentMapper;
 //新建会议室
-@Transactional
+/*@Transactional
 @Override
-public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
+public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo SwMesstingZoomVo) {
 
     //检查创建用户是否存在
     HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swMesstingZoomVo.getCreater());
     if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
         throw new SwException("该创建者没有查到");
     }
-    //检查会议室是否可用
+    //检查会议室是否存在
     SwMeetingZoom swz = swMeetingZoomMapper.selectByPrimaryKey(swMesstingZoomVo.getTranNo());
     if(swz!=null
     ){
@@ -62,36 +62,45 @@ public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
 
         SwMeetingZoom swMeetingZoom= BeanCopyUtils.coypToClass(swMesstingZoomVo,SwMeetingZoom.class,null);
         Date date=new Date();
-        swMeetingZoom.setId(IdUtils.getId());
-        swMeetingZoom.setCreateTime(date);
-        swMeetingZoom.setUpdateTime(date);
-        swMeetingZoom.setAddress(swMesstingZoomVo.getAddress());
-        swMeetingZoom.setMeetingAdminName(swMesstingZoomVo.getMeetingadminname());
-        swMeetingZoom.setCreateName(swMesstingZoomVo.getCreatename());
-        swMeetingZoom.setUpdater(swMesstingZoomVo.getCreater());
-        swMeetingZoom.setOrganization(swMesstingZoomVo.getOrganization());
-        swMeetingZoom.setMeetingName(swMesstingZoomVo.getMeetingname());
-        swMeetingZoom.setMeetingType(swMesstingZoomVo.getMeetingtype());
-        swMeetingZoom.setSlot(swMesstingZoomVo.getSlot());
-        swMeetingZoom.setDevice(swMesstingZoomVo.getDevice());
-        swMeetingZoom.setPeopleNum(swMesstingZoomVo.getPeoplenum());
-        swMeetingZoom.setSequeceNo(swMesstingZoomVo.getSequeceno());
-        swMeetingZoom.setIsDisabled(new Byte("1"));
-        swMeetingZoom.setDeleted(new Byte("0"));
-        swMeetingZoom.setIfCheck(new Byte("1"));
+       swMeetingZoom.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
+       swMeetingZoom.setCreateName(hOrgUser.getName());
+       swMeetingZoom.setTranNo(IdUtils.getId());
 
-        swMeetingZoom.setBizObjectId(swMesstingZoomVo.getBizObjectId());
-        swMeetingZoom.setTranNo(swMesstingZoomVo.getTranNo());
-        swMeetingZoom.setWorkflowInstance(swMesstingZoomVo.getWorkflowInstance());
-        swMeetingZoom.setYsReult(swMesstingZoomVo.getYsReult());
-        swMeetingZoomMapper.insert(swMeetingZoom);
+    swMeetingZoomMapper.insert(swMeetingZoom);
 
         SwMeetingZoomResult swMeetingZoomResult=new SwMeetingZoomResult();
         swMeetingZoomResult.setTranNo(swMeetingZoom.getTranNo());
         return swMeetingZoomResult;
+        }*/
+
+    @Transactional
+    @Override
+    public SwMeetingResult addMeetingZoom(SwMesstingZoomVo SwMesstingZoomVo) {
+
+        //检查创建用户是否存在
+        HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(SwMesstingZoomVo.getCreater());
+        if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
+            throw new SwException("该创建者没有查到");
         }
 
 
+
+        //属性copy
+        SwMeetingZoom swMeetingZoom = BeanCopyUtils.coypToClass(SwMesstingZoomVo, SwMeetingZoom.class, null);
+        Date date = new Date();
+        swMeetingZoom.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
+        swMeetingZoom.setCreateName(hOrgUser.getName());
+
+        swMeetingZoom.setCreateTime(date);
+        swMeetingZoom.setUpdateTime(date);
+        swMeetingZoom.setId(IdUtils.getId());
+        swMeetingZoom.setTranNo(IdUtils.getId());
+        swMeetingZoomMapper.insert(swMeetingZoom);
+
+        SwMeetingResult swMeetingResult=new SwMeetingResult();
+        swMeetingResult.setTranNo(swMeetingZoom.getTranNo());
+        return swMeetingResult;
+    }
 /***
  * 会议室列表
  * @param query

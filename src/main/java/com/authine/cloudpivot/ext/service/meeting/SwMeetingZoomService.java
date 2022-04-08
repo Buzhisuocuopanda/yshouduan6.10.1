@@ -4,15 +4,12 @@ import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomResult;
-import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
+import com.authine.cloudpivot.ext.model.vo.*;
 
 public interface SwMeetingZoomService {
 
     //添加会议室
-    SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo);
+    SwMeetingResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo);
 
    //会议室列表内容
     SwPageVo<SwMeetingZoomListVo> meetingZoomList(BaseSwQueryModel queryModel);

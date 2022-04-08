@@ -83,6 +83,7 @@ public class SwMesstingZoomVo {
     //创建人姓名
     private String createname;
 
+    private String SwMeetingZoomId;
 
     private String bizObjectId;
     @NotBlank
@@ -91,4 +92,6 @@ public class SwMesstingZoomVo {
     private String workflowInstance;
 
     private String ysReult;
+
+
 }

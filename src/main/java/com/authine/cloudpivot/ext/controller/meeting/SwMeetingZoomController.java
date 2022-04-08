@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.controller.meeting;
 
+import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.controller.base.SwBaseController;
 import com.authine.cloudpivot.ext.exception.SwException;
@@ -8,6 +9,7 @@ import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingAuditDo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
+import com.authine.cloudpivot.ext.model.vo.SwMeetingResult;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
@@ -18,7 +20,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.JSONObject;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -46,25 +47,27 @@ public class SwMeetingZoomController extends SwBaseController {
     //添加会议室
 
     @PostMapping("/addMeetingZoom")
-    public ResponseResult addMeetingZoom(@Valid @RequestBody SwMesstingZoomVo swMesstingZoomVo, BindingResult bindingResult)
+    public ResponseResult<SwMeetingResult> addMeetingZoom(@Valid @RequestBody SwMesstingZoomVo swMesstingZoomVo, BindingResult bindingResult)
     {
+        SwMeetingResult res = null;
         try {
             //参数校验
             ValidUtils.bindvaild(bindingResult);
             //调用服务器
-            swMeetingZoomService.addMeetingZoom(swMesstingZoomVo);
-            return this.getOkResponseResult("添加成功");
-        }catch(DuplicateKeyException e) {
-            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomVo), "一个流程只能审核通过一次");
-            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "一个流程只能审核通过一次");
-        }catch(SwException e){
-            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$",JSONObject.valueToString(swMesstingZoomVo),e.getMessage());
-            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
-        }catch(Exception e)
-        {
-            log.error("【添加会议室接口调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomVo), ExceptionUtils.getStackTrace(e));
-            return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+            res=swMeetingZoomService.addMeetingZoom(swMesstingZoomVo);
+            return this.getOkResponseResult(res, "添加成功");
+
+
+        } catch (SwException e) {
+            log.error("【新建会议室】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomVo), e.getMessage());
+            return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
+
+        } catch (Exception e) {
+            log.error("【新建会议室】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swMesstingZoomVo),ExceptionUtils.getStackTrace(e));
+
+            return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }
+
     }
 
   //添加会议室
@@ -196,18 +199,18 @@ public class SwMeetingZoomController extends SwBaseController {
     @PostMapping("/updateMeetingZoom")
     public ResponseResult updateMeetingZoom(@Valid @RequestBody SwMesstingZoomDto swMesstingZoomDto, BindingResult bindingResult){
         try {
-            log.info("【会议审核过后调用】调用，参数${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto));
+            log.info("【会议室审核过后调用】调用，参数${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto));
 
             ValidUtils.bindvaild(bindingResult);
 
             swMeetingZoomService.updateMeetingZoom(swMesstingZoomDto);
             return this.getOkResponseResult("操作成功");
         } catch (SwException e) {
-            log.error("【会议审核过后调用】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto), e.getMessage());
+            log.error("【会议室审核过后调用】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto), e.getMessage());
             return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
         } catch (Exception e) {
-            log.error("【会议审核过后调用】接口出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto),ExceptionUtils.getStackTrace(e));
+            log.error("【会议室审核过后调用】接口出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMesstingZoomDto),ExceptionUtils.getStackTrace(e));
 
             return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }
