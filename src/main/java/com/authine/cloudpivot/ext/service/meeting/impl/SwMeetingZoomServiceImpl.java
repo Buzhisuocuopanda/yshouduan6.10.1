@@ -2,15 +2,16 @@ package com.authine.cloudpivot.ext.service.meeting.impl;
 
 import com.authine.cloudpivot.engine.spi.FileStoreService;
 import com.authine.cloudpivot.ext.constant.SwStatusConstant;
-import com.authine.cloudpivot.ext.entity.HOrgUser;
-import com.authine.cloudpivot.ext.entity.SwMeetingZoom;
-import com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria;
+import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
+import com.authine.cloudpivot.ext.mapper.BizWorkflowInstanceMapper;
+import com.authine.cloudpivot.ext.mapper.HBizCommentMapper;
 import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
+import com.authine.cloudpivot.ext.model.doo.SwMeetingAuditDo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
@@ -40,7 +41,10 @@ private SwMeetingZoomMapper swMeetingZoomMapper;
 private FileStoreService fileStoreService;
 @Resource
 private HOrgUserMapper hOrgUserMapper;
-
+@Resource
+private BizWorkflowInstanceMapper bizWorkflowInstanceMapper;
+    @Resource
+    private HBizCommentMapper hBizCommentMapper;
 //新建会议室
 @Transactional
 @Override
@@ -152,6 +156,107 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
 
     @Override
     public void create(SwMesstingZoomDto swMesstingZoomDto) {
+
+    }
+   /* @Transactional
+    @Override
+    public void updateMeetingZoom(SwMesstingZoomDto swMesstingZoomDto) {
+        SwMeetingZoom swMeetingZoom=new SwMeetingZoom();
+
+        BizWorkflowInstanceCriteria example= new BizWorkflowInstanceCriteria();
+        example.createCriteria()
+                .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
+        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(example);
+          if(bizWorkflowInstances.size()>0){
+              BizWorkflowInstance bizWorkflowInstance =bizWorkflowInstances.get(0);
+
+              HBizCommentCriteria comex=new HBizCommentCriteria();
+              comex.setOrderByClause("createdTime desc");
+              comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
+                                    .andActivitynameEqualTo("审批");
+
+              swMeetingZoom.setSequeceNo(swMesstingZoomDto.getSequeceNo());
+              swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());
+              swMeetingZoom.setUpdateTime(new Date());
+              if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
+                  swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
+              }
+              if(StringUtils.isNotBlank(swMesstingZoomDto.getBizObjectId())){
+                  swMeetingZoom.setBizObjectId(swMesstingZoomDto.getBizObjectId());
+              }
+
+
+              swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
+
+              SwMeetingZoomCriteria exapmle=new SwMeetingZoomCriteria();
+              exapmle
+                      .createCriteria()
+                      .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                      .andTranNoEqualTo(swMesstingZoomDto.getTranNo());
+              int i=swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,exapmle);
+              return;
+
+
+          }
+
+
+    }*/
+
+
+    @Transactional
+    @Override
+    public void updateMeetingZoom(SwMesstingZoomDto swMesstingZoomDto) {
+        SwMeetingZoom swMeetingZoom=new SwMeetingZoom();
+
+        //根据单据号查审核信息
+        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
+        exapmle.createCriteria()
+                .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
+        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(exapmle);
+        String auditMsg="";
+        if(bizWorkflowInstances.size()>0){
+            BizWorkflowInstance bizWorkflowInstance = bizWorkflowInstances.get(0);
+
+            HBizCommentCriteria comex=new HBizCommentCriteria();
+            comex.setOrderByClause("createdTime desc");
+            comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
+                    .andActivitynameEqualTo("审批");
+
+           /* List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
+            if(hBizComments.size()>0){
+                auditMsg=hBizComments.get(0).getContent();
+            }*/
+
+        }
+
+        swMeetingZoom.setSequeceNo(swMesstingZoomDto.getSequeceNo());
+        swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());
+        swMeetingZoom.setUpdateTime(new Date());
+/*
+        swMeetingZoom.setAuidtMsg(auditMsg);
+*/
+        if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
+            swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
+        }
+        if(StringUtils.isNotBlank(swMesstingZoomDto.getBizObjectId())){
+            swMeetingZoom.setBizObjectId(swMesstingZoomDto.getBizObjectId());
+
+        }
+
+        swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
+//        swMeeting.setSequeceNo(swMeetingAuditDo.getState());
+//        swMeeting.setAuidtMsg(swMeetingAuditDo.getAuditMsg());
+//        swMeeting.setMeetingStatus(getAuditStatus(swMeetingAuditDo.getState()));
+//        swMeeting.setMeetingStatus(getAuditStatus(swMeetingAuditDo.getState()));
+ //       swMeetingZoom.setYsReult(swMesstingZoomDto.getState());
+        SwMeetingZoomCriteria example=new SwMeetingZoomCriteria();
+        example
+                .createCriteria()
+                .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                .andTranNoEqualTo(swMesstingZoomDto.getTranNo());
+        int i = swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,example);
+        return;
+
 
     }
 }
