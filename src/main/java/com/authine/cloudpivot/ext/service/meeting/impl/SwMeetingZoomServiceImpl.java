@@ -84,21 +84,23 @@ public SwPageVo<SwMeetingZoomListVo> meetingZoomList(BaseSwQueryModel query) {
 @Transactional
 @Override
 public void MeetingZoomUpdate(SwMeetingZoomupdateDO swMeetingZoomupdateDO) {
-        List<String> ids=swMeetingZoomupdateDO.getIds();
-        Date date=new Date();
-        for(String id:ids) {
-
+    List<String> ids=swMeetingZoomupdateDO.getIds();
+    for(String id:ids)
+    {
         SwMeetingZoom swMeetingZoom = new SwMeetingZoom();
-        swMeetingZoom.setId(id);
         swMeetingZoom.setUpdater(swMeetingZoomupdateDO.getUserId());
         swMeetingZoom.setDeleted(new Byte("1"));
+        swMeetingZoom.setIfCheck(new Byte("-1"));
+        swMeetingZoom.setIsDisabled(new Byte("-1"));
         SwMeetingZoomCriteria example = new SwMeetingZoomCriteria();
         example.createCriteria()
-        .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
-        .andDeletedEqualTo(new Byte("0"));
-        int i=swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,example);
-        }
-        }
+                .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                .andIdEqualTo(id)
+//       .andDeletedEqualTo(new Byte("1"));
+                .andIfCheckEqualTo(new Byte("1"));
+        swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,example);
+    }
+}
 
 //会议室列表查询
 @Override
@@ -126,4 +128,10 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoomListUpdateVo.setCreatename(swMeetingZoom.getCreateName());
         return swMeetingZoomListUpdateVo;
         }
-   }
+
+    //编辑会议室
+    @Override
+    public void updateMeetingZoom(SwMeetingZoomListUpdateVo swMeetingZoomListUpdateVo) {
+        swMeetingZoomMapper.updateMeetingZoom(swMeetingZoomListUpdateVo);
+    }
+}

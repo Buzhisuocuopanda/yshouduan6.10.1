@@ -16,7 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.json.JSONObject;
+import  com.alibaba.fastjson.JSONObject;;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -51,14 +51,14 @@ public class SwMeetingZoomController extends SwBaseController {
             swMeetingZoomService.addMeetingZoom(swMesstingZoomVo);
             return this.getOkResponseResult("添加成功");
         }catch(DuplicateKeyException e) {
-            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomVo), "一个流程只能审核通过一次");
+            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swMesstingZoomVo), "一个流程只能审核通过一次");
             return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "一个流程只能审核通过一次");
         }catch(SwException e){
-            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$",JSONObject.valueToString(swMesstingZoomVo),e.getMessage());
+            log.error("【添加会议室云枢调用出现异常】,参数${}$,异常${}$",JSONObject.toJSONString(swMesstingZoomVo),e.getMessage());
             return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
         }catch(Exception e)
         {
-            log.error("【添加会议室接口调用出现异常】,参数${}$,异常${}$", JSONObject.valueToString(swMesstingZoomVo), ExceptionUtils.getStackTrace(e));
+            log.error("【添加会议室接口调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swMesstingZoomVo), ExceptionUtils.getStackTrace(e));
             return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
@@ -137,6 +137,30 @@ public class SwMeetingZoomController extends SwBaseController {
             return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
+
+    /***
+     * 会议室列表编辑
+     */
+    @RequestMapping("/UpdateMeetingZoomEdit")
+    public ResponseResult UpdateMeetingZoom(@RequestBody SwMeetingZoomListUpdateVo swMeetingZoomListUpdateVo, BindingResult bindingResult)
+    {
+        ValidUtils.bindvaild(bindingResult);
+        try{
+            swMeetingZoomService.updateMeetingZoom(swMeetingZoomListUpdateVo);
+            return this.getOkResponseResult("修改成功");
+        }catch(DuplicateKeyException e) {
+            log.error("【修改会议室云枢调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swMeetingZoomListUpdateVo), "一个流程只能审核通过一次");
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "一个流程只能审核通过一次");
+        }catch(SwException e){
+            log.error("【修改会议室云枢调用出现异常】,参数${}$,异常${}$",JSONObject.toJSONString(swMeetingZoomListUpdateVo),e.getMessage());
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
+        }catch(Exception e)
+        {
+            log.error("【修改会议室接口调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swMeetingZoomListUpdateVo), ExceptionUtils.getStackTrace(e));
+            return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+        }
+    }
+
 
     /***
      * 会议审批过后调用

@@ -519,4 +519,16 @@
        WHERE
          m.id = #{meetingId}
   </select>
+
+    <update id="updateMeetingZoom" parameterType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo">
+     update `sw_meeting_zoom` m
+      set m.creater = #{creater},
+      m.meeting_name = #{meetingname},
+      m.meeting_type = #{meetingtype},
+      m.slot = #{slot},
+      m.address = #{address},
+      m.meeting_admin_name = #{meetingadminname},
+      m.create_name = #{createname}
+    where m.id = #{id}
+    </update>
 </mapper>

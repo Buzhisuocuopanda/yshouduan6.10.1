@@ -39,4 +39,7 @@ public interface SwMeetingZoomMapper {
 
     //会议列表查询
     List<SwMeetingZoomDto> selectMeetingZoom(String id);
+
+    //会议修改
+    void updateMeetingZoom(SwMeetingZoomListUpdateVo swMeetingZoomListUpdateVo);
 }
