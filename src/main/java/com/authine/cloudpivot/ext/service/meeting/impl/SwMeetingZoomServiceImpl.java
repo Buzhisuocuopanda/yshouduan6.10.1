@@ -1,7 +1,6 @@
 package com.authine.cloudpivot.ext.service.meeting.impl;
 
 import com.authine.cloudpivot.engine.spi.FileStoreService;
-import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
@@ -11,12 +10,12 @@ import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
-import com.authine.cloudpivot.ext.model.doo.SwMeetingAuditDo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
+import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomResult;
 import com.authine.cloudpivot.ext.model.vo.SwMesstingZoomVo;
 import com.authine.cloudpivot.ext.service.meeting.SwMeetingZoomService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +46,7 @@ private BizWorkflowInstanceMapper bizWorkflowInstanceMapper;
 //新建会议室
 @Transactional
 @Override
-public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
+public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
 
     //检查创建用户是否存在
     HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swMesstingZoomVo.getCreater());
@@ -87,6 +85,10 @@ public void addMeetingZoom(SwMesstingZoomVo swMesstingZoomVo) {
         swMeetingZoom.setWorkflowInstance(swMesstingZoomVo.getWorkflowInstance());
         swMeetingZoom.setYsReult(swMesstingZoomVo.getYsReult());
         swMeetingZoomMapper.insert(swMeetingZoom);
+
+        SwMeetingZoomResult swMeetingZoomResult=new SwMeetingZoomResult();
+        swMeetingZoomResult.setTranNo(swMeetingZoom.getTranNo());
+        return swMeetingZoomResult;
         }
 
 
@@ -256,6 +258,7 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
                 .andTranNoEqualTo(swMesstingZoomDto.getTranNo());
         int i = swMeetingZoomMapper.updateByExampleSelective(swMeetingZoom,example);
         return;
+
 
 
     }
