@@ -3,8 +3,10 @@ package com.authine.cloudpivot.ext.controller.meeting;
 import com.authine.cloudpivot.ext.utils.HttpRequestUtils;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
+import org.apache.oltu.oauth2.client.request.OAuthBearerClientRequest;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
+import org.apache.oltu.oauth2.client.response.OAuthResourceResponse;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -40,7 +42,7 @@ public class SwDemoTokenController {
      * @return
      */
     @GetMapping("/token")
-    public  String accessToken(){
+    public static String accessToken(){
         String accessToken = null;
         OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
@@ -72,10 +74,79 @@ public class SwDemoTokenController {
         return accessToken;
     }
 
-//    @GetMapping("/formload")
-//    public String formload(){
-//        String s = accessToken();
-//        HttpRequestUtils.httpGet()
-//    }
+    @GetMapping("/formload")
+    public String formload() throws Exception {
+        String s = accessToken();
+        //获取token
+        String accessToken = accessToken();
+        System.out.println("-----------客户端/accessToken--------------");
+        System.out.println(accessToken);
+
+        //表单load
+        String loadResponse = formLoadMethod(accessToken, RESOURCE_HOST, "xjianhuiyi01", "a1", "2c2c80857fe3233c017fe3c2b9cd0090");
+        System.out.println("-----------客户端/formLoadResponse-----------");
+        System.out.println(loadResponse);
+
+//        //表单save
+//        String saveResponse = formSaveMethod(accessToken, RESOURCE_HOST,"a68dc51c00257f8cf3b346a6826d3016",saveBody);
+//        System.out.println("-----------客户端/formSaveResponse-----------");
+//        System.out.println(saveResponse);
+//
+//        //表单list
+//        String listResponse = formListMethod(accessToken, RESOURCE_HOST,"a68dc51c00257f8cf3b346a6826d3016",listBody);
+//        System.out.println("-----------客户端/formListResponse-----------");
+//        System.out.println(listResponse);
+//
+//        //表单delete
+//        String deleteResponse = formDeleteMethod(accessToken, RESOURCE_HOST, "device", "69dc9a64e7daa7185e99233f46fda98f", "a68dc51c00257f8cf3b346a6826d3016");
+//        System.out.println("-----------客户端/formDeleteResponse-----------");
+//        System.out.println(deleteResponse);
+        return "success";
+    }
+
+    public static void main(String[] args) throws Exception {
+        String s = accessToken();
+        //获取token
+        String accessToken = accessToken();
+        System.out.println("-----------客户端/accessToken--------------");
+        System.out.println(accessToken);
+
+        //表单load
+        String loadResponse = formLoadMethod(accessToken, RESOURCE_HOST, "xjianhuiyi01", "a1", "2c2c80857ffe0f57017ffe346e240a1c");
+        System.out.println("-----------客户端/formLoadResponse-----------");
+        System.out.println(loadResponse);
+
+    }
+
+    /**
+     * 表单load
+     * @param token
+     * @param host
+     * @param schemaCode
+     * @param objectId
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public static String formLoadMethod(String token, String host, String schemaCode,String objectId, String userId) throws Exception{
+        OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+
+        String loadUrl = host + (host.endsWith("/")?"":"/") + "api/openapi/runtime/form/load";
+        //设置参数
+        OAuthClientRequest.AuthenticationRequestBuilder authenticationRequestBuilder = new OAuthClientRequest.AuthenticationRequestBuilder(loadUrl);
+        authenticationRequestBuilder.setParameter("schemaCode",schemaCode);
+        authenticationRequestBuilder.setParameter("objectId",objectId);
+        authenticationRequestBuilder.setParameter("userId",userId);
+
+        //设置token
+        OAuthClientRequest oAuthClientRequest = authenticationRequestBuilder.buildQueryMessage();
+        OAuthBearerClientRequest oauthRequest = new OAuthBearerClientRequest(oAuthClientRequest.getLocationUri());
+        oauthRequest.setAccessToken(token);
+
+        //请求OpenAPI接口
+        OAuthResourceResponse resource = oAuthClient.resource(oauthRequest.buildQueryMessage(), OAuth.HttpMethod.GET, OAuthResourceResponse.class);
+        String body = resource.getBody();
+        return body;
+    }
 
 }

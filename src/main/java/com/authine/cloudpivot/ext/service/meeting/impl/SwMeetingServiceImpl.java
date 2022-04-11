@@ -95,9 +95,9 @@ public class SwMeetingServiceImpl implements SwMeetingService {
         //检查会议室是否可用
         SwMeetingZoom swMeetingZoom = swMeetingZoomMapper.selectByPrimaryKey(swMeetingDo.getSwMeetingZoomId());
         if(swMeetingZoom==null ||
-            DeleteFlagEnum.DELETE.getCode().equals(swMeetingZoom.getDeleted()) ||
+                DeleteFlagEnum.DELETE.getCode().equals(swMeetingZoom.getDeleted()) ||
                 SwStatusConstant.NOCANUSE.equals(swMeetingZoom.getIsDisabled())
-            ){
+        ){
             throw new SwException("会议室无法使用");
         }
 

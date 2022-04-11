@@ -93,6 +93,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
             http.authorizeRequests()
                     // swagger start
                     .antMatchers("/api/meeting/**").permitAll()
+                    .antMatchers("/api/swopen/**").permitAll()
                     .antMatchers("/swagger-ui.html").permitAll()
                     .antMatchers("/doc.html").permitAll()
                     .antMatchers("/swagger-resources/**").permitAll()

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.authine.cloudpivot</groupId>
     <artifactId>web-api</artifactId>
-<!--    <version>${cloudpivot.version}</version> &lt;!&ndash; 注: 可自定义版本 &ndash;&gt;-->
+    <version>${cloudpivot.version}</version> <!-- 注: 可自定义版本 -->
     <name>web-api</name>
     <description>云枢应用脚手架工程 (Web API Spring Boot启动工程)</description>
     <packaging>${project.packaging}</packaging>
