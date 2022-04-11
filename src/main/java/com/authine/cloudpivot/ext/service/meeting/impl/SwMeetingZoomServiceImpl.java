@@ -98,19 +98,26 @@ public SwMeetingZoomResult addMeetingZoom(SwMesstingZoomVo SwMesstingZoomVo) {
         swMeetingZoom.setTranNo(IdUtils.getId());
         swMeetingZoom.setAddress(SwMesstingZoomVo.getAddress());
         swMeetingZoom.setYsReult(SwMesstingZoomVo.getYsReult());
-       // swMeetingZoom.setWorkflowInstance(SwMesstingZoomVo.getWorkflowInstance());
-        swMeetingZoom.setDeleted(SwMesstingZoomVo.getDeleted());
+        swMeetingZoom.setDevice(SwMesstingZoomVo.getDevice());
+
+
+        // swMeetingZoom.setWorkflowInstance(SwMesstingZoomVo.getWorkflowInstance());
+        swMeetingZoom.setMeetingAdminName(SwMesstingZoomVo.getMeetingadminname());
         swMeetingZoom.setMeetingAdmin(SwMesstingZoomVo.getMeetingadmin());
         swMeetingZoom.setSequeceNo(SwMesstingZoomVo.getSequeceno());
         swMeetingZoom.setIsDisabled(SwMesstingZoomVo.getIsdisabled());
         swMeetingZoom.setYsReult(SwMesstingZoomVo.getYsReult());
         //swMeetingZoom.setBizObjectId(SwMesstingZoomVo.getBizObjectId());
+        swMeetingZoom.setUpdater(SwMesstingZoomVo.getCreater());
         swMeetingZoom.setIfCheck(SwMesstingZoomVo.getIfcheck());
         swMeetingZoom.setPeopleNum(SwMesstingZoomVo.getPeoplenum());
         swMeetingZoom.setOrganization(SwMesstingZoomVo.getOrganization());
         swMeetingZoom.setMeetingType(SwMesstingZoomVo.getMeetingtype());
         swMeetingZoom.setSlot(SwMesstingZoomVo.getSlot());
         swMeetingZoom.setMeetingName(SwMesstingZoomVo.getMeetingname());
+        swMeetingZoom.setIsDisabled(new Byte("1"));
+        swMeetingZoom.setDeleted(new Byte("0"));
+        swMeetingZoom.setIfCheck(new Byte("1"));
         swMeetingZoomMapper.insert(swMeetingZoom);
 
         SwMeetingResult swMeetingResult=new SwMeetingResult();
@@ -242,7 +249,7 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         exapmle.createCriteria()
                 .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
         List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(exapmle);
-        String auditMsg="";
+        String YsReult="";
         if(bizWorkflowInstances.size()>0){
             BizWorkflowInstance bizWorkflowInstance = bizWorkflowInstances.get(0);
 
@@ -251,10 +258,10 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
             comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
                     .andActivitynameEqualTo("审批");
 
-           /* List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
+            List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
             if(hBizComments.size()>0){
-                auditMsg=hBizComments.get(0).getContent();
-            }*/
+                YsReult=hBizComments.get(0).getContent();
+            }
 
         }
 
@@ -262,8 +269,8 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());
         swMeetingZoom.setUpdateTime(new Date());
 /*
-        swMeetingZoom.setAuidtMsg(auditMsg);
-*/
+        swMeetingZoom.setAuidtMsg(auditMsg);*/
+          swMeetingZoom.setYsReult(YsReult);
         if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
             swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
         }
@@ -272,7 +279,7 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
 
         }
 
-        swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
+
 //        swMeeting.setSequeceNo(swMeetingAuditDo.getState());
 //        swMeeting.setAuidtMsg(swMeetingAuditDo.getAuditMsg());
 //        swMeeting.setMeetingStatus(getAuditStatus(swMeetingAuditDo.getState()));
