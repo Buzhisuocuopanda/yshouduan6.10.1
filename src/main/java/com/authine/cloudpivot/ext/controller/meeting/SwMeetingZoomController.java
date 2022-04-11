@@ -136,11 +136,11 @@ public class SwMeetingZoomController extends SwBaseController {
             return this.getOkResponseResult("操作成功");
         }catch (SwException e)
         {
-            log.error("【取消会议】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMeetingZoomupdateDO), e.getMessage());
+            log.error("【取消会议室】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMeetingZoomupdateDO), e.getMessage());
             return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
         }catch(Exception e)
         {
-            log.error("【取消会议】接口出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMeetingZoomupdateDO),ExceptionUtils.getStackTrace(e));
+            log.error("【取消会议室】接口出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swMeetingZoomupdateDO),ExceptionUtils.getStackTrace(e));
             return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
@@ -161,7 +161,7 @@ public class SwMeetingZoomController extends SwBaseController {
             return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
         }catch(Exception e)
         {
-            log.error("【获取会议详情列表】接口出现异常，参数userId${}$,异常${}$", meetingId, ExceptionUtils.getStackTrace(e));
+            log.error("【获取会议室详情列表】接口出现异常，参数userId${}$,异常${}$", meetingId, ExceptionUtils.getStackTrace(e));
             return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
