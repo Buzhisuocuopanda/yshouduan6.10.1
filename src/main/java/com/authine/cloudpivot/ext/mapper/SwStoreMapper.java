@@ -1,0 +1,30 @@
+package com.authine.cloudpivot.ext.mapper;
+
+import com.authine.cloudpivot.ext.entity.SwStore;
+import com.authine.cloudpivot.ext.entity.SwStoreCriteria;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface SwStoreMapper {
+    long countByExample(SwStoreCriteria example);
+
+    int deleteByExample(SwStoreCriteria example);
+
+    int deleteByPrimaryKey(String id);
+
+    int insert(SwStore record);
+
+    int insertSelective(SwStore record);
+
+    List<SwStore> selectByExample(SwStoreCriteria example);
+
+    SwStore selectByPrimaryKey(String id);
+
+    int updateByExampleSelective(@Param("record") SwStore record, @Param("example") SwStoreCriteria example);
+
+    int updateByExample(@Param("record") SwStore record, @Param("example") SwStoreCriteria example);
+
+    int updateByPrimaryKeySelective(SwStore record);
+
+    int updateByPrimaryKey(SwStore record);
+}
