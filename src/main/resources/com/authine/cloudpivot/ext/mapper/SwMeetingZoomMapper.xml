@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.SwMeetingZoomMapper">
+  <resultMap id="BaseResultMap" type="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="sequece_no" jdbcType="VARCHAR" property="sequeceNo" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="meeting_name" jdbcType="VARCHAR" property="meetingName" />
+    <result column="meeting_uri" jdbcType="VARCHAR" property="meetingUri" />
+    <result column="meeting_type" jdbcType="VARCHAR" property="meetingType" />
+    <result column="slot" jdbcType="INTEGER" property="slot" />
+    <result column="device" jdbcType="VARCHAR" property="device" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="people_num" jdbcType="INTEGER" property="peopleNum" />
+    <result column="meeting_admin" jdbcType="VARCHAR" property="meetingAdmin" />
+    <result column="if_check" jdbcType="TINYINT" property="ifCheck" />
+    <result column="is_disabled" jdbcType="TINYINT" property="isDisabled" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
+    <result column="meeting_admin_name" jdbcType="VARCHAR" property="meetingAdminName" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="biz_object_id" jdbcType="VARCHAR" property="bizObjectId" />
+    <result column="tran_no" jdbcType="VARCHAR" property="tranNo" />
+    <result column="workflow_instance" jdbcType="VARCHAR" property="workflowInstance" />
+    <result column="ys_reult" jdbcType="VARCHAR" property="ysReult" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, creater, create_time, updater, update_time, sequece_no, organization, meeting_name, 
+    meeting_uri, meeting_type, slot, device, address, people_num, meeting_admin, if_check, 
+    is_disabled, deleted, meeting_admin_name, create_name, biz_object_id, tran_no, workflow_instance, 
+    ys_reult
+  </sql>
+  <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sw_meeting_zoom
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sw_meeting_zoom
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sw_meeting_zoom
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria">
+    delete from sw_meeting_zoom
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    insert into sw_meeting_zoom (id, creater, create_time, 
+      updater, update_time, sequece_no, 
+      organization, meeting_name, meeting_uri, 
+      meeting_type, slot, device, 
+      address, people_num, meeting_admin, 
+      if_check, is_disabled, deleted, 
+      meeting_admin_name, create_name, biz_object_id, 
+      tran_no, workflow_instance, ys_reult
+      )
+    values (#{id,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{sequeceNo,jdbcType=VARCHAR}, 
+      #{organization,jdbcType=VARCHAR}, #{meetingName,jdbcType=VARCHAR}, #{meetingUri,jdbcType=VARCHAR}, 
+      #{meetingType,jdbcType=VARCHAR}, #{slot,jdbcType=INTEGER}, #{device,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{peopleNum,jdbcType=INTEGER}, #{meetingAdmin,jdbcType=VARCHAR}, 
+      #{ifCheck,jdbcType=TINYINT}, #{isDisabled,jdbcType=TINYINT}, #{deleted,jdbcType=TINYINT}, 
+      #{meetingAdminName,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}, 
+      #{tranNo,jdbcType=VARCHAR}, #{workflowInstance,jdbcType=VARCHAR}, #{ysReult,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    insert into sw_meeting_zoom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="meetingName != null">
+        meeting_name,
+      </if>
+      <if test="meetingUri != null">
+        meeting_uri,
+      </if>
+      <if test="meetingType != null">
+        meeting_type,
+      </if>
+      <if test="slot != null">
+        slot,
+      </if>
+      <if test="device != null">
+        device,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="peopleNum != null">
+        people_num,
+      </if>
+      <if test="meetingAdmin != null">
+        meeting_admin,
+      </if>
+      <if test="ifCheck != null">
+        if_check,
+      </if>
+      <if test="isDisabled != null">
+        is_disabled,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="meetingAdminName != null">
+        meeting_admin_name,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="bizObjectId != null">
+        biz_object_id,
+      </if>
+      <if test="tranNo != null">
+        tran_no,
+      </if>
+      <if test="workflowInstance != null">
+        workflow_instance,
+      </if>
+      <if test="ysReult != null">
+        ys_reult,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequeceNo != null">
+        #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingName != null">
+        #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingUri != null">
+        #{meetingUri,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingType != null">
+        #{meetingType,jdbcType=VARCHAR},
+      </if>
+      <if test="slot != null">
+        #{slot,jdbcType=INTEGER},
+      </if>
+      <if test="device != null">
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null">
+        #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="meetingAdmin != null">
+        #{meetingAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="ifCheck != null">
+        #{ifCheck,jdbcType=TINYINT},
+      </if>
+      <if test="isDisabled != null">
+        #{isDisabled,jdbcType=TINYINT},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="meetingAdminName != null">
+        #{meetingAdminName,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="bizObjectId != null">
+        #{bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null">
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowInstance != null">
+        #{workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="ysReult != null">
+        #{ysReult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoomCriteria" resultType="java.lang.Long">
+    select count(*) from sw_meeting_zoom
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sw_meeting_zoom
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sequeceNo != null">
+        sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organization != null">
+        organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingName != null">
+        meeting_name = #{record.meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingUri != null">
+        meeting_uri = #{record.meetingUri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingType != null">
+        meeting_type = #{record.meetingType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slot != null">
+        slot = #{record.slot,jdbcType=INTEGER},
+      </if>
+      <if test="record.device != null">
+        device = #{record.device,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.peopleNum != null">
+        people_num = #{record.peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.meetingAdmin != null">
+        meeting_admin = #{record.meetingAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifCheck != null">
+        if_check = #{record.ifCheck,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDisabled != null">
+        is_disabled = #{record.isDisabled,jdbcType=TINYINT},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=TINYINT},
+      </if>
+      <if test="record.meetingAdminName != null">
+        meeting_admin_name = #{record.meetingAdminName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createName != null">
+        create_name = #{record.createName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizObjectId != null">
+        biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tranNo != null">
+        tran_no = #{record.tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workflowInstance != null">
+        workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysReult != null">
+        ys_reult = #{record.ysReult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sw_meeting_zoom
+    set id = #{record.id,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      organization = #{record.organization,jdbcType=VARCHAR},
+      meeting_name = #{record.meetingName,jdbcType=VARCHAR},
+      meeting_uri = #{record.meetingUri,jdbcType=VARCHAR},
+      meeting_type = #{record.meetingType,jdbcType=VARCHAR},
+      slot = #{record.slot,jdbcType=INTEGER},
+      device = #{record.device,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      people_num = #{record.peopleNum,jdbcType=INTEGER},
+      meeting_admin = #{record.meetingAdmin,jdbcType=VARCHAR},
+      if_check = #{record.ifCheck,jdbcType=TINYINT},
+      is_disabled = #{record.isDisabled,jdbcType=TINYINT},
+      deleted = #{record.deleted,jdbcType=TINYINT},
+      meeting_admin_name = #{record.meetingAdminName,jdbcType=VARCHAR},
+      create_name = #{record.createName,jdbcType=VARCHAR},
+      biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
+      tran_no = #{record.tranNo,jdbcType=VARCHAR},
+      workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
+      ys_reult = #{record.ysReult,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    update sw_meeting_zoom
+    <set>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingName != null">
+        meeting_name = #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingUri != null">
+        meeting_uri = #{meetingUri,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingType != null">
+        meeting_type = #{meetingType,jdbcType=VARCHAR},
+      </if>
+      <if test="slot != null">
+        slot = #{slot,jdbcType=INTEGER},
+      </if>
+      <if test="device != null">
+        device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null">
+        people_num = #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="meetingAdmin != null">
+        meeting_admin = #{meetingAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="ifCheck != null">
+        if_check = #{ifCheck,jdbcType=TINYINT},
+      </if>
+      <if test="isDisabled != null">
+        is_disabled = #{isDisabled,jdbcType=TINYINT},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="meetingAdminName != null">
+        meeting_admin_name = #{meetingAdminName,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="bizObjectId != null">
+        biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null">
+        tran_no = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowInstance != null">
+        workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="ysReult != null">
+        ys_reult = #{ysReult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    update sw_meeting_zoom
+    set creater = #{creater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      organization = #{organization,jdbcType=VARCHAR},
+      meeting_name = #{meetingName,jdbcType=VARCHAR},
+      meeting_uri = #{meetingUri,jdbcType=VARCHAR},
+      meeting_type = #{meetingType,jdbcType=VARCHAR},
+      slot = #{slot,jdbcType=INTEGER},
+      device = #{device,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      people_num = #{peopleNum,jdbcType=INTEGER},
+      meeting_admin = #{meetingAdmin,jdbcType=VARCHAR},
+      if_check = #{ifCheck,jdbcType=TINYINT},
+      is_disabled = #{isDisabled,jdbcType=TINYINT},
+      deleted = #{deleted,jdbcType=TINYINT},
+      meeting_admin_name = #{meetingAdminName,jdbcType=VARCHAR},
+      create_name = #{createName,jdbcType=VARCHAR},
+      biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
+      tran_no = #{tranNo,jdbcType=VARCHAR},
+      workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
+      ys_reult = #{ysReult,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="backMeetingzoom" resultType="com.authine.cloudpivot.ext.entity.SwMeetingZoom">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    sw_meeting_zoom sw
+    where
+    sw.deleted=0
+    <if test="userId!=null and userId!=''">
+      and sw.creater=#{userId}
+    </if>
+    <if test="createname != null and createname !=''">
+      and sw.create_name like CONCAT(CONCAT('%',#{createname},'%'))
+      <if test="meetingadminname != null and meetingadminname !=''">
+        and sw.meeting_admin_name=#{meetingadminname}
+      </if>
+      <if test="meetingname != null and meetingname !=''">
+        and sw.meeting_name=#{meetingname}
+      </if>
+      order by sw.meeting_name desc
+    </if>
+  </select>
+
+  <select id="meetingZoomList" resultType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo">
+      SELECT
+      zo.biz_object_id as bizobjectid,
+      zo.meeting_name as meetingname,
+      zo.meeting_uri as meetinguri,
+      zo.meeting_type as meetingtype,
+      zo.slot as slot,
+      zo.address as address,
+      zo.device as device,
+      zo.meeting_admin_name as meetingadminname,
+      zo.create_name as createname,
+      zo.id as meetingId
+      FROM
+      `sw_meeting_zoom` zo
+      WHERE
+      zo.is_disabled = 1
+      AND zo.deleted = 0
+      AND if_check = 1
+      order by slot desc
+    </select>
+
+  <select id="selectMeetingZoom"  resultType="com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto">
+       SELECT
+           m.meeting_name as meetingname,
+           m.meeting_type as meetingtype,
+           m.slot as slot,
+           m.address as address,
+           m.meeting_admin_name as meetingadminname,
+           m.create_name as createname,
+           m.id as id
+       FROM
+       `sw_meeting_zoom` m
+       WHERE
+         m.id = #{meetingId}
+  </select>
+
+  <update id="updateMeetingZoom" parameterType="com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListUpdateVo">
+     update `sw_meeting_zoom` m
+      set m.creater = #{creater},
+      m.meeting_name = #{meetingname},
+      m.meeting_type = #{meetingtype},
+      m.slot = #{slot},
+      m.address = #{address},
+      m.meeting_admin_name = #{meetingadminname},
+      m.create_name = #{createname}
+    where m.id = #{id}
+    </update>
+</mapper>

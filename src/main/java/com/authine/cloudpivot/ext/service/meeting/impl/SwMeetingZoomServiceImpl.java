@@ -259,9 +259,9 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
                     .andActivitynameEqualTo("审批");
 
             List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
-            if(hBizComments.size()>0){
+       /*     if(hBizComments.size()>0){
                 YsReult=hBizComments.get(0).getContent();
-            }
+            }*/
 
         }
 
@@ -270,7 +270,7 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         swMeetingZoom.setUpdateTime(new Date());
 /*
         swMeetingZoom.setAuidtMsg(auditMsg);*/
-          swMeetingZoom.setYsReult(YsReult);
+          swMeetingZoom.setYsReult(swMesstingZoomDto.getYsReult());
         if(StringUtils.isNotBlank(swMesstingZoomDto.getWorkflowInstance())){
             swMeetingZoom.setWorkflowInstance(swMesstingZoomDto.getWorkflowInstance());
         }
