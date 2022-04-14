@@ -3,6 +3,8 @@ package com.authine.cloudpivot.ext.service.meeting.impl;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
+import com.authine.cloudpivot.ext.mapper.BizWorkflowInstanceMapper;
+import com.authine.cloudpivot.ext.mapper.HBizCommentMapper;
 import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
@@ -31,6 +33,12 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     @Resource
     private HOrgUserMapper hOrgUserMapper;
+
+    @Resource
+    private BizWorkflowInstanceMapper bizWorkflowInstanceMapper;
+
+    @Resource
+    private HBizCommentMapper hBizCommentMapper;
 
     //新建仓库
     @Transactional
@@ -144,10 +152,21 @@ public class SwStoreServiceImpl implements SwStoreService {
     @Override
     public void swStoreckupdate(SwStoreckUpdateDto swStoreckUpdateDto) {
          SwStore swStore=new SwStore();
-//        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
-//
-//        String YsReult="";
-
+        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
+        exapmle.createCriteria()
+                .andSequencenoEqualTo(swStoreckUpdateDto.getSequeceNo());
+        List<BizWorkflowInstance> bizWorkflowInstances=bizWorkflowInstanceMapper.selectByExample(exapmle);
+        String YsReult="";
+        if(bizWorkflowInstances.size()>0)
+        {
+            BizWorkflowInstance bizWorkflowInstance=bizWorkflowInstances.get(0);
+            HBizCommentCriteria comex=new HBizCommentCriteria();
+            comex.setOrderByClause("createdTime desc");
+            comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
+                    .andActiontypeEqualTo("审批");
+            List<HBizComment> hBizComments=hBizCommentMapper.selectByExample(comex);
+        }
+         swStore.setSequeceNo(swStoreckUpdateDto.getSequeceNo());
          swStore.setTranNo(swStoreckUpdateDto.getTranno());
          swStore.setUpdateTime(new Date());
          swStore.setYsResult(swStoreckUpdateDto.getYsresult());

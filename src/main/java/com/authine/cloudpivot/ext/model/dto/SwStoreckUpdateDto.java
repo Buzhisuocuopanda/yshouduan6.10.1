@@ -15,6 +15,10 @@ public class SwStoreckUpdateDto {
     @NotBlank(message = "审核不能为空")
     private String ysresult;
 
+    //流水号
+    @NotBlank(message = "流水号")
+    private String sequeceNo;
+
     //业务对象id
     private String bizobjectid;
 
@@ -23,4 +27,6 @@ public class SwStoreckUpdateDto {
 
     //云枢是否提交成功
     private String endcommit;
+
+
 }
