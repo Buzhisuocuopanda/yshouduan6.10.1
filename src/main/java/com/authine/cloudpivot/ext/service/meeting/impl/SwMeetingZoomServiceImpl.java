@@ -171,6 +171,8 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         {
             throw new SwException("没有查到该会议");
         }
+
+
        SwMeetingZoomListUpdateVo swMeetingZoomListUpdateVo=BeanCopyUtils.coypToClass(swMeetingZoom,SwMeetingZoomListUpdateVo.class,null);
 
         List<SwMeetingZoomDto> users=swMeetingZoomMapper.selectMeetingZoom(swMeetingZoom.getId());

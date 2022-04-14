@@ -255,4 +255,68 @@
       creater = #{creater,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectbytj" resultType="com.authine.cloudpivot.ext.model.vo.SwGoodsVo">
+   SELECT
+DISTINCT
+sw_goods_list.goods_code,
+sw_goods_list.goods_name,
+sw_goods_list.goods_company,
+sw_goods_list.create_time,
+sw_goods_list.local_store,
+sw_store.is_enabled
+ FROM sw_store,sw_goods_list
+ where
+ sw_store.id=sw_goods_list.local_store
+ and
+ sw_store.is_enabled=#{isEnabled}
+ or
+ sw_goods_list.goods_code=#{goodsCode}
+ or
+ sw_goods_list.goods_name=#{goodsName}
+ or
+ sw_goods_list.create_time=#{createTime}
+ Order By sw_goods_list.create_time Desc;
+
+  </select>
+
+  <resultMap id="DetailResultMap" type="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
+    <collection property="swGoodsLists" resultMap="com.authine.cloudpivot.ext.mapper.SwGoodsListMapper.BaseResultMap" />
+    <collection property="swStores"
+                resultMap="com.authine.cloudpivot.ext.mapper.SwStoreMapper.BaseResultMap" />
+  </resultMap>
+
+  <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
+    SELECT
+DISTINCT
+sw_goods_list.goods_code,
+sw_goods_list.goods_name,
+sw_goods_list.goods_company,
+sw_goods_list.create_time,
+sw_goods_list.local_store,
+sw_store.is_enabled
+ FROM sw_store,sw_goods_list
+ where
+ sw_store.id=sw_goods_list.local_store
+    <if test="goodsQueryParam.isEnabled!=null">
+ and
+ sw_store.is_enabled=#{goodsQueryParam.isEnabled}
+    </if>
+    <if test="goodsQueryParam.goodsName!=null">
+ and
+ sw_goods_list.goods_name=#{goodsQueryParam.goodsName}
+    </if>
+    <if test="goodsQueryParam.goodsCode!=null">
+ and
+ sw_goods_list.goods_code=#{goodsQueryParam.goodsCode}
+    </if>
+
+ and
+ sw_goods_list.create_time=#{goodsQueryParam.createTime}
+
+ Order By sw_goods_list.create_time Desc
+ ;
+
+  </select>
 </mapper>
+

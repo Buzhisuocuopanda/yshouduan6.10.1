@@ -20,6 +20,7 @@
     <result column="goods_company" jdbcType="VARCHAR" property="goodsCompany" />
     <result column="sw_store_name" jdbcType="VARCHAR" property="swStoreName" />
     <result column="goods_total_num" jdbcType="INTEGER" property="goodsTotalNum" />
+    <result column="sequece_no" jdbcType="VARCHAR" property="sequeceNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,7 +83,7 @@
   <sql id="Base_Column_List">
     id, creater, create_time, updater, deleted, ys_result, tran_no, biz_object_id, workflow_instance, 
     end_commit, goods_name, goods_code, goods_detail, goods_head_pic, sw_store_id, goods_company, 
-    sw_store_name, goods_total_num
+    sw_store_name, goods_total_num, sequece_no
   </sql>
   <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwGoodsCriteria" resultMap="BaseResultMap">
     select
@@ -104,6 +105,7 @@
     from sw_goods
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sw_goods
     where id = #{id,jdbcType=VARCHAR}
@@ -120,15 +122,15 @@
       tran_no, biz_object_id, workflow_instance, 
       end_commit, goods_name, goods_code, 
       goods_detail, goods_head_pic, sw_store_id, 
-      goods_company, sw_store_name, goods_total_num
-      )
+      goods_company, sw_store_name, goods_total_num, 
+      sequece_no)
     values (#{id,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT}, #{ysResult,jdbcType=VARCHAR}, 
       #{tranNo,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}, #{workflowInstance,jdbcType=VARCHAR}, 
       #{endCommit,jdbcType=TINYINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
       #{goodsDetail,jdbcType=VARCHAR}, #{goodsHeadPic,jdbcType=VARCHAR}, #{swStoreId,jdbcType=VARCHAR}, 
-      #{goodsCompany,jdbcType=VARCHAR}, #{swStoreName,jdbcType=VARCHAR}, #{goodsTotalNum,jdbcType=INTEGER}
-      )
+      #{goodsCompany,jdbcType=VARCHAR}, #{swStoreName,jdbcType=VARCHAR}, #{goodsTotalNum,jdbcType=INTEGER}, 
+      #{sequeceNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
     insert into sw_goods
@@ -187,6 +189,9 @@
       <if test="goodsTotalNum != null">
         goods_total_num,
       </if>
+      <if test="sequeceNo != null">
+        sequece_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -242,6 +247,9 @@
       </if>
       <if test="goodsTotalNum != null">
         #{goodsTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="sequeceNo != null">
+        #{sequeceNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -308,6 +316,9 @@
       <if test="record.goodsTotalNum != null">
         goods_total_num = #{record.goodsTotalNum,jdbcType=INTEGER},
       </if>
+      <if test="record.sequeceNo != null">
+        sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -332,7 +343,8 @@
       sw_store_id = #{record.swStoreId,jdbcType=VARCHAR},
       goods_company = #{record.goodsCompany,jdbcType=VARCHAR},
       sw_store_name = #{record.swStoreName,jdbcType=VARCHAR},
-      goods_total_num = #{record.goodsTotalNum,jdbcType=INTEGER}
+      goods_total_num = #{record.goodsTotalNum,jdbcType=INTEGER},
+      sequece_no = #{record.sequeceNo,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -391,6 +403,9 @@
       <if test="goodsTotalNum != null">
         goods_total_num = #{goodsTotalNum,jdbcType=INTEGER},
       </if>
+      <if test="sequeceNo != null">
+        sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -412,7 +427,57 @@
       sw_store_id = #{swStoreId,jdbcType=VARCHAR},
       goods_company = #{goodsCompany,jdbcType=VARCHAR},
       sw_store_name = #{swStoreName,jdbcType=VARCHAR},
-      goods_total_num = #{goodsTotalNum,jdbcType=INTEGER}
+      goods_total_num = #{goodsTotalNum,jdbcType=INTEGER},
+      sequece_no = #{sequeceNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+
+
+
+<update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+UPDATE sw_goods set
+goods_total_num=
+(select sum(goods_num)FROM sw_goods_list
+WHERE sw_goods.goods_code=sw_goods_list.goods_code )
+
+</update>
+
+  <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
+    SELECT
+    DISTINCT
+    sw_goods_list.goods_code,
+    sw_goods_list.goods_name,
+    sw_goods_list.goods_company,
+    sw_goods_list.create_time,
+    sw_goods_list.local_store,
+    sw_store.is_enabled
+FROM sw_store
+ INNER JOIN
+ sw_goods_list
+  on  sw_store.id=sw_goods_list.local_store
+
+ where
+ 1=1
+
+ <if test="isEnabled and isEnabled!=' '">
+ AND
+      sw_store.is_enabled=#{isEnabled}
+ </if>
+<if test="goodsName !=null and goodsName!=' '" >
+      and
+      sw_goods_list.goods_name=#{goodsName}
+</if>
+    <if test="goodsCode !=null and goodsCode!=' '" >
+      and
+      sw_goods_list.goods_code=#{goodsCode}
+      </if>
+    <if test="createTime !=null AND createTime!=' '">
+    and
+    sw_goods_list.create_time=#{createTime}
+    </if>>
+    Order By sw_goods_list.create_time Desc
+    ;
+
+  </select>
 </mapper>
