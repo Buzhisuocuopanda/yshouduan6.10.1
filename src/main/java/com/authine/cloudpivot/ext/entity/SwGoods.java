@@ -40,6 +40,8 @@ public class SwGoods implements Serializable {
 
     private Integer goodsTotalNum;
 
+    private String sequeceNo;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -186,6 +188,14 @@ public class SwGoods implements Serializable {
         this.goodsTotalNum = goodsTotalNum;
     }
 
+    public String getSequeceNo() {
+        return sequeceNo;
+    }
+
+    public void setSequeceNo(String sequeceNo) {
+        this.sequeceNo = sequeceNo == null ? null : sequeceNo.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -215,7 +225,8 @@ public class SwGoods implements Serializable {
             && (this.getSwStoreId() == null ? other.getSwStoreId() == null : this.getSwStoreId().equals(other.getSwStoreId()))
             && (this.getGoodsCompany() == null ? other.getGoodsCompany() == null : this.getGoodsCompany().equals(other.getGoodsCompany()))
             && (this.getSwStoreName() == null ? other.getSwStoreName() == null : this.getSwStoreName().equals(other.getSwStoreName()))
-            && (this.getGoodsTotalNum() == null ? other.getGoodsTotalNum() == null : this.getGoodsTotalNum().equals(other.getGoodsTotalNum()));
+            && (this.getGoodsTotalNum() == null ? other.getGoodsTotalNum() == null : this.getGoodsTotalNum().equals(other.getGoodsTotalNum()))
+            && (this.getSequeceNo() == null ? other.getSequeceNo() == null : this.getSequeceNo().equals(other.getSequeceNo()));
     }
 
     @Override
@@ -240,6 +251,7 @@ public class SwGoods implements Serializable {
         result = prime * result + ((getGoodsCompany() == null) ? 0 : getGoodsCompany().hashCode());
         result = prime * result + ((getSwStoreName() == null) ? 0 : getSwStoreName().hashCode());
         result = prime * result + ((getGoodsTotalNum() == null) ? 0 : getGoodsTotalNum().hashCode());
+        result = prime * result + ((getSequeceNo() == null) ? 0 : getSequeceNo().hashCode());
         return result;
     }
 
@@ -267,6 +279,7 @@ public class SwGoods implements Serializable {
         sb.append(", goodsCompany=").append(goodsCompany);
         sb.append(", swStoreName=").append(swStoreName);
         sb.append(", goodsTotalNum=").append(goodsTotalNum);
+        sb.append(", sequeceNo=").append(sequeceNo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

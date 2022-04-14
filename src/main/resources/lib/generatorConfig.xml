@@ -60,7 +60,7 @@
         </javaClientGenerator>
 
         <!-- 要生成哪些表-->
-        <table schema="" tableName="sw_store"/>
+        <table schema="" tableName="sw_goods"/>
 
     </context>
 </generatorConfiguration>

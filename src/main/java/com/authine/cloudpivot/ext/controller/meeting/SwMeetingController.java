@@ -66,7 +66,8 @@ public class SwMeetingController extends SwBaseController {
             notes = "新建会议"
     )
     @PostMapping("/addMeeting")
-    public ResponseResult<SwMeetingResult> addMeeting(@Valid @RequestBody SwMeetingDo swMeetingDo, BindingResult bindingResult) {
+    public ResponseResult<SwMeetingResult> addMeeting(@Valid @RequestBody SwMeetingDo swMeetingDo,
+                                                      BindingResult bindingResult) {
         SwMeetingResult res = null;
         try {
 
@@ -98,7 +99,6 @@ public class SwMeetingController extends SwBaseController {
 
     /**
      * 会议审核过后调用
-     *
      * @param swMeetingAuditDo
      * @param bindingResult
      * @return
