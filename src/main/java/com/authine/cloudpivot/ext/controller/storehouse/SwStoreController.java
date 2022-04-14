@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.ext.controller.meeting;
+package com.authine.cloudpivot.ext.controller.storehouse;
 
 import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
@@ -6,12 +6,10 @@ import com.authine.cloudpivot.ext.controller.base.SwBaseController;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
-import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
-import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
 import com.authine.cloudpivot.ext.model.vo.*;
-import com.authine.cloudpivot.ext.service.meeting.SwStoreService;
+import com.authine.cloudpivot.ext.service.storehouse.SwStoreService;
 import com.authine.cloudpivot.ext.utils.ValidUtils;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;

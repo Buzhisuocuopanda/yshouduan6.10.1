@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.ext.service.meeting.impl;
+package com.authine.cloudpivot.ext.service.storehouse.impl;
 
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
@@ -13,7 +13,7 @@ import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
 import com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
 import com.authine.cloudpivot.ext.model.vo.*;
-import com.authine.cloudpivot.ext.service.meeting.SwStoreService;
+import com.authine.cloudpivot.ext.service.storehouse.SwStoreService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
 import com.github.pagehelper.PageHelper;

@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.ext.service.meeting;
+package com.authine.cloudpivot.ext.service.storehouse;
 
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
