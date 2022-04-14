@@ -43,7 +43,7 @@ public class SwStoreServiceImpl implements SwStoreService {
     //新建仓库
     @Transactional
     @Override
-    public SwMeetingZoomResult addSwStore(SwStoreVo swStoreVo) {
+    public SwStoreResult addSwStore(SwStoreVo swStoreVo) {
 
         HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreVo.getCreater());
         if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
@@ -80,9 +80,9 @@ public class SwStoreServiceImpl implements SwStoreService {
         swStore.setStoreAdmin(swStoreVo.getStoreadmin());
         swStoreMapper.insert(swStore);
 
-        SwMeetingZoomResult swMeetingZoomResult=new SwMeetingZoomResult();
-        swMeetingZoomResult.setTranNo(swStore.getTranNo());
-        return swMeetingZoomResult;
+        SwStoreResult swStoreResult=new SwStoreResult();
+        swStoreResult.setTranNo(swStore.getTranNo());
+        return swStoreResult;
     }
 
     //仓库详情

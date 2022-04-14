@@ -32,30 +32,34 @@ import javax.validation.Valid;
 public class SwStoreController extends SwBaseController {
     @Resource
     private SwStoreService swStoreService;
+
     @ApiOperation(
             value = "添加仓库",
             notes = "添加仓库"
     )
     //添加仓库
     @PostMapping("/addSwStore")
-    public ResponseResult addMeetingZoom(@Valid @RequestBody SwStoreVo swStoreVo, BindingResult bindingResult) {
+
+    public ResponseResult<SwStoreResult> addMeetingZoom(@Valid @RequestBody SwStoreVo swStoreVo, BindingResult bindingResult)
+    {
+        SwStoreResult res = null;
         try {
             //参数校验
             ValidUtils.bindvaild(bindingResult);
             //调用服务器
-            swStoreService.addSwStore(swStoreVo);
-            return this.getOkResponseResult("添加成功");
-        }catch(DuplicateKeyException e) {
-            log.error("【添加仓库云枢调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swStoreVo), "一个流程只能审核通过一次");
-            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "一个流程只能审核通过一次");
-        }catch(SwException e){
-            log.error("【添加仓库云枢调用出现异常】,参数${}$,异常${}$",JSONObject.toJSONString(swStoreVo),e.getMessage());
-            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
-        }catch(Exception e)
-        {
-            log.error("【添加仓库接口调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swStoreVo), ExceptionUtils.getStackTrace(e));
-            return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+            res=swStoreService.addSwStore(swStoreVo);
+            return this.getOkResponseResult(res, "添加成功");
+
+        } catch (SwException e) {
+            log.error("【新建仓库】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreVo), e.getMessage());
+            return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
+
+        } catch (Exception e) {
+            log.error("【新建仓库】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreVo),ExceptionUtils.getStackTrace(e));
+
+            return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }
+
     }
 
     //仓库列表

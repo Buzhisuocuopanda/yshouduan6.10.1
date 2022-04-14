@@ -11,7 +11,7 @@ import com.authine.cloudpivot.ext.model.vo.*;
 public interface SwStoreService {
 
     //添加仓库
-    SwMeetingZoomResult addSwStore(SwStoreVo swStoreVo);
+    SwStoreResult addSwStore(SwStoreVo swStoreVo);
 
     //仓库列表内容
     SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel queryModel);
