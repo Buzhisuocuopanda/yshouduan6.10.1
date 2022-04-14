@@ -4,9 +4,7 @@ import com.authine.cloudpivot.ext.entity.SwStore;
 import com.authine.cloudpivot.ext.entity.SwStoreCriteria;
 import java.util.List;
 
-import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingZoomListVo;
 import com.authine.cloudpivot.ext.model.vo.SwStoreListUpdateVo;
 import com.authine.cloudpivot.ext.model.vo.SwStoreListVo;
 import com.authine.cloudpivot.ext.model.vo.SwStoreListselectVo;
@@ -45,5 +43,5 @@ public interface SwStoreMapper {
     void updateswstoreedit(SwStoreListUpdateVo swStoreListUpdateVo);
 
     //仓库条件查询
-    List<SwStoreListselectVo> swstorelistselect(String storename,String createtime,String updatetime);
+    List<SwStoreListselectVo> swstorelistselect(String storename, String createtime, String updatetime);
 }

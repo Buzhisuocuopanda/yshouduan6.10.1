@@ -40,6 +40,8 @@ public class SwStore implements Serializable {
 
     private String storeAdmin;
 
+    private String sequeceNo;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -186,6 +188,14 @@ public class SwStore implements Serializable {
         this.storeAdmin = storeAdmin == null ? null : storeAdmin.trim();
     }
 
+    public String getSequeceNo() {
+        return sequeceNo;
+    }
+
+    public void setSequeceNo(String sequeceNo) {
+        this.sequeceNo = sequeceNo == null ? null : sequeceNo.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -215,7 +225,8 @@ public class SwStore implements Serializable {
             && (this.getIsEnabled() == null ? other.getIsEnabled() == null : this.getIsEnabled().equals(other.getIsEnabled()))
             && (this.getStoreGoodsNum() == null ? other.getStoreGoodsNum() == null : this.getStoreGoodsNum().equals(other.getStoreGoodsNum()))
             && (this.getStoreGoodsSkuNum() == null ? other.getStoreGoodsSkuNum() == null : this.getStoreGoodsSkuNum().equals(other.getStoreGoodsSkuNum()))
-            && (this.getStoreAdmin() == null ? other.getStoreAdmin() == null : this.getStoreAdmin().equals(other.getStoreAdmin()));
+            && (this.getStoreAdmin() == null ? other.getStoreAdmin() == null : this.getStoreAdmin().equals(other.getStoreAdmin()))
+            && (this.getSequeceNo() == null ? other.getSequeceNo() == null : this.getSequeceNo().equals(other.getSequeceNo()));
     }
 
     @Override
@@ -240,6 +251,7 @@ public class SwStore implements Serializable {
         result = prime * result + ((getStoreGoodsNum() == null) ? 0 : getStoreGoodsNum().hashCode());
         result = prime * result + ((getStoreGoodsSkuNum() == null) ? 0 : getStoreGoodsSkuNum().hashCode());
         result = prime * result + ((getStoreAdmin() == null) ? 0 : getStoreAdmin().hashCode());
+        result = prime * result + ((getSequeceNo() == null) ? 0 : getSequeceNo().hashCode());
         return result;
     }
 
@@ -267,6 +279,7 @@ public class SwStore implements Serializable {
         sb.append(", storeGoodsNum=").append(storeGoodsNum);
         sb.append(", storeGoodsSkuNum=").append(storeGoodsSkuNum);
         sb.append(", storeAdmin=").append(storeAdmin);
+        sb.append(", sequeceNo=").append(sequeceNo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

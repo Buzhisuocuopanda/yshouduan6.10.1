@@ -1294,6 +1294,76 @@ public class SwStoreCriteria {
             addCriterion("store_admin not between", value1, value2, "storeAdmin");
             return (Criteria) this;
         }
+
+        public Criteria andSequeceNoIsNull() {
+            addCriterion("sequece_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoIsNotNull() {
+            addCriterion("sequece_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoEqualTo(String value) {
+            addCriterion("sequece_no =", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoNotEqualTo(String value) {
+            addCriterion("sequece_no <>", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoGreaterThan(String value) {
+            addCriterion("sequece_no >", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoGreaterThanOrEqualTo(String value) {
+            addCriterion("sequece_no >=", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoLessThan(String value) {
+            addCriterion("sequece_no <", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoLessThanOrEqualTo(String value) {
+            addCriterion("sequece_no <=", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoLike(String value) {
+            addCriterion("sequece_no like", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoNotLike(String value) {
+            addCriterion("sequece_no not like", value, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoIn(List<String> values) {
+            addCriterion("sequece_no in", values, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoNotIn(List<String> values) {
+            addCriterion("sequece_no not in", values, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoBetween(String value1, String value2) {
+            addCriterion("sequece_no between", value1, value2, "sequeceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSequeceNoNotBetween(String value1, String value2) {
+            addCriterion("sequece_no not between", value1, value2, "sequeceNo");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

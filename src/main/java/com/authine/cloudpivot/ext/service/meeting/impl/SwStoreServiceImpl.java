@@ -1,8 +1,6 @@
 package com.authine.cloudpivot.ext.service.meeting.impl;
 
-import com.authine.cloudpivot.ext.entity.HOrgUser;
-import com.authine.cloudpivot.ext.entity.SwStore;
-import com.authine.cloudpivot.ext.entity.SwStoreCriteria;
+import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
@@ -43,23 +41,19 @@ public class SwStoreServiceImpl implements SwStoreService {
         if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
             throw new SwException("该创建者没有查到");
         }
-        //检查会议室是否可用
-        SwStore swz = swStoreMapper.selectByPrimaryKey(swStoreVo.getTranno());
-        if(swz!=null){
-            throw new SwException("仓库无法创建");
-        }
 
         SwStore swStore= BeanCopyUtils.coypToClass(swStoreVo,SwStore.class,null);
         Date date=new Date();
+        swStore.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
         swStore.setId(IdUtils.getId());
         swStore.setCreateTime(date);
         swStore.setUpdateTime(date);
         swStore.setUpdater(swStoreVo.getCreater());
         swStore.setDeleted(new Byte("0"));
         swStore.setYsResult(swStoreVo.getYsresult());
-        swStore.setTranNo(swStoreVo.getTranno());
-        swStore.setBizObjectId(swStoreVo.getBizobjectid());
-        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
+        swStore.setTranNo(IdUtils.getId());
+//        swStore.setBizObjectId(swStoreVo.getBizobjectid());
+//        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
         swStore.setEndCommit(new Byte("1"));
         swStore.setStoreName(swStoreVo.getStorename());
         swStore.setStoreAddress(swStoreVo.getStoreaddress());
@@ -150,6 +144,10 @@ public class SwStoreServiceImpl implements SwStoreService {
     @Override
     public void swStoreckupdate(SwStoreckUpdateDto swStoreckUpdateDto) {
          SwStore swStore=new SwStore();
+//        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
+//
+//        String YsReult="";
+
          swStore.setTranNo(swStoreckUpdateDto.getTranno());
          swStore.setUpdateTime(new Date());
          swStore.setYsResult(swStoreckUpdateDto.getYsresult());

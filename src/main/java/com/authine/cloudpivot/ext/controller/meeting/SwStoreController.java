@@ -29,7 +29,7 @@ import javax.validation.Valid;
         tags = {"运行时::门户"}
 )
 @RestController
-@RequestMapping("/api/meeting")
+@RequestMapping("/api/swstore")
 @Slf4j
 public class SwStoreController extends SwBaseController {
     @Resource

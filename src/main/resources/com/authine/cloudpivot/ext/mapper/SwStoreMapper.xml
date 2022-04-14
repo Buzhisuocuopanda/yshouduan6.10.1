@@ -20,6 +20,7 @@
     <result column="store_goods_num" jdbcType="INTEGER" property="storeGoodsNum" />
     <result column="store_goods_sku_num" jdbcType="INTEGER" property="storeGoodsSkuNum" />
     <result column="store_admin" jdbcType="VARCHAR" property="storeAdmin" />
+    <result column="sequece_no" jdbcType="VARCHAR" property="sequeceNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,7 +83,7 @@
   <sql id="Base_Column_List">
     id, creater, create_time, updater, update_time, deleted, ys_result, tran_no, biz_object_id, 
     workflow_instance, end_commit, store_name, store_address, store_pic, is_enabled, 
-    store_goods_num, store_goods_sku_num, store_admin
+    store_goods_num, store_goods_sku_num, store_admin, sequece_no
   </sql>
   <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwStoreCriteria" resultMap="BaseResultMap">
     select
@@ -120,15 +121,15 @@
       ys_result, tran_no, biz_object_id, 
       workflow_instance, end_commit, store_name, 
       store_address, store_pic, is_enabled, 
-      store_goods_num, store_goods_sku_num, store_admin
-      )
+      store_goods_num, store_goods_sku_num, store_admin, 
+      sequece_no)
     values (#{id,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=TINYINT}, 
       #{ysResult,jdbcType=VARCHAR}, #{tranNo,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}, 
       #{workflowInstance,jdbcType=VARCHAR}, #{endCommit,jdbcType=TINYINT}, #{storeName,jdbcType=VARCHAR}, 
       #{storeAddress,jdbcType=VARCHAR}, #{storePic,jdbcType=VARCHAR}, #{isEnabled,jdbcType=TINYINT}, 
-      #{storeGoodsNum,jdbcType=INTEGER}, #{storeGoodsSkuNum,jdbcType=INTEGER}, #{storeAdmin,jdbcType=VARCHAR}
-      )
+      #{storeGoodsNum,jdbcType=INTEGER}, #{storeGoodsSkuNum,jdbcType=INTEGER}, #{storeAdmin,jdbcType=VARCHAR}, 
+      #{sequeceNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwStore">
     insert into sw_store
@@ -187,6 +188,9 @@
       <if test="storeAdmin != null">
         store_admin,
       </if>
+      <if test="sequeceNo != null">
+        sequece_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -242,6 +246,9 @@
       </if>
       <if test="storeAdmin != null">
         #{storeAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="sequeceNo != null">
+        #{sequeceNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -308,6 +315,9 @@
       <if test="record.storeAdmin != null">
         store_admin = #{record.storeAdmin,jdbcType=VARCHAR},
       </if>
+      <if test="record.sequeceNo != null">
+        sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -332,7 +342,8 @@
       is_enabled = #{record.isEnabled,jdbcType=TINYINT},
       store_goods_num = #{record.storeGoodsNum,jdbcType=INTEGER},
       store_goods_sku_num = #{record.storeGoodsSkuNum,jdbcType=INTEGER},
-      store_admin = #{record.storeAdmin,jdbcType=VARCHAR}
+      store_admin = #{record.storeAdmin,jdbcType=VARCHAR},
+      sequece_no = #{record.sequeceNo,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -391,6 +402,9 @@
       <if test="storeAdmin != null">
         store_admin = #{storeAdmin,jdbcType=VARCHAR},
       </if>
+      <if test="sequeceNo != null">
+        sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -412,7 +426,8 @@
       is_enabled = #{isEnabled,jdbcType=TINYINT},
       store_goods_num = #{storeGoodsNum,jdbcType=INTEGER},
       store_goods_sku_num = #{storeGoodsSkuNum,jdbcType=INTEGER},
-      store_admin = #{storeAdmin,jdbcType=VARCHAR}
+      store_admin = #{storeAdmin,jdbcType=VARCHAR},
+      sequece_no = #{sequeceNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
