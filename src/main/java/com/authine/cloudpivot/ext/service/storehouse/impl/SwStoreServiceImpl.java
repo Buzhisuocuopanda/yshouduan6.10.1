@@ -50,6 +50,14 @@ public class SwStoreServiceImpl implements SwStoreService {
             throw new SwException("该创建者没有查到");
         }
 
+        //检查仓库名称是否重复
+        SwStoreCriteria example=new SwStoreCriteria();
+        example.createCriteria().andStoreNameEqualTo(swStoreVo.getStorename());
+        List<SwStore> list=swStoreMapper.selectByExample(example);
+        if(list.size()>0)
+        {
+            throw new SwException("仓库名称重复");
+        }
         SwStore swStore= BeanCopyUtils.coypToClass(swStoreVo,SwStore.class,null);
         Date date=new Date();
         swStore.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
