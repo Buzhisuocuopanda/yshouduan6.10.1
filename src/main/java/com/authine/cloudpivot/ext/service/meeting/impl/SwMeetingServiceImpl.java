@@ -537,6 +537,7 @@ public class SwMeetingServiceImpl implements SwMeetingService {
         if(swMeeting==null || DeleteFlagEnum.DELETE.getCode().equals(swMeeting.getDeleted())){
             throw new SwException("没有查到该会议");
         }
+
         SwMeetingDetailVo swMeetingDetailVo = BeanCopyUtils.coypToClass(swMeeting, SwMeetingDetailVo.class, null);
         swMeetingDetailVo.setMeetingStartTime(swMeeting.getMeetingStarttime());
         swMeetingDetailVo.setMeetingEndTime(swMeeting.getMeetingEndtime());
