@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.authine.cloudpivot.ext.mapper.SwGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.authine.cloudpivot.ext.entity.SwGoods">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updater" jdbcType="VARCHAR" property="updater" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
+    <result column="ys_result" jdbcType="VARCHAR" property="ysResult" />
+    <result column="tran_no" jdbcType="VARCHAR" property="tranNo" />
+    <result column="biz_object_id" jdbcType="VARCHAR" property="bizObjectId" />
+    <result column="workflow_instance" jdbcType="VARCHAR" property="workflowInstance" />
+    <result column="end_commit" jdbcType="TINYINT" property="endCommit" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_detail" jdbcType="VARCHAR" property="goodsDetail" />
+    <result column="goods_head_pic" jdbcType="VARCHAR" property="goodsHeadPic" />
+    <result column="sw_store_id" jdbcType="VARCHAR" property="swStoreId" />
+    <result column="goods_company" jdbcType="VARCHAR" property="goodsCompany" />
+    <result column="sw_store_name" jdbcType="VARCHAR" property="swStoreName" />
+    <result column="goods_total_num" jdbcType="INTEGER" property="goodsTotalNum" />
+    <result column="sequece_no" jdbcType="VARCHAR" property="sequeceNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, creater, create_time, updater, deleted, ys_result, tran_no, biz_object_id, workflow_instance, 
+    end_commit, goods_name, goods_code, goods_detail, goods_head_pic, sw_store_id, goods_company, 
+    sw_store_name, goods_total_num, sequece_no
+  </sql>
+  <select id="selectByExample" parameterType="com.authine.cloudpivot.ext.entity.SwGoodsCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sw_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sw_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sw_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.authine.cloudpivot.ext.entity.SwGoodsCriteria">
+    delete from sw_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
+    insert into sw_goods (id, creater, create_time, 
+      updater, deleted, ys_result, 
+      tran_no, biz_object_id, workflow_instance, 
+      end_commit, goods_name, goods_code, 
+      goods_detail, goods_head_pic, sw_store_id, 
+      goods_company, sw_store_name, goods_total_num, 
+      sequece_no)
+    values (#{id,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR}, #{deleted,jdbcType=TINYINT}, #{ysResult,jdbcType=VARCHAR}, 
+      #{tranNo,jdbcType=VARCHAR}, #{bizObjectId,jdbcType=VARCHAR}, #{workflowInstance,jdbcType=VARCHAR}, 
+      #{endCommit,jdbcType=TINYINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{goodsDetail,jdbcType=VARCHAR}, #{goodsHeadPic,jdbcType=VARCHAR}, #{swStoreId,jdbcType=VARCHAR}, 
+      #{goodsCompany,jdbcType=VARCHAR}, #{swStoreName,jdbcType=VARCHAR}, #{goodsTotalNum,jdbcType=INTEGER}, 
+      #{sequeceNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
+    insert into sw_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="creater != null">
+        creater,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="ysResult != null">
+        ys_result,
+      </if>
+      <if test="tranNo != null">
+        tran_no,
+      </if>
+      <if test="bizObjectId != null">
+        biz_object_id,
+      </if>
+      <if test="workflowInstance != null">
+        workflow_instance,
+      </if>
+      <if test="endCommit != null">
+        end_commit,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="goodsDetail != null">
+        goods_detail,
+      </if>
+      <if test="goodsHeadPic != null">
+        goods_head_pic,
+      </if>
+      <if test="swStoreId != null">
+        sw_store_id,
+      </if>
+      <if test="goodsCompany != null">
+        goods_company,
+      </if>
+      <if test="swStoreName != null">
+        sw_store_name,
+      </if>
+      <if test="goodsTotalNum != null">
+        goods_total_num,
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="ysResult != null">
+        #{ysResult,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null">
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizObjectId != null">
+        #{bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowInstance != null">
+        #{workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="endCommit != null">
+        #{endCommit,jdbcType=TINYINT},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDetail != null">
+        #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsHeadPic != null">
+        #{goodsHeadPic,jdbcType=VARCHAR},
+      </if>
+      <if test="swStoreId != null">
+        #{swStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCompany != null">
+        #{goodsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="swStoreName != null">
+        #{swStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTotalNum != null">
+        #{goodsTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="sequeceNo != null">
+        #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.authine.cloudpivot.ext.entity.SwGoodsCriteria" resultType="java.lang.Long">
+    select count(*) from sw_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sw_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creater != null">
+        creater = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=TINYINT},
+      </if>
+      <if test="record.ysResult != null">
+        ys_result = #{record.ysResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tranNo != null">
+        tran_no = #{record.tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizObjectId != null">
+        biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workflowInstance != null">
+        workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endCommit != null">
+        end_commit = #{record.endCommit,jdbcType=TINYINT},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCode != null">
+        goods_code = #{record.goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsDetail != null">
+        goods_detail = #{record.goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsHeadPic != null">
+        goods_head_pic = #{record.goodsHeadPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.swStoreId != null">
+        sw_store_id = #{record.swStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCompany != null">
+        goods_company = #{record.goodsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.swStoreName != null">
+        sw_store_name = #{record.swStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsTotalNum != null">
+        goods_total_num = #{record.goodsTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.sequeceNo != null">
+        sequece_no = #{record.sequeceNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sw_goods
+    set id = #{record.id,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=TINYINT},
+      ys_result = #{record.ysResult,jdbcType=VARCHAR},
+      tran_no = #{record.tranNo,jdbcType=VARCHAR},
+      biz_object_id = #{record.bizObjectId,jdbcType=VARCHAR},
+      workflow_instance = #{record.workflowInstance,jdbcType=VARCHAR},
+      end_commit = #{record.endCommit,jdbcType=TINYINT},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_code = #{record.goodsCode,jdbcType=VARCHAR},
+      goods_detail = #{record.goodsDetail,jdbcType=VARCHAR},
+      goods_head_pic = #{record.goodsHeadPic,jdbcType=VARCHAR},
+      sw_store_id = #{record.swStoreId,jdbcType=VARCHAR},
+      goods_company = #{record.goodsCompany,jdbcType=VARCHAR},
+      sw_store_name = #{record.swStoreName,jdbcType=VARCHAR},
+      goods_total_num = #{record.goodsTotalNum,jdbcType=INTEGER},
+      sequece_no = #{record.sequeceNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
+    update sw_goods
+    <set>
+      <if test="creater != null">
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="ysResult != null">
+        ys_result = #{ysResult,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null">
+        tran_no = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bizObjectId != null">
+        biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowInstance != null">
+        workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
+      </if>
+      <if test="endCommit != null">
+        end_commit = #{endCommit,jdbcType=TINYINT},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDetail != null">
+        goods_detail = #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsHeadPic != null">
+        goods_head_pic = #{goodsHeadPic,jdbcType=VARCHAR},
+      </if>
+      <if test="swStoreId != null">
+        sw_store_id = #{swStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCompany != null">
+        goods_company = #{goodsCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="swStoreName != null">
+        sw_store_name = #{swStoreName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTotalNum != null">
+        goods_total_num = #{goodsTotalNum,jdbcType=INTEGER},
+      </if>
+      <if test="sequeceNo != null">
+        sequece_no = #{sequeceNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
+    update sw_goods
+    set creater = #{creater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=TINYINT},
+      ys_result = #{ysResult,jdbcType=VARCHAR},
+      tran_no = #{tranNo,jdbcType=VARCHAR},
+      biz_object_id = #{bizObjectId,jdbcType=VARCHAR},
+      workflow_instance = #{workflowInstance,jdbcType=VARCHAR},
+      end_commit = #{endCommit,jdbcType=TINYINT},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_detail = #{goodsDetail,jdbcType=VARCHAR},
+      goods_head_pic = #{goodsHeadPic,jdbcType=VARCHAR},
+      sw_store_id = #{swStoreId,jdbcType=VARCHAR},
+      goods_company = #{goodsCompany,jdbcType=VARCHAR},
+      sw_store_name = #{swStoreName,jdbcType=VARCHAR},
+      goods_total_num = #{goodsTotalNum,jdbcType=INTEGER},
+      sequece_no = #{sequeceNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+
+
+<update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+UPDATE sw_goods set
+goods_total_num=
+(select sum(goods_num)FROM sw_goods_list
+WHERE sw_goods.goods_code=sw_goods_list.goods_code )
+
+</update>
+
+  <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
+    SELECT
+    DISTINCT
+    sw_goods_list.goods_code,
+    sw_goods_list.goods_name,
+    sw_goods_list.goods_company,
+    sw_goods_list.create_time,
+    sw_goods_list.local_store,
+    sw_store.is_enabled
+FROM sw_store
+ INNER JOIN
+ sw_goods_list
+  on  sw_store.id=sw_goods_list.local_store
+
+ where
+ 1=1
+
+ <if test="isEnabled and isEnabled!=' '">
+ AND
+      sw_store.is_enabled=#{isEnabled}
+ </if>
+<if test="goodsName !=null and goodsName!=' '" >
+      and
+      sw_goods_list.goods_name=#{goodsName}
+</if>
+    <if test="goodsCode !=null and goodsCode!=' '" >
+      and
+      sw_goods_list.goods_code=#{goodsCode}
+      </if>
+    <if test="createTime !=null AND createTime!=' '">
+    and
+    sw_goods_list.create_time=#{createTime}
+    </if>>
+    Order By sw_goods_list.create_time Desc
+    ;
+
+  </select>
+</mapper>
