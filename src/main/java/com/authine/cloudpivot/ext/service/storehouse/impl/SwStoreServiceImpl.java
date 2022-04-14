@@ -65,7 +65,6 @@ public class SwStoreServiceImpl implements SwStoreService {
         swStore.setCreateTime(date);
         swStore.setUpdateTime(date);
         swStore.setUpdater(swStoreVo.getCreater());
-        swStore.setDeleted(new Byte("0"));
         swStore.setYsResult(swStoreVo.getYsresult());
         swStore.setTranNo(IdUtils.getId());
 //        swStore.setBizObjectId(swStoreVo.getBizobjectid());
@@ -107,7 +106,6 @@ public class SwStoreServiceImpl implements SwStoreService {
          {
              SwStore swStore=new SwStore();
              swStore.setUpdater(swStoreupdateDo.getUserId());
-             swStore.setDeleted(new Byte("1"));
              swStore.setEndCommit(new Byte("2"));
              swStore.setIsEnabled(new Byte("2"));
              SwStoreCriteria swStoreCriteria=new SwStoreCriteria();
