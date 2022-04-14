@@ -42,7 +42,7 @@ public class SwStoreVo {
             value = "仓库名称",
             required = true
     )
-    @NotBlank(message = "仓库名称")
+    @NotBlank(message = "仓库名称不能为空")
     //仓库名称
     private String storename;
 
@@ -50,7 +50,7 @@ public class SwStoreVo {
             value = "仓库地址",
             required = true
     )
-    @NotBlank(message = "仓库地址")
+    @NotBlank(message = "仓库地址不能为空")
     //仓库地址
     private String storeaddress;
 
@@ -72,7 +72,7 @@ public class SwStoreVo {
             value = "仓库主管",
             required = true
     )
-    @NotBlank(message = "仓库主管")
+    @NotBlank(message = "仓库主管不能为空")
     //仓库主管
     private String storeadmin;
 

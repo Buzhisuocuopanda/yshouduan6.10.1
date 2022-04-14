@@ -2,6 +2,7 @@ package com.authine.cloudpivot.ext.service.storehouse.impl;
 
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
+import com.authine.cloudpivot.ext.enums.StoreEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.BizWorkflowInstanceMapper;
 import com.authine.cloudpivot.ext.mapper.HBizCommentMapper;
@@ -69,11 +70,11 @@ public class SwStoreServiceImpl implements SwStoreService {
         swStore.setTranNo(IdUtils.getId());
 //        swStore.setBizObjectId(swStoreVo.getBizobjectid());
 //        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
-        swStore.setEndCommit(new Byte("1"));
+        swStore.setEndCommit(StoreEnum.ENDCOMMIT.getCode());
         swStore.setStoreName(swStoreVo.getStorename());
         swStore.setStoreAddress(swStoreVo.getStoreaddress());
         swStore.setStorePic(swStoreVo.getStorepic());
-        swStore.setIsEnabled(new Byte("1"));
+        swStore.setIsEnabled(StoreEnum.ISENDLED.getCode());
         swStore.setStoreGoodsNum(swStoreVo.getStoregoodsnum());
         swStore.setStoreGoodsSkuNum(swStoreVo.getStoregoodsskunum());
         swStore.setStoreAdmin(swStoreVo.getStoreadmin());
@@ -106,13 +107,13 @@ public class SwStoreServiceImpl implements SwStoreService {
          {
              SwStore swStore=new SwStore();
              swStore.setUpdater(swStoreupdateDo.getUserId());
-             swStore.setEndCommit(new Byte("2"));
-             swStore.setIsEnabled(new Byte("2"));
+             swStore.setEndCommit(StoreEnum.NOT_ENDCOMMIT.getCode());
+             swStore.setIsEnabled(StoreEnum.NOT_ISENDLED.getCode());
              SwStoreCriteria swStoreCriteria=new SwStoreCriteria();
              swStoreCriteria.createCriteria()
                             .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
                             .andIdEqualTo(id)
-                            .andIsEnabledEqualTo(new Byte("1"));
+                            .andIsEnabledEqualTo(StoreEnum.ISENDLED.getCode());
              swStoreMapper.updateByExampleSelective(swStore,swStoreCriteria);
          }
     }
