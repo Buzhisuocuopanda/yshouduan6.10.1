@@ -43,7 +43,6 @@ public class SwStoreVo {
             required = true
     )
     @NotBlank(message = "仓库名称不能为空")
-    //仓库名称
     private String storename;
 
     @ApiModelProperty(
@@ -51,7 +50,6 @@ public class SwStoreVo {
             required = true
     )
     @NotBlank(message = "仓库地址不能为空")
-    //仓库地址
     private String storeaddress;
 
     //仓库图片
