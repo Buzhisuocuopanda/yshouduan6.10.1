@@ -2,6 +2,7 @@ package com.authine.cloudpivot.ext.model.doo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -43,6 +44,7 @@ public class SwStoreDo {
             required = true
     )
     @NotBlank(message = "仓库名称不能为空")
+    @Length(min = 1,max = 50,message = "仓库名称最多50字")
     //仓库名称
     private String storename;
 
@@ -51,6 +53,7 @@ public class SwStoreDo {
             required = true
     )
     @NotBlank(message = "仓库地址不能为空")
+    @Length(min = 1,max = 50,message = "仓库地址最多50字")
     //仓库地址
     private String storeaddress;
 
@@ -73,6 +76,7 @@ public class SwStoreDo {
             required = true
     )
     @NotBlank(message = "仓库主管不能为空")
+    @Length(min = 1,max = 50,message = "仓库主管最多50字")
     //仓库主管
     private String storeadmin;
 }
