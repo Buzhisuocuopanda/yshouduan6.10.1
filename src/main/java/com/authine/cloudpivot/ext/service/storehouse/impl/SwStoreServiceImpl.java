@@ -52,6 +52,7 @@ public class SwStoreServiceImpl implements SwStoreService {
         }
 
         //检查仓库名称是否重复
+        //Criteria是一种比hql更面向对象的查询方式
         SwStoreCriteria example=new SwStoreCriteria();
         example.createCriteria().andStoreNameEqualTo(swStoreVo.getStorename());
         List<SwStore> list=swStoreMapper.selectByExample(example);
