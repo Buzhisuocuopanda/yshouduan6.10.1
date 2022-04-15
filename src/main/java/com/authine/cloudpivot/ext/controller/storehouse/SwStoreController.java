@@ -6,6 +6,7 @@ import com.authine.cloudpivot.ext.controller.base.SwBaseController;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
+import com.authine.cloudpivot.ext.model.doo.SwStoreDo;
 import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
 import com.authine.cloudpivot.ext.model.vo.*;
@@ -40,22 +41,22 @@ public class SwStoreController extends SwBaseController {
     //添加仓库
     @PostMapping("/addSwStore")
 
-    public ResponseResult<SwStoreResult> addMeetingZoom(@Valid @RequestBody SwStoreVo swStoreVo, BindingResult bindingResult)
+    public ResponseResult<SwStoreResult> addMeetingZoom(@Valid @RequestBody SwStoreDo swStoreDo, BindingResult bindingResult)
     {
         SwStoreResult res = null;
         try {
             //参数校验
             ValidUtils.bindvaild(bindingResult);
             //调用服务器
-            res=swStoreService.addSwStore(swStoreVo);
+            res=swStoreService.addSwStore(swStoreDo);
             return this.getOkResponseResult(res, "添加成功");
 
         } catch (SwException e) {
-            log.error("【新建仓库】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreVo), e.getMessage());
+            log.error("【新建仓库】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreDo), e.getMessage());
             return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
         } catch (Exception e) {
-            log.error("【新建仓库】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreVo),ExceptionUtils.getStackTrace(e));
+            log.error("【新建仓库】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreDo),ExceptionUtils.getStackTrace(e));
 
             return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }

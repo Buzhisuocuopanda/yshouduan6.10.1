@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.service.storehouse;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
+import com.authine.cloudpivot.ext.model.doo.SwStoreDo;
 import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
 import com.authine.cloudpivot.ext.model.dto.SwMesstingZoomDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
@@ -11,7 +12,7 @@ import com.authine.cloudpivot.ext.model.vo.*;
 public interface SwStoreService {
 
     //添加仓库
-    SwStoreResult addSwStore(SwStoreVo swStoreVo);
+    SwStoreResult addSwStore(SwStoreDo swStoreDo);
 
     //仓库列表内容
     SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel queryModel);

@@ -10,6 +10,7 @@ import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
+import com.authine.cloudpivot.ext.model.doo.SwStoreDo;
 import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
 import com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
@@ -44,9 +45,9 @@ public class SwStoreServiceImpl implements SwStoreService {
     //新建仓库
     @Transactional
     @Override
-    public SwStoreResult addSwStore(SwStoreVo swStoreVo) {
+    public SwStoreResult addSwStore(SwStoreDo swStoreDo) {
 
-        HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreVo.getCreater());
+        HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreDo.getCreater());
         if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
             throw new SwException("该创建者没有查到");
         }
@@ -54,31 +55,31 @@ public class SwStoreServiceImpl implements SwStoreService {
         //检查仓库名称是否重复
         //Criteria是一种比hql更面向对象的查询方式
         SwStoreCriteria example=new SwStoreCriteria();
-        example.createCriteria().andStoreNameEqualTo(swStoreVo.getStorename());
+        example.createCriteria().andStoreNameEqualTo(swStoreDo.getStorename());
         List<SwStore> list=swStoreMapper.selectByExample(example);
         if(list.size()>0)
         {
             throw new SwException("仓库名称重复");
         }
-        SwStore swStore= BeanCopyUtils.coypToClass(swStoreVo,SwStore.class,null);
+        SwStore swStore= BeanCopyUtils.coypToClass(swStoreDo,SwStore.class,null);
         Date date=new Date();
         swStore.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
         swStore.setId(IdUtils.getId());
         swStore.setCreateTime(date);
         swStore.setUpdateTime(date);
-        swStore.setUpdater(swStoreVo.getCreater());
-        swStore.setYsResult(swStoreVo.getYsresult());
+        swStore.setUpdater(swStoreDo.getCreater());
+        swStore.setYsResult(swStoreDo.getYsresult());
         swStore.setTranNo(IdUtils.getId());
 //        swStore.setBizObjectId(swStoreVo.getBizobjectid());
 //        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
         swStore.setEndCommit(StoreEnum.ENDCOMMIT.getCode());
-        swStore.setStoreName(swStoreVo.getStorename());
-        swStore.setStoreAddress(swStoreVo.getStoreaddress());
-        swStore.setStorePic(swStoreVo.getStorepic());
+        swStore.setStoreName(swStoreDo.getStorename());
+        swStore.setStoreAddress(swStoreDo.getStoreaddress());
+        swStore.setStorePic(swStoreDo.getStorepic());
         swStore.setIsEnabled(StoreEnum.ISENDLED.getCode());
-        swStore.setStoreGoodsNum(swStoreVo.getStoregoodsnum());
-        swStore.setStoreGoodsSkuNum(swStoreVo.getStoregoodsskunum());
-        swStore.setStoreAdmin(swStoreVo.getStoreadmin());
+        swStore.setStoreGoodsNum(swStoreDo.getStoregoodsnum());
+        swStore.setStoreGoodsSkuNum(swStoreDo.getStoregoodsskunum());
+        swStore.setStoreAdmin(swStoreDo.getStoreadmin());
         swStoreMapper.insert(swStore);
 
         SwStoreResult swStoreResult=new SwStoreResult();

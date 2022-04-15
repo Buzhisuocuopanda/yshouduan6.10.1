@@ -1,4 +1,4 @@
-package com.authine.cloudpivot.ext.model.vo;
+package com.authine.cloudpivot.ext.model.doo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
-public class SwStoreVo {
+public class SwStoreDo {
     //创建者
     private String creater;
 
@@ -75,5 +75,4 @@ public class SwStoreVo {
     @NotBlank(message = "仓库主管不能为空")
     //仓库主管
     private String storeadmin;
-
 }
