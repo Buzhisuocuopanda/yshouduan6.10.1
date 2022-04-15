@@ -2,11 +2,14 @@ package com.authine.cloudpivot.ext.model.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
+
 public class SwStoreVo {
     //创建者
     private String creater;
@@ -38,18 +41,12 @@ public class SwStoreVo {
     //云枢是否提交成功
     private Byte endcommit;
 
-    @ApiModelProperty(
-            value = "仓库名称",
-            required = true
-    )
-    @NotBlank(message = "仓库名称不能为空")
+    //仓库名称
+    @ApiModelProperty(value = "仓库名称")
     private String storename;
 
-    @ApiModelProperty(
-            value = "仓库地址",
-            required = true
-    )
-    @NotBlank(message = "仓库地址不能为空")
+    //仓库地址
+    @ApiModelProperty(value = "仓库地址")
     private String storeaddress;
 
     //仓库图片
@@ -66,12 +63,8 @@ public class SwStoreVo {
     //货物库存总量
     private Integer storegoodsskunum;
 
-    @ApiModelProperty(
-            value = "仓库主管",
-            required = true
-    )
-    @NotBlank(message = "仓库主管不能为空")
     //仓库主管
+    @ApiModelProperty(value = "仓库主管")
     private String storeadmin;
 
 }
