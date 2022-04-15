@@ -87,7 +87,7 @@ public class SwStoreServiceImpl implements SwStoreService {
         return swStoreResult;
     }
 
-    //仓库详情
+    //仓库列表内容
     @Override
     public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel query) {
         //开始分页
@@ -121,7 +121,7 @@ public class SwStoreServiceImpl implements SwStoreService {
          }
     }
 
-    //仓库的详情
+    //查询仓库详情列表
     @Override
     public SwStoreListUpdateVo listofwarehousedetails(String stockid) {
         SwStore swStore=swStoreMapper.selectByPrimaryKey(stockid);
@@ -151,7 +151,7 @@ public class SwStoreServiceImpl implements SwStoreService {
         return swStoreListUpdateVo;
     }
 
-    //仓库编辑
+    //仓库列表编辑
     @Override
     public void updateswstoreedit(SwStoreListUpdateVo SwStoreListUpdateVo) {
         swStoreMapper.updateswstoreedit(SwStoreListUpdateVo);

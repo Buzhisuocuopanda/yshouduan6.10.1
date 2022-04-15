@@ -20,10 +20,10 @@ public interface SwStoreService {
     //仓库列表删除
     void cancelwarehouse(SwStoreupdateDo swStoreupdateDo);
 
-    //仓库的详情
+    //查询仓库详情列表
     SwStoreListUpdateVo listofwarehousedetails(String stockid);
 
-    //编辑会议室
+    //仓库列表编辑
     void updateswstoreedit(SwStoreListUpdateVo SwStoreListUpdateVo);
 
     //流程审核后修改仓库状态

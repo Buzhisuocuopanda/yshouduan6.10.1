@@ -431,7 +431,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-    <!-- 详情查询展示 -->
+    <!-- 仓库列表内容 -->
   <select id="warehousedetails" resultType="com.authine.cloudpivot.ext.model.vo.SwStoreListVo">
       SELECT
          se.store_name as storename,
@@ -449,7 +449,7 @@
       order by store_goods_sku_num desc
   </select>
 
-    <!-- 详情查询 -->
+    <!-- 查询仓库详情列表 -->
   <select id="listofwarehousedetails" resultType="com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto">
          SELECT
              se.store_name as storename,
