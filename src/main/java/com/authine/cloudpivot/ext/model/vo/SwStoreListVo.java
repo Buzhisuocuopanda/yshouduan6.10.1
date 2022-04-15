@@ -32,5 +32,5 @@ public class SwStoreListVo {
     private String storeadmin;
 
     //ID
-    private String meetingId;
+    private String stockid;
 }

@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
-@Api(
-        tags = {"运行时::门户"}
-)
+
 @RestController
 @RequestMapping("/api/swstore")
 @Slf4j
@@ -41,18 +39,18 @@ public class SwStoreController extends SwBaseController {
     //添加仓库
     @PostMapping("/addSwStore")
 
-    public ResponseResult<SwStoreResult> addMeetingZoom(@Valid @RequestBody SwStoreDo swStoreDo, BindingResult bindingResult)
+    public ResponseResult<SwStoreResult> addwarehouse(@Valid @RequestBody SwStoreDo swStoreDo, BindingResult bindingResult)
     {
         SwStoreResult res = null;
         try {
             //参数校验
             ValidUtils.bindvaild(bindingResult);
-            //调用服务器
+            //调用添加仓库的方法
             res=swStoreService.addSwStore(swStoreDo);
             return this.getOkResponseResult(res, "添加成功");
 
         } catch (SwException e) {
-            log.error("【新建仓库】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreDo), e.getMessage());
+            log.error("【新建仓库】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreDo), e.getMessage());
             return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
         } catch (Exception e) {
@@ -63,9 +61,9 @@ public class SwStoreController extends SwBaseController {
 
     }
 
-    //仓库列表
+    //仓库列表内容
     @GetMapping("/SwStoreList")
-    public ResponseResult<SwPageVo<SwStoreListVo>> SwStoreList(@RequestParam Integer page, @RequestParam Integer size)
+    public ResponseResult<SwPageVo<SwStoreListVo>> Warehousedetails(@RequestParam Integer page, @RequestParam Integer size)
     {
         SwPageVo<SwStoreListVo> res=null;
         String userId="";
@@ -74,7 +72,7 @@ public class SwStoreController extends SwBaseController {
             BaseSwQueryModel queryModel=new BaseSwQueryModel();
             queryModel.setPage(page);
             queryModel.setSize(size);
-            res=swStoreService.swstorelist(queryModel);
+            res=swStoreService.warehousedetails(queryModel);
             return this.getOkResponseResult(res,"查询成功");
         }catch(SwException e)
         {
@@ -91,7 +89,7 @@ public class SwStoreController extends SwBaseController {
             notes = "取消仓库"
     )
     @PostMapping("/SwStoreUpdate")
-    public ResponseResult SwStoreUpdate(@Valid @RequestBody SwStoreupdateDo swStoreupdateDo, BindingResult bindingResult){
+    public ResponseResult Cancelwarehouse(@Valid @RequestBody SwStoreupdateDo swStoreupdateDo, BindingResult bindingResult){
         try
         {
             ValidUtils.bindvaild(bindingResult);
@@ -101,36 +99,36 @@ public class SwStoreController extends SwBaseController {
             }
 
             swStoreupdateDo.setUserId(getUserId());
-            swStoreService.swstoreupdate(swStoreupdateDo);
+            swStoreService.cancelwarehouse(swStoreupdateDo);
             return this.getOkResponseResult("操作成功");
         }catch (SwException e)
         {
-            log.error("【取消仓库】接口参数校验出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreupdateDo), e.getMessage());
+            log.error("【取消仓库】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreupdateDo), e.getMessage());
             return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
         }catch(Exception e)
         {
-            log.error("【取消仓库】接口出现异常，参数${}$,异常${}$", com.alibaba.fastjson.JSONObject.toJSONString(swStoreupdateDo),ExceptionUtils.getStackTrace(e));
+            log.error("【取消仓库】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swStoreupdateDo),ExceptionUtils.getStackTrace(e));
             return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }
 
     /***
-     * 查询会议室详情列表
+     * 查询仓库详情列表
      * @return
      */
     @GetMapping("/SwStoreListUpdate")
-    public ResponseResult<SwStoreListUpdateVo> swStoreListupdate(@RequestParam String meetingId )
+    public ResponseResult<SwStoreListUpdateVo> Listofwarehousedetails(@RequestParam String stockid)
     {
         SwStoreListUpdateVo res = new SwStoreListUpdateVo();
         try{
-            res = swStoreService.swstorelistUpdate(meetingId);
+            res = swStoreService.listofwarehousedetails(stockid);
             return this.getOkResponseResult(res, "查询成功");
         }catch(SwException e)
         {
             return this.getErrResponseResult(res, ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
         }catch(Exception e)
         {
-            log.error("【获取仓库详情列表】接口出现异常，参数userId${}$,异常${}$", meetingId, ExceptionUtils.getStackTrace(e));
+            log.error("【获取仓库详情列表】接口出现异常，参数userId${}$,异常${}$", stockid, ExceptionUtils.getStackTrace(e));
             return this.getErrResponseResult(res, ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
         }
     }

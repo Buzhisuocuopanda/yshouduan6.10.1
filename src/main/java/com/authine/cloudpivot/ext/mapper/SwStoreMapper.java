@@ -34,10 +34,10 @@ public interface SwStoreMapper {
     int updateByPrimaryKey(SwStore record);
 
     //仓库列表
-    List<SwStoreListVo> swstorelist();
+    List<SwStoreListVo> warehousedetails();
 
     //仓库详情
-    List<SwStoreListUpdateDto> swstoresistupdate(String id);
+    List<SwStoreListUpdateDto> listofwarehousedetails(String id);
 
     //仓库编辑
     void updateswstoreedit(SwStoreListUpdateVo swStoreListUpdateVo);

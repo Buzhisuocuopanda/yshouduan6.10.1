@@ -89,10 +89,10 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //仓库详情
     @Override
-    public SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel query) {
+    public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel query) {
         //开始分页
         PageHelper.startPage(query.getPage(), query.getSize());
-        List<SwStoreListVo> swStoreListVos=swStoreMapper.swstorelist();
+        List<SwStoreListVo> swStoreListVos=swStoreMapper.warehousedetails();
         //获取分页结果
         PageInfo<SwStoreListVo> pageInfo=new PageInfo<>(swStoreListVos);
         //封装分页信息
@@ -103,7 +103,7 @@ public class SwStoreServiceImpl implements SwStoreService {
     //仓库删除
     @Transactional
     @Override
-    public void swstoreupdate(SwStoreupdateDo swStoreupdateDo) {
+    public void cancelwarehouse(SwStoreupdateDo swStoreupdateDo) {
          List<String> ids=swStoreupdateDo.getIds();
          for(String id:ids)
          {
@@ -111,6 +111,7 @@ public class SwStoreServiceImpl implements SwStoreService {
              swStore.setUpdater(swStoreupdateDo.getUserId());
              swStore.setEndCommit(StoreEnum.NOT_ENDCOMMIT.getCode());
              swStore.setIsEnabled(StoreEnum.NOT_ISENDLED.getCode());
+             swStore.setDeleted(StoreEnum.DELETE.getCode());
              SwStoreCriteria swStoreCriteria=new SwStoreCriteria();
              swStoreCriteria.createCriteria()
                             .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
@@ -122,8 +123,8 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //仓库的详情
     @Override
-    public SwStoreListUpdateVo swstorelistUpdate(String meetingId) {
-        SwStore swStore=swStoreMapper.selectByPrimaryKey(meetingId);
+    public SwStoreListUpdateVo listofwarehousedetails(String stockid) {
+        SwStore swStore=swStoreMapper.selectByPrimaryKey(stockid);
         if(swStore==null || DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()))
         {
             throw new SwException("没有查到该仓库");
@@ -131,7 +132,7 @@ public class SwStoreServiceImpl implements SwStoreService {
 
         SwStoreListUpdateVo swStoreListUpdateVo=BeanCopyUtils.coypToClass(swStore,SwStoreListUpdateVo.class,null);
 
-        List<SwStoreListUpdateDto> users = swStoreMapper.swstoresistupdate(swStore.getId());
+        List<SwStoreListUpdateDto> users = swStoreMapper.listofwarehousedetails(swStore.getId());
         String joinUsers="";
         for(SwStoreListUpdateDto user:users)
         {

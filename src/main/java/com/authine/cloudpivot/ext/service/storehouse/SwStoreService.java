@@ -15,13 +15,13 @@ public interface SwStoreService {
     SwStoreResult addSwStore(SwStoreDo swStoreDo);
 
     //仓库列表内容
-    SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel queryModel);
+    SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel queryModel);
 
     //仓库列表删除
-    void swstoreupdate(SwStoreupdateDo swStoreupdateDo);
+    void cancelwarehouse(SwStoreupdateDo swStoreupdateDo);
 
     //仓库的详情
-    SwStoreListUpdateVo swstorelistUpdate(String meetingId);
+    SwStoreListUpdateVo listofwarehousedetails(String stockid);
 
     //编辑会议室
     void updateswstoreedit(SwStoreListUpdateVo SwStoreListUpdateVo);

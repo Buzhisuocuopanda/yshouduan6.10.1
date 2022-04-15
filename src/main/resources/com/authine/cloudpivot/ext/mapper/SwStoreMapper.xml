@@ -432,7 +432,7 @@
   </update>
 
     <!-- 详情查询展示 -->
-  <select id="swstorelist" resultType="com.authine.cloudpivot.ext.model.vo.SwStoreListVo">
+  <select id="warehousedetails" resultType="com.authine.cloudpivot.ext.model.vo.SwStoreListVo">
       SELECT
          se.store_name as storename,
          se.store_address as storeaddress,
@@ -440,7 +440,7 @@
          se.store_goods_num as storegoodsnum,
          se.store_goods_sku_num as storegoodsskunum,
          se.store_admin as storeadmin,
-         se.id as meetingId
+         se.id as stockid
       FROM  `sw_store`  se
       WHERE
       se.is_enabled = 1
@@ -450,7 +450,7 @@
   </select>
 
     <!-- 详情查询 -->
-  <select id="swstoresistupdate" resultType="com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto">
+  <select id="listofwarehousedetails" resultType="com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto">
          SELECT
              se.store_name as storename,
              se.store_address as storeaddress,
@@ -461,7 +461,7 @@
          FROM
          `sw_store` se
          WHERE
-         se.id = #{meetingId}
+         se.id = #{stockid}
   </select>
 
     <!-- 编辑 -->
