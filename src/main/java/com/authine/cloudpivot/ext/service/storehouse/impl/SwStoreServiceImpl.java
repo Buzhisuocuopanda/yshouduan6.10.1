@@ -9,6 +9,7 @@ import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
+import com.authine.cloudpivot.ext.model.doo.SwStoreDo;
 import com.authine.cloudpivot.ext.model.doo.SwStoreupdateDo;
 import com.authine.cloudpivot.ext.model.dto.SwStoreListUpdateDto;
 import com.authine.cloudpivot.ext.model.dto.SwStoreckUpdateDto;
@@ -42,7 +43,7 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //新建仓库
     @Transactional
-    @Override
+
     public SwMeetingZoomResult addSwStore(SwStoreVo swStoreVo) {
 
         HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreVo.getCreater());
@@ -87,7 +88,7 @@ public class SwStoreServiceImpl implements SwStoreService {
     }
 
     //仓库详情
-    @Override
+   
     public SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel query) {
         //开始分页
         PageHelper.startPage(query.getPage(), query.getSize());
@@ -101,7 +102,7 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //仓库删除
     @Transactional
-    @Override
+
     public void swstoreupdate(SwStoreupdateDo swStoreupdateDo) {
          List<String> ids=swStoreupdateDo.getIds();
          for(String id:ids)
@@ -121,7 +122,7 @@ public class SwStoreServiceImpl implements SwStoreService {
     }
 
     //仓库的详情
-    @Override
+
     public SwStoreListUpdateVo swstorelistUpdate(String meetingId) {
         SwStore swStore=swStoreMapper.selectByPrimaryKey(meetingId);
         if(swStore==null || DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()))
@@ -148,6 +149,26 @@ public class SwStoreServiceImpl implements SwStoreService {
         swStoreListUpdateVo.setStoregoodsnum(swStore.getStoreGoodsNum());
         swStoreListUpdateVo.setStoregoodsskunum(swStore.getStoreGoodsSkuNum());
         return swStoreListUpdateVo;
+    }
+
+    @Override
+    public SwStoreResult addSwStore(SwStoreDo swStoreDo) {
+        return null;
+    }
+
+    @Override
+    public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel queryModel) {
+        return null;
+    }
+
+    @Override
+    public void cancelwarehouse(SwStoreupdateDo swStoreupdateDo) {
+
+    }
+
+    @Override
+    public SwStoreListUpdateVo listofwarehousedetails(String stockid) {
+        return null;
     }
 
     //仓库编辑
