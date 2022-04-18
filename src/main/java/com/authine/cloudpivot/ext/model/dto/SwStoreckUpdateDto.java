@@ -12,7 +12,7 @@ public class SwStoreckUpdateDto {
     private String tranno;
 
     //云枢审核结果
-    @NotBlank(message = "审核不能为空")
+    @NotBlank(message = "审核结果不能为空")
     private String ysresult;
 
     //流水号
