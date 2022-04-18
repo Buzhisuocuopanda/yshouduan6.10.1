@@ -6,28 +6,23 @@ import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.controller.goods.common.CommonPage;
 import com.authine.cloudpivot.ext.controller.goods.common.CommonResult;
 import com.authine.cloudpivot.ext.entity.SwGoods;
-import com.authine.cloudpivot.ext.entity.SwGoodsList;
 import com.authine.cloudpivot.ext.exception.SwException;
-import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.authine.cloudpivot.ext.controller.base.SwBaseController;
-import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
 import com.authine.cloudpivot.ext.utils.ValidUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,52 +63,40 @@ private GoodsService goodsService;
 
 
 
-
-    @ApiOperation("根据货物名称或货号模糊查询")
-    @RequestMapping(value = "/simpleList", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseResult<List<SwGoodsList>> getList(String keyword) {
-        List<SwGoodsList> productList=new ArrayList<>();
-        try{
-        productList = goodsService.list(keyword);
-        return this.getOkResponseResult(productList,"查询成功");
-        } catch (SwException e) {
-            log.error("【模糊查询】接口参数校验出现异常，异常${}$", e.getMessage());
-            return this.getErrResponseResult(productList, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
-
-        } catch (Exception e) {
-            log.error("【模糊查询】接口出现异常,异常${}$", ExceptionUtils.getStackTrace(e));
-
-            return this.getErrResponseResult(productList, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
-    }}
-
-
-
     @ApiOperation("单表条件查询货物")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<SwGoods>> getList(SwGoodslistVo swGoodslistVo,
-                                                     @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<SwGoods> productList = goodsService.list(swGoodslistVo, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(productList));
-    }
+    public ResponseResult<List<SwGoods>> getList(SwGoodslistVo swGoodslistVo,
+                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<SwGoods> productList=null;
+        try{
+        productList = goodsService.list(swGoodslistVo, pageSize, pageNum);
+            return this.getOkResponseResult(productList, "查询成功");
+        }catch (SwException e){
+            return this.getErrResponseResult(productList, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
+        } catch (Exception e){
+            log.error("【查询货物】接口出现异常，{}$,异常${}$",  ExceptionUtils.getStackTrace(e));
+
+            return this.getErrResponseResult(productList, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
+        }
+    }
 
 
     @ApiOperation("多表条件查询货物")
     @GetMapping("/goodslist")
-    public ResponseResult<List<GoodsQueryParam>> swMeetingDetail(@RequestParam Byte isEnabled,Date createTime,
+    public ResponseResult<List<GoodsQueryParam>> swMeetingDetail(@RequestParam(required = false) Byte isEnabled,Date startTime,Date endTime,
                                                                          String goodsName,String goodsCode){
         List<GoodsQueryParam> goodslist = null;
         try {
-             goodslist = goodsService.goodslist(isEnabled, createTime, goodsName, goodsCode);
+             goodslist = goodsService.goodslist(isEnabled, startTime,endTime, goodsName, goodsCode);
             return this.getOkResponseResult(goodslist, "查询成功");
         }catch (SwException e){
             return this.getErrResponseResult( goodslist,ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
         } catch (Exception e){
-            log.error("【多表条件查询货物】接口出现异常{}$,异常${}$", isEnabled,createTime,goodsName,goodsCode, ExceptionUtils.getStackTrace(e));
+           // log.error("【多表条件查询货物】接口出现异常{}$,异常${}$", isEnabled,startTime,endTime,goodsName,goodsCode, ExceptionUtils.getStackTrace(e));
 
             return this.getErrResponseResult(goodslist, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }

@@ -238,7 +238,7 @@ public class SwMeetingServiceImpl implements SwMeetingService {
 
     }
 
-    @Transactional
+       @Transactional
     @Override
     public SwMeetingResult addCycleMeeting(SwCycleMeetingDo swCycleMeetingDo) throws ParseException {
 
@@ -304,7 +304,7 @@ public class SwMeetingServiceImpl implements SwMeetingService {
                 Date endTime = re.getEndTime();
                 for (SwMeeting swMeeting : list) {
                     if(TimeUtil.belongCalendar(startTime,swMeeting.getMeetingStarttime(),swMeeting.getMeetingEndtime())
-                     || TimeUtil.belongCalendar(endTime,swMeeting.getMeetingStarttime(),swMeeting.getMeetingEndtime()) ){
+                            || TimeUtil.belongCalendar(endTime,swMeeting.getMeetingStarttime(),swMeeting.getMeetingEndtime()) ){
 
                     }{
                         err=err+1;
@@ -338,7 +338,7 @@ public class SwMeetingServiceImpl implements SwMeetingService {
         SwMeeting swMeeting=null;
         String tranNo=IdUtils.getId();
         for (MeetingDateModel re : res) {
-             swMeeting = BeanCopyUtils.coypToClass(swCycleMeetingDo, SwMeeting.class, null);
+            swMeeting = BeanCopyUtils.coypToClass(swCycleMeetingDo, SwMeeting.class, null);
             swMeeting.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
             swMeeting.setCreateName(hOrgUser.getName());
             swMeeting.setMeetingEndtime(re.getEndTime());

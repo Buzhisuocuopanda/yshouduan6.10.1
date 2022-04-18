@@ -250,22 +250,7 @@ public SwMeetingZoomListUpdateVo meetingList(String meetingId) {
         BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
         exapmle.createCriteria()
                 .andSequencenoEqualTo(swMesstingZoomDto.getSequeceNo());
-        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(exapmle);
-        String YsReult="";
-        if(bizWorkflowInstances.size()>0){
-            BizWorkflowInstance bizWorkflowInstance = bizWorkflowInstances.get(0);
 
-            HBizCommentCriteria comex=new HBizCommentCriteria();
-            comex.setOrderByClause("createdTime desc");
-            comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
-                    .andActivitynameEqualTo("审批");
-
-            List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
-       /*     if(hBizComments.size()>0){
-                YsReult=hBizComments.get(0).getContent();
-            }*/
-
-        }
 
         swMeetingZoom.setSequeceNo(swMesstingZoomDto.getSequeceNo());
         swMeetingZoom.setTranNo(swMesstingZoomDto.getTranNo());

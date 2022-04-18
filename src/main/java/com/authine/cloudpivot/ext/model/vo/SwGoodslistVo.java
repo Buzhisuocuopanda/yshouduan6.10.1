@@ -26,6 +26,10 @@ public class SwGoodslistVo {
 
     private String keyword;
 
+    private Date startTime;
+
+    private Date endTime;
+
 
 
 }

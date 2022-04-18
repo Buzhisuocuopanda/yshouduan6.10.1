@@ -58,6 +58,7 @@ public class SwStoreServiceImpl implements SwStoreService {
         {
             throw new SwException("仓库名称重复");
         }
+
         SwStore swStore= BeanCopyUtils.coypToClass(swStoreVo,SwStore.class,null);
         Date date=new Date();
         swStore.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());

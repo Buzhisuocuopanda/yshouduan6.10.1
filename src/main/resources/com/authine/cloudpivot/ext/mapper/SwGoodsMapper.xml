@@ -117,7 +117,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
-    insert into sw_goods (id, creater, create_time, 
+    insert ignore into sw_goods (id, creater, create_time,
       updater, deleted, ys_result, 
       tran_no, biz_object_id, workflow_instance, 
       end_commit, goods_name, goods_code, 
@@ -438,46 +438,47 @@
 <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
 UPDATE sw_goods set
 goods_total_num=
-(select sum(goods_num)FROM sw_goods_list
-WHERE sw_goods.goods_code=sw_goods_list.goods_code )
+(select sku_num FROM sw_goods_sku
+WHERE sw_goods.goods_code=sw_goods_sku.sw_goods_id for UPDATE)
 
 </update>
 
   <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
-    SELECT
+     SELECT
     DISTINCT
-    sw_goods_list.goods_code,
-    sw_goods_list.goods_name,
-    sw_goods_list.goods_company,
-    sw_goods_list.create_time,
-    sw_goods_list.local_store,
-    sw_store.is_enabled
-FROM sw_store
- INNER JOIN
- sw_goods_list
-  on  sw_store.id=sw_goods_list.local_store
+    sw_goods.goods_code,
+    sw_goods.goods_name,
+    sw_goods.goods_company,
+    sw_goods.create_time,
+    sw_goods.sw_store_name
+    FROM sw_store
+    INNER JOIN
+    sw_goods
+    on  sw_store.id=sw_goods.sw_store_id
 
- where
- 1=1
+    <where>
+    1 = 1
+    <if test='isEnabled!=null and isEnabled!=""'>
+     and sw_store.is_enabled=#{isEnabled}
+    </if>
 
- <if test="isEnabled and isEnabled!=' '">
- AND
-      sw_store.is_enabled=#{isEnabled}
- </if>
-<if test="goodsName !=null and goodsName!=' '" >
-      and
-      sw_goods_list.goods_name=#{goodsName}
-</if>
-    <if test="goodsCode !=null and goodsCode!=' '" >
-      and
-      sw_goods_list.goods_code=#{goodsCode}
-      </if>
-    <if test="createTime !=null AND createTime!=' '">
-    and
-    sw_goods_list.create_time=#{createTime}
-    </if>>
-    Order By sw_goods_list.create_time Desc
-    ;
+    <!--<if test='startTime!=null and startTime!=""'>
+      <![CDATA[ AND DATE_FORMAT(sw_goods.create_time, '%Y-%m-%d') >= STR_TO_DATE(#{startTime}, '%Y-%m-%d') ]]>
+    </if>
+    <if test='endTime!=null and endTime!=""'>
+      <![CDATA[ AND DATE_FORMAT(sw_goods.create_time, '%Y-%m-%d') <= STR_TO_DATE(#{endTime}, '%Y-%m-%d') ]]>
+    </if>-->
 
+   <!-- <if test='goodsName!=null and goodsName!=""'>
+
+    sw_goods.goods_name=#{goodsName}
+    </if>-->
+
+
+    sw_goods.goods_code=#{goodsCode}
+
+    /*Order By sw_goods.create_time Desc
+    ;*/
+    </where>
   </select>
 </mapper>

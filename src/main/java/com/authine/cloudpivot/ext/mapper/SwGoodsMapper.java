@@ -40,7 +40,7 @@ public interface SwGoodsMapper {
 
     void updatetotalnum(SwUpdateStockDo swUpdateStockDo);
 
-    List<GoodsQueryParam> getInfo(Byte isEnabled, Date createTime, String goodsName, String goodsCode);
+    List<GoodsQueryParam> getInfo(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode);
 
 
 }

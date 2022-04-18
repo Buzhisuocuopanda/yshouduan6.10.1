@@ -18,7 +18,7 @@ public class SwUpdateStockDo {
     private String workflowInstance;
 
     private String goodsTotalNum;
-
+    @NotBlank(message = "流水号不能为空")
     private String sequeceNo;
 
 }

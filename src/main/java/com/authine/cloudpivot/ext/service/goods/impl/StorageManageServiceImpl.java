@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.service.goods.impl;
 import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
+import com.authine.cloudpivot.ext.enums.base.EndCommit;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.*;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
@@ -67,7 +68,9 @@ public class StorageManageServiceImpl implements StorageManageService {
         swGoods.setId(IdUtils.getId());
 
         Date date = new Date();
+        swGoods.setId(IdUtils.getId());
         swGoods.setCreateTime(date);
+
         swGoods.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
         swGoods.setTranNo(IdUtils.getId());
 
@@ -85,33 +88,21 @@ public class StorageManageServiceImpl implements StorageManageService {
         return swGoodsResult;
 
     }
+
+
    //更新
     @Transactional
     @Override
     public void updatestock(SwUpdateStockDo swUpdateStockDo) {
-        SwGoodsDo swGoodsDo=new SwGoodsDo();
-        SwGoodsListDo swGoodsListDo=new SwGoodsListDo();
+       // SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
-
-        BizWorkflowInstanceCriteria exapmle=new BizWorkflowInstanceCriteria();
-        exapmle.createCriteria()
-                .andSequencenoEqualTo(swUpdateStockDo.getSequeceNo());
-        List<BizWorkflowInstance> bizWorkflowInstances = bizWorkflowInstanceMapper.selectByExample(exapmle);
-         if(bizWorkflowInstances.size()>0){
-             BizWorkflowInstance bizWorkflowInstance = bizWorkflowInstances.get(0);
-
-             HBizCommentCriteria comex=new HBizCommentCriteria();
-             comex.setOrderByClause("createdTime desc");
-             comex.createCriteria().andWorkflowinstanceidEqualTo(bizWorkflowInstance.getId())
-                     .andActivitynameEqualTo("审批");
-             List<HBizComment> hBizComments = hBizCommentMapper.selectByExample(comex);
-
-         }
-
-
+         swGoods.setEndCommit(EndCommit.COMMIT.getCode());
          swGoods.setSequeceNo(swUpdateStockDo.getSequeceNo());
          swGoods.setTranNo(swUpdateStockDo.getTranNo());
          swGoods.setYsResult(swUpdateStockDo.getYsResult());
+
+         //swGoods.setGoodsTotalNum(swGoodsSku.getSkuNum());
+
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
             swGoods.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
         }
@@ -131,15 +122,7 @@ public class StorageManageServiceImpl implements StorageManageService {
         return;
 
     }
-
-
-
-
-
-
-
-
-    }
+}
 
 
 
