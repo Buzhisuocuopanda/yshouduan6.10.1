@@ -74,7 +74,7 @@ public class ReqDedupHelper {
         String dedupMD5 = new ReqDedupHelper().dedupParamMD5(request,"requestTime");//计算请求参数摘要，其中剔除里面请求时间的干扰
         String KEY = "dedup:U=" + userId + "M=" + method + "P=" + dedupMD5;
 
-        long expireTime =  15000;// 1000毫秒过期，1000ms内的重复请求会认为重复
+        long expireTime =  2000;// 1000毫秒过期，1000ms内的重复请求会认为重复
         long expireAt = System.currentTimeMillis() + expireTime;
         String val = "expireAt@" + expireAt;
 
