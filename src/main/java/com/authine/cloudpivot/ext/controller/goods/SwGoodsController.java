@@ -40,6 +40,7 @@ public class SwGoodsController extends SwBaseController {
 
 @Resource
 private GoodsService goodsService;
+/*
 
     @ApiOperation(
             value = "新建货物",
@@ -60,10 +61,11 @@ private GoodsService goodsService;
         }
 
         }
+*/
 
 
 
-    @ApiOperation("单表条件查询货物")
+    @ApiOperation("多表条件查询货物")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseResult<List<SwGoods>> getList(SwGoodslistVo swGoodslistVo,

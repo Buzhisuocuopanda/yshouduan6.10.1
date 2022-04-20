@@ -7,25 +7,29 @@ import com.authine.cloudpivot.ext.enums.base.EndCommit;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.*;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
-import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
+import com.authine.cloudpivot.ext.model.dto.Skudto;
 import com.authine.cloudpivot.ext.model.vo.SwGoodsResult;
 import com.authine.cloudpivot.ext.service.goods.StorageManageService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
+
 @Service
+@Slf4j
 public class StorageManageServiceImpl implements StorageManageService {
 
     @Resource
     private HOrgUserMapper hOrgUserMapper;
 
+    @Resource
+    private SwGoodsSkuMapper swGoodsSkuMapper;
     @Resource
     private SwStoreMapper swStoreMapper;
 
@@ -46,13 +50,15 @@ public class StorageManageServiceImpl implements StorageManageService {
             throw new SwException("该创建者没有查到");
         }
 
-        //检查货物编号是否重复
+
+
+        /*//检查货物编号是否重复
         SwGoodsCriteria example=new SwGoodsCriteria();
         example.createCriteria().andGoodsCodeEqualTo(swGoodsDo.getGoodsCode());
         List<SwGoods> list = swGoodsMapper.selectByExample(example);
         if(list.size()> 0){
             throw new SwException("货物编号重复");
-        }
+        }*/
 
         //检查仓库是否可用
         SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
@@ -73,7 +79,8 @@ public class StorageManageServiceImpl implements StorageManageService {
 
         swGoods.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
         swGoods.setTranNo(IdUtils.getId());
-
+        swGoods.setEndCommit(EndCommit.NOT_COMMIT.getCode());
+        swGoods.setGoodsTotalNum(swGoodsDo.getGoodsTotalNum());
         swGoods.setGoodsName(swGoodsDo.getGoodsName());
         swGoods.setGoodsCode(swGoodsDo.getGoodsCode());
         swGoods.setSwStoreId(swGoodsDo.getSwStoreId());
@@ -81,6 +88,36 @@ public class StorageManageServiceImpl implements StorageManageService {
         swGoods.setSwStoreName(swGoodsDo.getSwStoreName());
         swGoods.setGoodsDetail(swGoodsDo.getGoodsDetail());
         swGoodsMapper.insert(swGoods);
+
+      /*  SwGoodsSku rel=null;
+        for (String joninUserId : swGoodsDo.getJoninUserIds()) {
+            rel = new SwGoodsSku();
+            rel.setId(IdUtils.getId());
+            rel.setSwGoodsId(joninUserId);
+            rel.setSkuNum(swGoods.getGoodsTotalNum());
+            rel.setSkuPrice(swGoodsDo.getSkuPrice());
+            swGoodsSkuMapper.insert(rel);
+
+        }*/
+
+
+
+       // swGoodsDo.details.add(100);
+
+       //生成货物库存表
+
+        swGoodsDo.details.add(1000);
+
+        for (Integer detail : swGoodsDo.getDetails()) {
+            SwGoodsSku swGoodsSku = BeanCopyUtils.coypToClass(detail, SwGoodsSku.class, null);
+            swGoodsSku.setId(IdUtils.getId());
+            swGoodsSku.setSwGoodsId(swGoods.getId());
+            swGoodsSku.setSkuCode(swGoods.getGoodsCode());
+            swGoodsSku.setSkuNum(swGoods.getGoodsTotalNum());
+            swGoodsSku.setSkuPrice(swGoodsDo.getSkuPrice());
+            swGoodsSkuMapper.insert(swGoodsSku);
+        }
+
 
 
         SwGoodsResult swGoodsResult = new SwGoodsResult();
@@ -111,7 +148,9 @@ public class StorageManageServiceImpl implements StorageManageService {
 
         }
         //更新总库存
-        swGoodsMapper.updatetotalnum(swUpdateStockDo);
+        //swGoodsMapper.updatetotalnum(swUpdateStockDo);
+
+
 
         SwGoodsCriteria example=new SwGoodsCriteria();
         example
@@ -119,6 +158,7 @@ public class StorageManageServiceImpl implements StorageManageService {
                 .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
                 .andTranNoEqualTo(swUpdateStockDo.getTranNo());
         int i=swGoodsMapper.updateByExampleSelective(swGoods,example);
+        log.info("流水号更新成功");
         return;
 
     }

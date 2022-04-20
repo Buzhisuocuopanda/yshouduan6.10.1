@@ -4,7 +4,9 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.util.*;
+
 @Data
 public class SwGoodsDo {
     @NotBlank(message = "创建者不能为空")
@@ -41,5 +43,13 @@ public class SwGoodsDo {
     private String swStoreName;
 
     private Integer goodsTotalNum;
+
+    private BigDecimal skuPrice;
+
+
+    //public List<Skudto> details=new ArrayList<Integer>();
+    public List<Integer> details=new ArrayList<Integer>();
+
+
 
 }
