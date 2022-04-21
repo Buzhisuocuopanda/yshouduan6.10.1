@@ -27,8 +27,8 @@ public class SwGoodsDo {
     @NotBlank(message = "货物编号不能为空")
     @Length(min = 1,max = 50,message = "货物编号最多150字")
     private String goodsCode;
-    @NotBlank(message = "货物详情不能为空")
-    @Length(min = 1,max = 100,message = "货物详情最多100字")
+   /* @NotBlank(message = "货物详情不能为空")
+    @Length(min = 1,max = 100,message = "货物详情最多100字")*/
     private String goodsDetail;
 
     private String goodsHeadPic;
@@ -38,13 +38,16 @@ public class SwGoodsDo {
     @NotBlank(message = "货物采购公司不能为空")
     @Length(min = 1,max = 50,message = "货物采购公司最多36字")
     private String goodsCompany;
-    @NotBlank(message = "仓库名称不能为空")
-    @Length(min = 1,max = 50,message = "仓库名称最多50字")
+   /* @NotBlank(message = "仓库名称不能为空")
+    @Length(min = 1,max = 50,message = "仓库名称最多50字")*/
     private String swStoreName;
 
     private Integer goodsTotalNum;
 
     private BigDecimal skuPrice;
+
+    private String skuCode;
+
 
 
     //public List<Skudto> details=new ArrayList<Integer>();

@@ -112,7 +112,7 @@ public class StorageManageServiceImpl implements StorageManageService {
             SwGoodsSku swGoodsSku = BeanCopyUtils.coypToClass(detail, SwGoodsSku.class, null);
             swGoodsSku.setId(IdUtils.getId());
             swGoodsSku.setSwGoodsId(swGoods.getId());
-            swGoodsSku.setSkuCode(swGoods.getGoodsCode());
+            swGoodsSku.setSkuCode(swGoodsDo.getSkuCode());
             swGoodsSku.setSkuNum(swGoods.getGoodsTotalNum());
             swGoodsSku.setSkuPrice(swGoodsDo.getSkuPrice());
             swGoodsSkuMapper.insert(swGoodsSku);
