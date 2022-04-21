@@ -8,6 +8,7 @@ import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.*;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
+import com.authine.cloudpivot.ext.model.dto.MeetingDetailModel;
 import com.authine.cloudpivot.ext.model.dto.Skudto;
 import com.authine.cloudpivot.ext.model.vo.SwGoodsResult;
 import com.authine.cloudpivot.ext.service.goods.StorageManageService;
@@ -106,9 +107,9 @@ public class StorageManageServiceImpl implements StorageManageService {
 
        //生成货物库存表
 
-        swGoodsDo.details.add(1000);
+        //swGoodsDo.details.add(1000);
 
-        for (Integer detail : swGoodsDo.getDetails()) {
+        for (Skudto detail : swGoodsDo.getDetails()) {
             SwGoodsSku swGoodsSku = BeanCopyUtils.coypToClass(detail, SwGoodsSku.class, null);
             swGoodsSku.setId(IdUtils.getId());
             swGoodsSku.setSwGoodsId(swGoods.getId());

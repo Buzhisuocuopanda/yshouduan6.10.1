@@ -1,5 +1,7 @@
 package com.authine.cloudpivot.ext.model.doo;
 
+import com.authine.cloudpivot.ext.model.dto.MeetingDetailModel;
+import com.authine.cloudpivot.ext.model.dto.Skudto;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -51,7 +53,7 @@ public class SwGoodsDo {
 
 
     //public List<Skudto> details=new ArrayList<Integer>();
-    public List<Integer> details=new ArrayList<Integer>();
+    private List<Skudto> details=new ArrayList<>();
 
 
 
