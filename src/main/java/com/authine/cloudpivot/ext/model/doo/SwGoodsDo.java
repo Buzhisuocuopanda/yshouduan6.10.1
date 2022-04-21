@@ -32,8 +32,8 @@ public class SwGoodsDo {
     private String goodsDetail;
 
     private String goodsHeadPic;
-    @NotBlank(message = "仓库id不能为空")
-    @Length(min = 1,max = 50,message = "仓库id最多36字")
+   /* @NotBlank(message = "仓库id不能为空")
+    @Length(min = 1,max = 50,message = "仓库id最多36字")*/
     private String swStoreId;
     @NotBlank(message = "货物采购公司不能为空")
     @Length(min = 1,max = 50,message = "货物采购公司最多36字")
