@@ -117,7 +117,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwGoods">
-    insert ignore into sw_goods (id, creater, create_time,
+    insert  into sw_goods (id, creater, create_time,
       updater, deleted, ys_result, 
       tran_no, biz_object_id, workflow_instance, 
       end_commit, goods_name, goods_code, 

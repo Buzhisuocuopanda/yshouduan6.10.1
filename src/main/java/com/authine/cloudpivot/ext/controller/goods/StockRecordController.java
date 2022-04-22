@@ -4,6 +4,7 @@ package com.authine.cloudpivot.ext.controller.goods;
 import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.controller.base.SwBaseController;
+import com.authine.cloudpivot.ext.exception.ScException;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
 import com.authine.cloudpivot.ext.model.doo.SwMeetingAuditDo;
@@ -18,7 +19,10 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,20 +69,24 @@ public class StockRecordController  extends SwBaseController {
         try {
             ValidUtils.bindvaild(bindingResult);
 
-            Boolean de = reqDedupHelper.checkAnainCommit(JSONObject.toJSONString(swGoodsDo), swGoodsDo.getGoodsCode(), "de");
-            if(de){
-                return this.getOkResponseResult(ssr,"请勿重复提交");
-            }
             ssr = storageManageService.stockInOperation(swGoodsDo);
             return this.getOkResponseResult(ssr, "添加成功");
-        } catch (SwException e) {
+        }
+
+        catch (DuplicateKeyException e) { // 存在相同的唯一索引数据
+            log.error("【货物入库】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swGoodsDo), e.getMessage());
+            return this.getErrResponseResult(ssr, ErrCode.UNKNOW_ERROR.getErrCode(), "货物编码异常");
+
+        }
+          catch (SwException e) {
             log.error("【货物入库】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swGoodsDo), e.getMessage());
             return this.getErrResponseResult(ssr, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
-
         } catch (Exception e) {
-            log.error("货物入库新建会议】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swGoodsDo), ExceptionUtils.getStackTrace(e));
+
+            log.error("货物入库】接口出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swGoodsDo), ExceptionUtils.getStackTrace(e));
 
             return this.getErrResponseResult(ssr, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
+
         }
 
     }

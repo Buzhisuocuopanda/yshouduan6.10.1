@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.service.goods.impl;
 
+import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
@@ -15,12 +16,15 @@ import com.authine.cloudpivot.ext.service.goods.StorageManageService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -44,7 +48,7 @@ public class StorageManageServiceImpl implements StorageManageService {
     //入库操作
     @Transactional
     @Override
-    public SwGoodsResult stockInOperation(SwGoodsDo swGoodsDo) {
+    public SwGoodsResult stockInOperation(SwGoodsDo swGoodsDo) throws Exception {
         //检查创建用户是否存在
         HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swGoodsDo.getCreater());
         if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
@@ -52,16 +56,17 @@ public class StorageManageServiceImpl implements StorageManageService {
         }
 
 
-
-        /*//检查货物编号是否重复
+         //判断是否删除更新
         SwGoodsCriteria example=new SwGoodsCriteria();
-        example.createCriteria().andGoodsCodeEqualTo(swGoodsDo.getGoodsCode());
-        List<SwGoods> list = swGoodsMapper.selectByExample(example);
-        if(list.size()> 0){
-            throw new SwException("货物编号重复");
-        }*/
+        example.createCriteria().andDeletedEqualTo(DeleteFlagEnum.DELETE.getCode());
+        List<SwGoods> swGoods1 = swGoodsMapper.selectByExample(example);
+        if(swGoods1.size()>0){
+            SwGoods SwGoods = new SwGoods();
+            swGoodsMapper.update(SwGoods);
+        }
 
-        //检查仓库是否可用
+
+      /*  //检查仓库是否可用
         SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
         if (swStore == null ||
                 DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()) ||
@@ -69,45 +74,34 @@ public class StorageManageServiceImpl implements StorageManageService {
         ) {
             throw new SwException("仓库无法使用");
         }
-
-
-        SwGoods swGoods = BeanCopyUtils.coypToClass(swGoodsDo, SwGoods.class, null);
-        swGoods.setId(IdUtils.getId());
-
-        Date date = new Date();
-        swGoods.setId(IdUtils.getId());
-        swGoods.setCreateTime(date);
-
-        swGoods.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
-        swGoods.setTranNo(IdUtils.getId());
-        swGoods.setEndCommit(EndCommit.NOT_COMMIT.getCode());
-        swGoods.setGoodsTotalNum(swGoodsDo.getGoodsTotalNum());
-        swGoods.setGoodsName(swGoodsDo.getGoodsName());
-        swGoods.setGoodsCode(swGoodsDo.getGoodsCode());
-        swGoods.setSwStoreId(swGoodsDo.getSwStoreId());
-        swGoods.setGoodsCompany(swGoodsDo.getGoodsCompany());
-        swGoods.setSwStoreName(swGoodsDo.getSwStoreName());
-        swGoods.setGoodsDetail(swGoodsDo.getGoodsDetail());
-        swGoodsMapper.insert(swGoods);
-
-      /*  SwGoodsSku rel=null;
-        for (String joninUserId : swGoodsDo.getJoninUserIds()) {
-            rel = new SwGoodsSku();
-            rel.setId(IdUtils.getId());
-            rel.setSwGoodsId(joninUserId);
-            rel.setSkuNum(swGoods.getGoodsTotalNum());
-            rel.setSkuPrice(swGoodsDo.getSkuPrice());
-            swGoodsSkuMapper.insert(rel);
-
-        }*/
+*/
 
 
 
-       // swGoodsDo.details.add(100);
+    SwGoods swGoods = BeanCopyUtils.coypToClass(swGoodsDo, SwGoods.class, null);
+    swGoods.setId(IdUtils.getId());
+
+    Date date = new Date();
+    swGoods.setId(IdUtils.getId());
+    swGoods.setCreateTime(date);
+
+    swGoods.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
+    swGoods.setTranNo(IdUtils.getId());
+    swGoods.setEndCommit(EndCommit.NOT_COMMIT.getCode());
+    swGoods.setGoodsTotalNum(swGoodsDo.getGoodsTotalNum());
+    swGoods.setGoodsName(swGoodsDo.getGoodsName());
+    swGoods.setGoodsCode(swGoodsDo.getGoodsCode());
+    swGoods.setSwStoreId(swGoodsDo.getSwStoreId());
+    swGoods.setGoodsCompany(swGoodsDo.getGoodsCompany());
+    swGoods.setSwStoreName(swGoodsDo.getSwStoreName());
+    swGoods.setGoodsDetail(swGoodsDo.getGoodsDetail());
+    swGoodsMapper.insert(swGoods);
+
+
 
        //生成货物库存表
 
-        //swGoodsDo.details.add(1000);
+
         Skudto kuPic = new Skudto();
         swGoodsDo.getDetails().add(kuPic);
         for (Skudto detail : swGoodsDo.getDetails()) {
@@ -116,7 +110,6 @@ public class StorageManageServiceImpl implements StorageManageService {
 
             swGoodsSku.setSwGoodsId(swGoods.getId());
             swGoodsSku.setSkuCode(swGoodsDo.getSkuCode());
-            swGoodsSku.setSkuNum(swGoods.getGoodsTotalNum());
             swGoodsSku.setSkuPrice(swGoodsDo.getSkuPrice());
             swGoodsSkuMapper.insert(swGoodsSku);
         }
@@ -127,6 +120,7 @@ public class StorageManageServiceImpl implements StorageManageService {
         swGoodsResult.setTranNo(swGoods.getTranNo());
         return swGoodsResult;
 
+
     }
 
 
@@ -134,14 +128,14 @@ public class StorageManageServiceImpl implements StorageManageService {
     @Transactional
     @Override
     public void updatestock(SwUpdateStockDo swUpdateStockDo) {
-       // SwGoodsSku swGoodsSku=new SwGoodsSku();
+        SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
          swGoods.setEndCommit(EndCommit.COMMIT.getCode());
          swGoods.setSequeceNo(swUpdateStockDo.getSequeceNo());
          swGoods.setTranNo(swUpdateStockDo.getTranNo());
          swGoods.setYsResult(swUpdateStockDo.getYsResult());
 
-         //swGoods.setGoodsTotalNum(swGoodsSku.getSkuNum());
+         swGoods.setGoodsTotalNum(swGoodsSku.getSkuNum());
 
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
             swGoods.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
@@ -151,7 +145,7 @@ public class StorageManageServiceImpl implements StorageManageService {
 
         }
         //更新总库存
-        //swGoodsMapper.updatetotalnum(swUpdateStockDo);
+        swGoodsMapper.updatetotalnum(swUpdateStockDo);
 
 
 
