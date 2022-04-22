@@ -45,7 +45,4 @@ public interface SwStoreMapper {
     //仓库条件查询
     List<SwStoreListselectVo> swstorelistselect(String storename, String createtime, String updatetime);
 
-    List<SwStoreListVo> swstorelist();
-
-    List<SwStoreListUpdateDto> swstoresistupdate(String id);
 }

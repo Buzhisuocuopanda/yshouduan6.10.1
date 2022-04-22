@@ -43,56 +43,57 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //新建仓库
     @Transactional
+    @Override
+    public SwStoreResult addSwStore(SwStoreDo swStoreDo) {
 
-    public SwMeetingZoomResult addSwStore(SwStoreVo swStoreVo) {
-
-        HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreVo.getCreater());
+        HOrgUser hOrgUser = hOrgUserMapper.selectByPrimaryKey(swStoreDo.getCreater());
         if (hOrgUser == null || DeleteFlagEnum.DELETE.getCode().equals(hOrgUser.getDeleted())) {
             throw new SwException("该创建者没有查到");
         }
 
         //检查仓库名称是否重复
         SwStoreCriteria example=new SwStoreCriteria();
-        example.createCriteria().andStoreNameEqualTo(swStoreVo.getStorename());
+        example.createCriteria().andStoreNameEqualTo(swStoreDo.getStorename());
         List<SwStore> list=swStoreMapper.selectByExample(example);
         if(list.size()>0)
         {
             throw new SwException("仓库名称重复");
         }
 
-        SwStore swStore= BeanCopyUtils.coypToClass(swStoreVo,SwStore.class,null);
+        SwStore swStore= BeanCopyUtils.coypToClass(swStoreDo,SwStore.class,null);
         Date date=new Date();
         swStore.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
         swStore.setId(IdUtils.getId());
         swStore.setCreateTime(date);
         swStore.setUpdateTime(date);
-        swStore.setUpdater(swStoreVo.getCreater());
+        swStore.setUpdater(swStoreDo.getCreater());
         swStore.setDeleted(new Byte("0"));
-        swStore.setYsResult(swStoreVo.getYsresult());
+        swStore.setYsResult(swStoreDo.getYsresult());
         swStore.setTranNo(IdUtils.getId());
 //        swStore.setBizObjectId(swStoreVo.getBizobjectid());
 //        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
         swStore.setEndCommit(new Byte("1"));
-        swStore.setStoreName(swStoreVo.getStorename());
-        swStore.setStoreAddress(swStoreVo.getStoreaddress());
-        swStore.setStorePic(swStoreVo.getStorepic());
+        swStore.setStoreName(swStoreDo.getStorename());
+        swStore.setStoreAddress(swStoreDo.getStoreaddress());
+        swStore.setStorePic(swStoreDo.getStorepic());
         swStore.setIsEnabled(new Byte("1"));
-        swStore.setStoreGoodsNum(swStoreVo.getStoregoodsnum());
-        swStore.setStoreGoodsSkuNum(swStoreVo.getStoregoodsskunum());
-        swStore.setStoreAdmin(swStoreVo.getStoreadmin());
+        swStore.setStoreGoodsNum(swStoreDo.getStoregoodsnum());
+        swStore.setStoreGoodsSkuNum(swStoreDo.getStoregoodsskunum());
+        swStore.setStoreAdmin(swStoreDo.getStoreadmin());
         swStoreMapper.insert(swStore);
 
-        SwMeetingZoomResult swMeetingZoomResult=new SwMeetingZoomResult();
-        swMeetingZoomResult.setTranNo(swStore.getTranNo());
-        return swMeetingZoomResult;
+        SwStoreResult swStoreResult=new SwStoreResult();
+        swStoreResult.setTranNo(swStore.getTranNo());
+        return swStoreResult;
     }
 
     //仓库详情
-   
-    public SwPageVo<SwStoreListVo> swstorelist(BaseSwQueryModel query) {
+
+    @Override
+    public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel query) {
         //开始分页
         PageHelper.startPage(query.getPage(), query.getSize());
-        List<SwStoreListVo> swStoreListVos=swStoreMapper.swstorelist();
+        List<SwStoreListVo> swStoreListVos=swStoreMapper.warehousedetails();
         //获取分页结果
         PageInfo<SwStoreListVo> pageInfo=new PageInfo<>(swStoreListVos);
         //封装分页信息
@@ -102,8 +103,8 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //仓库删除
     @Transactional
-
-    public void swstoreupdate(SwStoreupdateDo swStoreupdateDo) {
+    @Override
+    public void cancelwarehouse(SwStoreupdateDo swStoreupdateDo) {
          List<String> ids=swStoreupdateDo.getIds();
          for(String id:ids)
          {
@@ -123,8 +124,9 @@ public class SwStoreServiceImpl implements SwStoreService {
 
     //仓库的详情
 
-    public SwStoreListUpdateVo swstorelistUpdate(String meetingId) {
-        SwStore swStore=swStoreMapper.selectByPrimaryKey(meetingId);
+    @Override
+    public SwStoreListUpdateVo listofwarehousedetails(String stockid) {
+        SwStore swStore=swStoreMapper.selectByPrimaryKey(stockid);
         if(swStore==null || DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()))
         {
             throw new SwException("没有查到该仓库");
@@ -132,7 +134,7 @@ public class SwStoreServiceImpl implements SwStoreService {
 
         SwStoreListUpdateVo swStoreListUpdateVo=BeanCopyUtils.coypToClass(swStore,SwStoreListUpdateVo.class,null);
 
-        List<SwStoreListUpdateDto> users = swStoreMapper.swstoresistupdate(swStore.getId());
+        List<SwStoreListUpdateDto> users = swStoreMapper.listofwarehousedetails(swStore.getId());
         String joinUsers="";
         for(SwStoreListUpdateDto user:users)
         {
@@ -151,25 +153,6 @@ public class SwStoreServiceImpl implements SwStoreService {
         return swStoreListUpdateVo;
     }
 
-    @Override
-    public SwStoreResult addSwStore(SwStoreDo swStoreDo) {
-        return null;
-    }
-
-    @Override
-    public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel queryModel) {
-        return null;
-    }
-
-    @Override
-    public void cancelwarehouse(SwStoreupdateDo swStoreupdateDo) {
-
-    }
-
-    @Override
-    public SwStoreListUpdateVo listofwarehousedetails(String stockid) {
-        return null;
-    }
 
     //仓库编辑
     @Override
