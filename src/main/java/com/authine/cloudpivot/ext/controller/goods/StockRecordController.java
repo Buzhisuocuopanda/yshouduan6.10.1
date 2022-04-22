@@ -12,6 +12,7 @@ import com.authine.cloudpivot.ext.model.vo.SwGoodsResult;
 
 
 import com.authine.cloudpivot.ext.service.goods.StorageManageService;
+import com.authine.cloudpivot.ext.utils.ReqDedupHelper;
 import com.authine.cloudpivot.ext.utils.ValidUtils;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
@@ -42,6 +43,8 @@ public class StockRecordController  extends SwBaseController {
 
 
     @Resource
+    private ReqDedupHelper reqDedupHelper;
+    @Resource
     private StorageManageService storageManageService;
 
     /**
@@ -61,6 +64,11 @@ public class StockRecordController  extends SwBaseController {
         SwGoodsResult ssr = null;
         try {
             ValidUtils.bindvaild(bindingResult);
+
+            Boolean de = reqDedupHelper.checkAnainCommit(JSONObject.toJSONString(swGoodsDo), swGoodsDo.getGoodsCode(), "de");
+            if(de){
+                return this.getOkResponseResult(ssr,"请勿重复提交");
+            }
             ssr = storageManageService.stockInOperation(swGoodsDo);
             return this.getOkResponseResult(ssr, "添加成功");
         } catch (SwException e) {
@@ -106,5 +114,8 @@ public class StockRecordController  extends SwBaseController {
         }
 
     }
+
+
+
 
 }

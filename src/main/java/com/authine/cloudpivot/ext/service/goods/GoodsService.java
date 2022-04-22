@@ -4,6 +4,7 @@ import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
+import com.authine.cloudpivot.ext.model.vo.SwgetstoreVo;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,4 +22,5 @@ public interface GoodsService {
    List<GoodsQueryParam> goodslist(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode);
 
 
+    List<SwgetstoreVo> getenableswstore();
 }

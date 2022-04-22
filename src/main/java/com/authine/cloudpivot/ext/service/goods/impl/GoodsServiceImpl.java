@@ -3,6 +3,7 @@ package com.authine.cloudpivot.ext.service.goods.impl;
 import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
+import com.authine.cloudpivot.ext.enums.StoreEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwGoodsMapper;
@@ -10,7 +11,9 @@ import com.authine.cloudpivot.ext.mapper.SwGoodsSkuMapper;
 import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
+import com.authine.cloudpivot.ext.model.vo.SwCanUserMeetingZoom;
 import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
+import com.authine.cloudpivot.ext.model.vo.SwgetstoreVo;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
@@ -47,6 +50,22 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
         List<GoodsQueryParam> list=new ArrayList<>();
         list=swGoodsMapper.getInfo(isEnabled,startTime,endTime,goodsName,goodsCode);
         return list;
+    }
+
+    @Override
+    public List<SwgetstoreVo> getenableswstore() {
+        List<SwgetstoreVo> res=new ArrayList<>();
+       SwStoreCriteria example=new SwStoreCriteria();
+       example.createCriteria()
+               .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+               .andIsEnabledEqualTo(StoreEnum.ISENDLED.getCode());
+        List<SwStore> swStores = swStoreMapper.selectByExample(example);
+        for(SwStore swStore : swStores){
+            SwgetstoreVo swgetstoreVo = BeanCopyUtils.coypToClass(swStore, SwgetstoreVo.class, null);
+            swgetstoreVo.setId(swStore.getId());
+            res.add(swgetstoreVo);
+        }
+        return res;
     }
 
 

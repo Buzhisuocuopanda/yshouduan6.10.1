@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class SwGoodsController extends SwBaseController {
 
 @Resource
 private GoodsService goodsService;
+/*
 
     @ApiOperation(
             value = "新建货物",
@@ -60,10 +62,11 @@ private GoodsService goodsService;
         }
 
         }
+*/
 
 
 
-    @ApiOperation("单表条件查询货物")
+    @ApiOperation("多表条件查询货物")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseResult<List<SwGoods>> getList(SwGoodslistVo swGoodslistVo,
@@ -105,7 +108,28 @@ private GoodsService goodsService;
 
 
 
+    @ApiOperation(
+            value = "获取可用的仓库",
+            notes = "获取可用的仓库"
+    )
+    @GetMapping("/getenableswstore")
+    public ResponseResult<List<SwgetstoreVo>> getenableswstore() {
+        List<SwgetstoreVo> list = new ArrayList<>();
+        try {
 
+            list = goodsService.getenableswstore();
+            return this.getOkResponseResult(list, "操作成功");
+        } catch (SwException e) {
+            log.error("【获取可用的仓库】接口参数校验出现异常，异常${}$", e.getMessage());
+            return this.getErrResponseResult(list, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
+
+        } catch (Exception e) {
+            log.error("【获取可用的仓库】接口出现异常,异常${}$", ExceptionUtils.getStackTrace(e));
+
+            return this.getErrResponseResult(list, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
+        }
+
+    }
 
 
 

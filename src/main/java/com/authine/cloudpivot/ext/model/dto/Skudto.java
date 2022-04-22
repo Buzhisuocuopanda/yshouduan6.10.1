@@ -1,13 +1,10 @@
-package com.authine.cloudpivot.ext.model.doo;
+package com.authine.cloudpivot.ext.model.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.Date;
-
 @Data
-public class SwGoodsListDo {
+public class Skudto{
     private String id;
 
     private String swGoodsId;
@@ -19,5 +16,4 @@ public class SwGoodsListDo {
     private Integer skuNum;
 
     private BigDecimal skuPrice;
-
 }

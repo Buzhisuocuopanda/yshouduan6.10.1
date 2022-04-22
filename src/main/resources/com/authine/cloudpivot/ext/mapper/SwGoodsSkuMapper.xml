@@ -101,7 +101,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.authine.cloudpivot.ext.entity.SwGoodsSku">
-    insert ignore into sw_goods_sku (id, sw_goods_id, sku_code,
+    insert  into sw_goods_sku (id, sw_goods_id, sku_code,
       sku_pic, sku_num, sku_price
       )
     values (#{id,jdbcType=VARCHAR}, #{swGoodsId,jdbcType=VARCHAR}, #{skuCode,jdbcType=VARCHAR}, 
