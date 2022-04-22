@@ -93,7 +93,7 @@ public class SwStoreServiceImpl implements SwStoreService {
     public SwPageVo<SwStoreListVo> warehousedetails(BaseSwQueryModel query) {
         //开始分页
         PageHelper.startPage(query.getPage(), query.getSize());
-        List<SwStoreListVo> swStoreListVos=swStoreMapper.swstorelist();
+        List<SwStoreListVo> swStoreListVos=swStoreMapper.warehousedetails();
         //获取分页结果
         PageInfo<SwStoreListVo> pageInfo=new PageInfo<>(swStoreListVos);
         //封装分页信息
@@ -134,7 +134,7 @@ public class SwStoreServiceImpl implements SwStoreService {
 
         SwStoreListUpdateVo swStoreListUpdateVo=BeanCopyUtils.coypToClass(swStore,SwStoreListUpdateVo.class,null);
 
-        List<SwStoreListUpdateDto> users = swStoreMapper.swstoresistupdate(swStore.getId());
+        List<SwStoreListUpdateDto> users = swStoreMapper.listofwarehousedetails(swStore.getId());
         String joinUsers="";
         for(SwStoreListUpdateDto user:users)
         {
