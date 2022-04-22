@@ -53,8 +53,6 @@ public class SwGoodsDo {
 
 
     //public List<Skudto> details=new ArrayList<Integer>();
-    private List<Skudto> details=new ArrayList<>();
-
-
+    private List<Skudto> details=new ArrayList<Skudto>(50);
 
 }

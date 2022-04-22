@@ -108,10 +108,12 @@ public class StorageManageServiceImpl implements StorageManageService {
        //生成货物库存表
 
         //swGoodsDo.details.add(1000);
-
+        Skudto kuPic = new Skudto();
+        swGoodsDo.getDetails().add(kuPic);
         for (Skudto detail : swGoodsDo.getDetails()) {
             SwGoodsSku swGoodsSku = BeanCopyUtils.coypToClass(detail, SwGoodsSku.class, null);
             swGoodsSku.setId(IdUtils.getId());
+
             swGoodsSku.setSwGoodsId(swGoods.getId());
             swGoodsSku.setSkuCode(swGoodsDo.getSkuCode());
             swGoodsSku.setSkuNum(swGoods.getGoodsTotalNum());
