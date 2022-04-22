@@ -6,7 +6,7 @@ import com.authine.cloudpivot.ext.model.vo.SwGoodsResult;
 
 
 public interface StorageManageService {
-    SwGoodsResult stockInOperation(SwGoodsDo swGoodsDo);
+    SwGoodsResult stockInOperation(SwGoodsDo swGoodsDo) throws Exception;
 
 
     void updatestock(SwUpdateStockDo swUpdateStockDo);
