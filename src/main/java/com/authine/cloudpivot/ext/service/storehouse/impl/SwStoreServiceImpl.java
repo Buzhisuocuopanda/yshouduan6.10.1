@@ -2,6 +2,7 @@ package com.authine.cloudpivot.ext.service.storehouse.impl;
 
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
+import com.authine.cloudpivot.ext.enums.StoreEnum;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.mapper.BizWorkflowInstanceMapper;
 import com.authine.cloudpivot.ext.mapper.HBizCommentMapper;
@@ -67,16 +68,16 @@ public class SwStoreServiceImpl implements SwStoreService {
         swStore.setCreateTime(date);
         swStore.setUpdateTime(date);
         swStore.setUpdater(swStoreDo.getCreater());
-        swStore.setDeleted(new Byte("0"));
+        swStore.setDeleted(new Byte(StoreEnum.NOT_DELETE.getCode()));
         swStore.setYsResult(swStoreDo.getYsresult());
         swStore.setTranNo(IdUtils.getId());
 //        swStore.setBizObjectId(swStoreVo.getBizobjectid());
 //        swStore.setWorkflowInstance(swStoreVo.getWorkflowinstance());
-        swStore.setEndCommit(new Byte("1"));
+        swStore.setEndCommit(new Byte(StoreEnum.ENDCOMMIT.getCode()));
         swStore.setStoreName(swStoreDo.getStorename());
         swStore.setStoreAddress(swStoreDo.getStoreaddress());
         swStore.setStorePic(swStoreDo.getStorepic());
-        swStore.setIsEnabled(new Byte("1"));
+        swStore.setIsEnabled(new Byte(StoreEnum.ISENDLED.getCode()));
         swStore.setStoreGoodsNum(swStoreDo.getStoregoodsnum());
         swStore.setStoreGoodsSkuNum(swStoreDo.getStoregoodsskunum());
         swStore.setStoreAdmin(swStoreDo.getStoreadmin());
@@ -110,14 +111,14 @@ public class SwStoreServiceImpl implements SwStoreService {
          {
              SwStore swStore=new SwStore();
              swStore.setUpdater(swStoreupdateDo.getUserId());
-             swStore.setDeleted(new Byte("1"));
-             swStore.setEndCommit(new Byte("2"));
-             swStore.setIsEnabled(new Byte("2"));
+             swStore.setDeleted(new Byte(StoreEnum.DELETE.getCode()));
+             swStore.setEndCommit(new Byte(StoreEnum.NOT_ENDCOMMIT.getCode()));
+             swStore.setIsEnabled(new Byte(StoreEnum.NOT_ISENDLED.getCode()));
              SwStoreCriteria swStoreCriteria=new SwStoreCriteria();
              swStoreCriteria.createCriteria()
                             .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
                             .andIdEqualTo(id)
-                            .andIsEnabledEqualTo(new Byte("1"));
+                            .andIsEnabledEqualTo(new Byte(StoreEnum.ISENDLED.getCode()));
              swStoreMapper.updateByExampleSelective(swStore,swStoreCriteria);
          }
     }
