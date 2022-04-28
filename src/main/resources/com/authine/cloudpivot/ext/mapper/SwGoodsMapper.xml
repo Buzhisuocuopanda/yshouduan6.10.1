@@ -436,10 +436,10 @@
 
 
 <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
-UPDATE sw_goods set
-goods_total_num=
-(select sku_num FROM sw_goods_sku
-WHERE sw_goods.goods_code=sw_goods_sku.sw_goods_id for UPDATE)
+  UPDATE sw_goods set
+    goods_total_num=
+      (select sum(sku_num) FROM   sw_goods_sku
+       WHERE sw_goods.id=sw_goods_sku.sw_goods_id )
 
 </update>
 

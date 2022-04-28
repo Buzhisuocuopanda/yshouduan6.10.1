@@ -50,7 +50,7 @@ public class SwGoodsDo {
 
     private String skuCode;
 
-
+    private Integer skuNum;
 
     //public List<Skudto> details=new ArrayList<Integer>();
     private List<Skudto> details=new ArrayList<Skudto>(50);

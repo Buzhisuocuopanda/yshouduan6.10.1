@@ -88,7 +88,6 @@ public class StorageManageServiceImpl implements StorageManageService {
     swGoods.setDeleted(DeleteFlagEnum.NOT_DELETE.getCode());
     swGoods.setTranNo(IdUtils.getId());
     swGoods.setEndCommit(EndCommit.NOT_COMMIT.getCode());
-    swGoods.setGoodsTotalNum(swGoodsDo.getGoodsTotalNum());
     swGoods.setGoodsName(swGoodsDo.getGoodsName());
     swGoods.setGoodsCode(swGoodsDo.getGoodsCode());
     swGoods.setSwStoreId(swGoodsDo.getSwStoreId());
@@ -111,6 +110,8 @@ public class StorageManageServiceImpl implements StorageManageService {
             swGoodsSku.setSwGoodsId(swGoods.getId());
             swGoodsSku.setSkuCode(swGoodsDo.getSkuCode());
             swGoodsSku.setSkuPrice(swGoodsDo.getSkuPrice());
+            swGoodsSku.setSkuNum(swGoodsDo.getSkuNum());
+
             swGoodsSkuMapper.insert(swGoodsSku);
         }
 
