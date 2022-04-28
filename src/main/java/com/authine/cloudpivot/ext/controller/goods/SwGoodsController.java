@@ -87,7 +87,7 @@ private GoodsService goodsService;
     }
 
 
-    @ApiOperation("多表条件查询货物")
+ /*   @ApiOperation("多表条件查询货物")
     @GetMapping("/goodslist")
     public ResponseResult<List<GoodsQueryParam>> swMeetingDetail(@RequestParam(required = false) Byte isEnabled,Date startTime,Date endTime,
                                                                          String goodsName,String goodsCode){
@@ -104,7 +104,7 @@ private GoodsService goodsService;
             return this.getErrResponseResult(goodslist, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
         }
 
-    }
+    }*/
 
 
 
