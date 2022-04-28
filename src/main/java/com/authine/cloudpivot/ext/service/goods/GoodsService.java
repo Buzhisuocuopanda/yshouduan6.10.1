@@ -19,7 +19,9 @@ public interface GoodsService {
 
     List<SwGoods> list(SwGoodslistVo swGoodslistVo, Integer pageSize, Integer pageNum);
 
+/*
    List<GoodsQueryParam> goodslist(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode);
+*/
 
 
     List<SwgetstoreVo> getenableswstore();

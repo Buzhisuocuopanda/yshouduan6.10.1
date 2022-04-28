@@ -42,7 +42,7 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
 
 
 
-    //多表条件查询
+  /*  //多表条件查询
     @Transactional
     @Override
     public List<GoodsQueryParam> goodslist(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode) {
@@ -51,7 +51,8 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
         list=swGoodsMapper.getInfo(isEnabled,startTime,endTime,goodsName,goodsCode);
         return list;
     }
-
+*/
+    @Transactional
     @Override
     public List<SwgetstoreVo> getenableswstore() {
         List<SwgetstoreVo> res=new ArrayList<>();
