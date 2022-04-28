@@ -19,7 +19,7 @@ spring:
     #url: url: jdbc:dm://127.0.0.1:5236/cloudpivot                                                                                  # DM
     url: jdbc:mysql://117.78.3.177:3306/cloudpivot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false # MySQL
     username: root
-    password: test123456
+    password: test123456!@#$%
     hikari:
       maximum-pool-size: 10                                     # 连接池最大连接数. 根据系统并发用户数设置合理值
       minimum-idle: 1                                           # 连接池最小空闲连接数量
@@ -39,7 +39,7 @@ spring:
   redis:
     host: 117.78.3.177  #地址
     database: 0         #
-    password: foobared  #密码
+    password: H3yuncom  #密码
     port: 6379          #端口
     prefix: ""
   quartz:

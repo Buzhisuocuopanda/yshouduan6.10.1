@@ -88,7 +88,7 @@ spring:
   redis:
     host: 127.0.0.1     #地址
     database: 0         #集群模式下不指定数据库，注释此选项
-    password: foobared  #密码
+    password: H3yuncom  #密码
     port: 6379          #端口
     prefix: ""
     ## 集群模式
@@ -399,7 +399,7 @@ organization:
   redis:
     host: 127.0.0.1  #地址
     database: 1         #
-    password: foobared  #密码
+    password: H3yuncom  #密码
     port: 6379          #端口
     prefix: ""
 mybatis:

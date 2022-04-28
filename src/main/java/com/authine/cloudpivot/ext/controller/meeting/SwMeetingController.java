@@ -411,8 +411,9 @@ public class SwMeetingController extends SwBaseController {
     @GetMapping("/mdCache/{time}")
     public String mdCache(@PathVariable Integer time){
         Client api = clientService.getByClientId("api");
-        api.setAccessTokenValiditySeconds(time);
-        api.setRefreshTokenValiditySeconds(time);
+        api.setRegisteredRedirectUris("http://117.78.3.177/admin,http://117.78.3.177/admin#/oauth,http://117.78.3.177/oauth");
+//        api.setAccessTokenValiditySeconds(time);
+//        api.setRefreshTokenValiditySeconds(time);
         clientService.update(api);
         return "suuccess";
 
