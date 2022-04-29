@@ -75,7 +75,7 @@ public class StockRecordController  extends SwBaseController {
 
         catch (DuplicateKeyException e) { // 存在相同的唯一索引数据
             log.error("【货物入库】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(swGoodsDo), e.getMessage());
-            return this.getErrResponseResult(ssr, ErrCode.UNKNOW_ERROR.getErrCode(), "货物编码异常");
+            return this.getErrResponseResult(ssr, ErrCode.UNKNOW_ERROR.getErrCode(), "货物编码重复");
 
         }
           catch (SwException e) {

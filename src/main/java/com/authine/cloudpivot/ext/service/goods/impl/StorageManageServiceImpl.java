@@ -66,7 +66,7 @@ public class StorageManageServiceImpl implements StorageManageService {
         }
 
 
-      /*  //检查仓库是否可用
+        //检查仓库是否可用
         SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
         if (swStore == null ||
                 DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()) ||
@@ -74,7 +74,6 @@ public class StorageManageServiceImpl implements StorageManageService {
         ) {
             throw new SwException("仓库无法使用");
         }
-*/
 
 
 
@@ -129,6 +128,17 @@ public class StorageManageServiceImpl implements StorageManageService {
     @Transactional
     @Override
     public void updatestock(SwUpdateStockDo swUpdateStockDo) {
+
+        //检查仓库是否可用
+        SwGoods swGoodsDo = new SwGoods();
+        SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
+        if (swStore == null ||
+                DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()) ||
+                SwStatusConstant.NOCANUSE.equals(swStore.getIsEnabled())
+        ) {
+            throw new SwException("仓库无法使用");
+        }
+        
         SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
          swGoods.setEndCommit(EndCommit.COMMIT.getCode());

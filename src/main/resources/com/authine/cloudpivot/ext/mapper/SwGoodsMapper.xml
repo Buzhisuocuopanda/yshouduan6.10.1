@@ -481,4 +481,27 @@
     ;*/
     </where>
   </select>
+
+  <select id="getgslist" resultType="com.authine.cloudpivot.ext.model.vo.SwGSlistVo">
+    SELECT
+      sw_goods.goods_code,
+      sw_goods.goods_company,
+      sw_goods.goods_total_num,
+      sw_goods.goods_name,
+      sw_goods.sw_store_name,
+      sw_store.store_address,
+      sw_store.store_goods_num,
+      sw_store.store_goods_sku_num,
+      sw_store.store_admin
+    FROM
+      sw_goods
+        left join sw_store
+        on sw_goods.sw_store_id=sw_store.id
+    where
+      sw_goods.deleted=0
+      and
+      sw_store.is_enabled=1
+      and
+      sw_goods.id=#{id};
+  </select>
 </mapper>

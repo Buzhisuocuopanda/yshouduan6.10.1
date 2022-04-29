@@ -7,6 +7,8 @@ import com.authine.cloudpivot.ext.controller.goods.common.CommonPage;
 import com.authine.cloudpivot.ext.controller.goods.common.CommonResult;
 import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.exception.SwException;
+import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
+import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.*;
@@ -41,40 +43,23 @@ public class SwGoodsController extends SwBaseController {
 
 @Resource
 private GoodsService goodsService;
-/*
 
-    @ApiOperation(
-            value = "新建货物",
-            notes = "新建货物")
-    @PostMapping("/addGoods")
-    public ResponseResult addGoods(@Valid  @RequestBody SwGoodsListDo swGoodsListDo, BindingResult bindingResult){
-        try{
-            ValidUtils.bindvaild(bindingResult);
-            goodsService.addGoods(swGoodsListDo);
-          return this.getOkResponseResult("添加成功");
-        }catch(SwException e){
-            log.error("新建货物接口异常",JSONObject.toJSONString(swGoodsListDo), e.getMessage());
-            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
-        }catch (Exception e){
-            log.error("新建货物接口异常", JSONObject.toJSONString(swGoodsListDo), ExceptionUtils.getStackTrace(e));
-
-            return this.getErrResponseResult( ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
-        }
-
-        }
-*/
 
 
 
     @ApiOperation("多表条件查询货物")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseResult<List<SwGoods>> getList(SwGoodslistVo swGoodslistVo,
-                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<SwGoods> productList=null;
+    public ResponseResult<SwPageVo<SwGoods>> getList(SwGoodslistVo swGoodslistVo,
+                                                     @RequestParam Integer page,
+                                                     @RequestParam Integer size) {
+        SwPageVo<SwGoods> productList=null;
         try{
-        productList = goodsService.list(swGoodslistVo, pageSize, pageNum);
+            BaseSwQueryModel query=new BaseSwQueryModel();
+
+            query.setPage(page);
+            query.setSize(size);
+        productList = goodsService.list(swGoodslistVo,query);
             return this.getOkResponseResult(productList, "查询成功");
         }catch (SwException e){
             return this.getErrResponseResult(productList, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
@@ -87,24 +72,6 @@ private GoodsService goodsService;
     }
 
 
- /*   @ApiOperation("多表条件查询货物")
-    @GetMapping("/goodslist")
-    public ResponseResult<List<GoodsQueryParam>> swMeetingDetail(@RequestParam(required = false) Byte isEnabled,Date startTime,Date endTime,
-                                                                         String goodsName,String goodsCode){
-        List<GoodsQueryParam> goodslist = null;
-        try {
-             goodslist = goodsService.goodslist(isEnabled, startTime,endTime, goodsName, goodsCode);
-            return this.getOkResponseResult(goodslist, "查询成功");
-        }catch (SwException e){
-            return this.getErrResponseResult( goodslist,ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
-
-        } catch (Exception e){
-           // log.error("【多表条件查询货物】接口出现异常{}$,异常${}$", isEnabled,startTime,endTime,goodsName,goodsCode, ExceptionUtils.getStackTrace(e));
-
-            return this.getErrResponseResult(goodslist, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
-        }
-
-    }*/
 
 
 
@@ -131,7 +98,25 @@ private GoodsService goodsService;
 
     }
 
-
+@ApiOperation(
+        value = "查询货物详情",
+        notes = "查询货物详情"
+)
+@GetMapping("/getgslist")
+public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
+    List<SwGSlistVo> list=new ArrayList<>();
+            try{
+                list=goodsService.getgslist(id);
+                return this.getOkResponseResult(list, "查询成功");
+            }catch(SwException e)
+            {
+                return this.getErrResponseResult(list, ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
+            }catch(Exception e)
+            {
+                log.error("【查询货物详情】接口出现异常，参数Id${}$,异常${}$", id, ExceptionUtils.getStackTrace(e));
+                return this.getErrResponseResult(list, ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+            }
+}
 
 }
 

@@ -9,15 +9,18 @@ import com.authine.cloudpivot.ext.mapper.HOrgUserMapper;
 import com.authine.cloudpivot.ext.mapper.SwGoodsMapper;
 import com.authine.cloudpivot.ext.mapper.SwGoodsSkuMapper;
 import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
+import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
+import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
-import com.authine.cloudpivot.ext.model.vo.SwCanUserMeetingZoom;
-import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
-import com.authine.cloudpivot.ext.model.vo.SwgetstoreVo;
+import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
+import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,6 +73,10 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
     }
 
 
+
+
+
+
     //好用
     @Transactional
     @Override
@@ -114,34 +121,49 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
 
 
 
-    //多表查询
+    //多条件查询
     @Transactional
     @Override
-    public List<SwGoods> list(SwGoodslistVo swGoodslistVo, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum, pageSize);
+    public SwPageVo<SwGoods> list(SwGoodslistVo swGoodslistVo, BaseSwQueryModel query) {
+        PageHelper.startPage(query.getPage(), query.getSize());
         SwGoodsCriteria productExample = new SwGoodsCriteria();
         SwGoodsCriteria.Criteria criteria = productExample.createCriteria();
-        criteria.andDeletedEqualTo((byte) 0);
+        criteria.andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode());
         if (swGoodslistVo.getGoodsName() != null) {
             criteria.andGoodsNameEqualTo(swGoodslistVo.getGoodsName());
         }
         if (swGoodslistVo.getGoodsCode() != null) {
             criteria.andGoodsCodeEqualTo(swGoodslistVo.getGoodsCode());
         }
-        /*if(swGoodslistVo.getCreateTime()!=null){
-            criteria.andCreateTimeBetween(swGoodslistVo.getStartTime(),swGoodslistVo.getEndTime());
-                    //andCreateTimeEqualTo(swGoodslistVo.getCreateTime());
-        }*/
         if(swGoodslistVo.getStartTime()!=null){
             criteria.andCreateTimeGreaterThanOrEqualTo(swGoodslistVo.getStartTime());
-            //andCreateTimeEqualTo(swGoodslistVo.getCreateTime());
         }
         if(swGoodslistVo.getEndTime()!=null){
             criteria.andCreateTimeLessThanOrEqualTo(swGoodslistVo.getEndTime());
-            //andCreateTimeEqualTo(swGoodslistVo.getCreateTime());
         }
-        return swGoodsMapper.selectByExample(productExample);
+        List<SwGoods> swGoods = swGoodsMapper.selectByExample(productExample);
+        //获取分页结果
+        PageInfo<SwGoods> pageInfo = new PageInfo<>(swGoods);
+        //封装分页信息
+        SwPageVo<SwGoods> pageVO = new SwPageVo<SwGoods>(pageInfo);
+
+        return pageVO;
     }
 
 
+    //关联查询
+    @Transactional
+    @Override
+    public List <SwGSlistVo> getgslist(String id) {
+        List<SwGSlistVo> list=new ArrayList<>();
+
+        SwGoods swGoods = swGoodsMapper.selectByPrimaryKey(id);
+        if(swGoods==null || DeleteFlagEnum.DELETE.getCode().equals(swGoods.getDeleted())){
+            throw new SwException("没有找到此id");
+        }
+        list = swGoodsMapper.getgslist(id);
+
+
+        return list;
+    }
 }

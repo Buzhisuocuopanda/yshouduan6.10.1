@@ -9,6 +9,8 @@ import java.util.List;
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsDto;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
+import com.authine.cloudpivot.ext.model.vo.SwGSlistVo;
+import com.authine.cloudpivot.ext.model.vo.SwMeetingListVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface SwGoodsMapper {
@@ -42,5 +44,6 @@ public interface SwGoodsMapper {
 
     List<GoodsQueryParam> getInfo(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode);
 
+    List<SwGSlistVo> getgslist(String id);
 
 }
