@@ -18,6 +18,9 @@ public class SwGoodslistVo {
 
     private String goodsCompany;
 
+    private String    isEnabled ;
+
+
     private Integer goodsNum;
 
     private Date createTime;

@@ -10,6 +10,8 @@ import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsDto;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.SwGSlistVo;
+import com.authine.cloudpivot.ext.model.vo.SwGoodResult;
+import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
 import com.authine.cloudpivot.ext.model.vo.SwMeetingListVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,7 +44,7 @@ public interface SwGoodsMapper {
 
     void updatetotalnum(SwUpdateStockDo swUpdateStockDo);
 
-    List<GoodsQueryParam> getInfo(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode);
+    List<SwGoodResult> getInfo(GoodsQueryParam goodsQueryParam);
 
     List<SwGSlistVo> getgslist(String id);
 

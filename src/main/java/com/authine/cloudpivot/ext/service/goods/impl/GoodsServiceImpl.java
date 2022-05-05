@@ -1,6 +1,5 @@
 package com.authine.cloudpivot.ext.service.goods.impl;
 
-import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
 import com.authine.cloudpivot.ext.enums.DeleteFlagEnum;
 import com.authine.cloudpivot.ext.enums.StoreEnum;
@@ -13,14 +12,12 @@ import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
-import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
 import com.authine.cloudpivot.ext.utils.IdUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,18 +40,25 @@ private HOrgUserMapper hOrgUserMapper;
 @Resource
 private SwGoodsSkuMapper swGoodsSkuMapper;
 
-
-
-  /*  //多表条件查询
+    //多表条件查询
     @Transactional
     @Override
-    public List<GoodsQueryParam> goodslist(Byte isEnabled, Date startTime, Date endTime,String goodsName, String goodsCode) {
+    public SwPageVo<SwGoodResult> goodslist(GoodsQueryParam goodsQueryParam, BaseSwQueryModel query) {
 
-        List<GoodsQueryParam> list=new ArrayList<>();
-        list=swGoodsMapper.getInfo(isEnabled,startTime,endTime,goodsName,goodsCode);
-        return list;
+        SwGoodResult swGoodResult = BeanCopyUtils.coypToClass(goodsQueryParam, SwGoodResult.class, null);
+
+        List<SwGoodResult> swGoods1 = swGoodsMapper.getInfo(goodsQueryParam);
+
+        //获取分页结果
+        PageInfo<SwGoodResult> pageInfo = new PageInfo<>(swGoods1);
+        //封装分页信息
+        SwPageVo<SwGoodResult> pageVO = new SwPageVo<SwGoodResult>(pageInfo);
+
+        return pageVO;
+
     }
-*/
+
+
     @Transactional
     @Override
     public List<SwgetstoreVo> getenableswstore() {

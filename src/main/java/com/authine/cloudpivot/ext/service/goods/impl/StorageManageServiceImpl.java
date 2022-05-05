@@ -45,6 +45,9 @@ public class StorageManageServiceImpl implements StorageManageService {
     @Resource
     private HBizCommentMapper hBizCommentMapper;
 
+
+    public static final Object lockHelper = new Object();
+
     //入库操作
     @Transactional
     @Override
@@ -127,7 +130,7 @@ public class StorageManageServiceImpl implements StorageManageService {
    //更新
     @Transactional
     @Override
-    public void updatestock(SwUpdateStockDo swUpdateStockDo) {
+    public synchronized void updatestock(SwUpdateStockDo swUpdateStockDo) {
 
         //检查仓库是否可用
         SwGoods swGoodsDo = new SwGoods();
@@ -155,8 +158,10 @@ public class StorageManageServiceImpl implements StorageManageService {
             swGoods.setBizObjectId(swUpdateStockDo.getBizObjectId());
 
         }
-        //更新总库存
-        swGoodsMapper.updatetotalnum(swUpdateStockDo);
+
+
+            //更新总库存
+            swGoodsMapper.updatetotalnum(swUpdateStockDo);
 
 
 
@@ -166,9 +171,14 @@ public class StorageManageServiceImpl implements StorageManageService {
                 .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
                 .andTranNoEqualTo(swUpdateStockDo.getTranNo());
         int i=swGoodsMapper.updateByExampleSelective(swGoods,example);
-        log.info("流水号更新成功");
-        return;
+        if(i>0){
+        log.info("更新成功");
+            return;
+        }
+        else {
+            log.info("更新失败");
 
+        }
     }
 }
 

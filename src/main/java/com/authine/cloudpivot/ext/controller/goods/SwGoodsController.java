@@ -118,6 +118,33 @@ public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
             }
 }
 
+
+
+
+
+    @ApiOperation("多表多条件查询")
+    @RequestMapping(value = "/goodslist", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseResult<SwPageVo<SwGoodResult>> goodslist(GoodsQueryParam goodsQueryParam,
+                                                     @RequestParam Integer page,
+                                                     @RequestParam Integer size) {
+        SwPageVo<SwGoodResult> productList=null;
+        try{
+            BaseSwQueryModel query=new BaseSwQueryModel();
+
+            query.setPage(page);
+            query.setSize(size);
+        productList = goodsService.goodslist(goodsQueryParam, query);
+            return this.getOkResponseResult(productList, "查询成功");
+        }catch (SwException e){
+            return this.getErrResponseResult(productList, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
+
+        } catch (Exception e){
+            log.error("【查询货物】接口出现异常，{}$,异常${}$",  ExceptionUtils.getStackTrace(e));
+
+            return this.getErrResponseResult(productList, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
+        }
+    }
 }
 
 
