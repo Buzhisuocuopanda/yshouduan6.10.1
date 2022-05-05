@@ -7,10 +7,7 @@ import com.authine.cloudpivot.ext.model.doo.DemoDo;
 import com.authine.cloudpivot.ext.utils.ReqDedupHelper;
 import com.authine.cloudpivot.web.api.controller.base.BaseController;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -40,5 +37,11 @@ public class DemoController extends SwBaseController {
         return result;
     }
 
+    @GetMapping("/demolist")
+//    @DisTwoCommit(key = "#demoDo", summary = "支付回调用的分布式锁", prefix = RedisKeyConstant.DIS_TEW_COMMIT_PREX)
+
+    public String demolist() {
+        return "demoListSuccess";
+    }
 
 }
