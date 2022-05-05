@@ -61,7 +61,7 @@ project_start:
   tags:
     - jdk1.8_144
   script:
-    - cd //usr/local/git/
+    - cd /usr/local/git/
     - ./build.sh
 #    - nohup java -jar -Xms512m -Xmx1024m ${XINQIU_RUNDIR}/${XINQIU_PROJECT}-${XINQIU_VERSION}.jar > /home/gitlab-runner/springcloud/run/log/${XINQIU_PROJECT}.log 2>&1 &
 
