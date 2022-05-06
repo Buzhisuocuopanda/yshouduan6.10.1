@@ -44,8 +44,8 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
     @Transactional
     @Override
     public SwPageVo<SwGoodResult> goodslist(GoodsQueryParam goodsQueryParam, BaseSwQueryModel query) {
+        PageHelper.startPage(query.getPage(), query.getSize());
 
-        SwGoodResult swGoodResult = BeanCopyUtils.coypToClass(goodsQueryParam, SwGoodResult.class, null);
 
         List<SwGoodResult> swGoods1 = swGoodsMapper.getInfo(goodsQueryParam);
 

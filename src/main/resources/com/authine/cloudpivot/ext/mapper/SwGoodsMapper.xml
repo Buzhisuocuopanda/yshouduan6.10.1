@@ -481,7 +481,7 @@
         and  sw_goods.goods_code=#{goodsCode}
       </if>
     Order By sw_goods.create_time Desc
-;
+
     </where>
   </select>
 
