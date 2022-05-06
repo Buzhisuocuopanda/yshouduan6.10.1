@@ -23,7 +23,10 @@ import com.authine.cloudpivot.web.api.view.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
+import net.oschina.j2cache.CacheObject;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +56,13 @@ public class SwMeetingController extends SwBaseController {
 
     @Resource
     private ClientServiceImpl clientService;
+
+    @Autowired
+    private CacheChannel cacheChannel;
+
+    private String key = "myKey"; // 定义缓存的key
+    private String region="rx"; // 缓存的区域
+
     /**
      * 普通会议新建的接口 新建会议审核前就调用
      *
@@ -412,9 +422,18 @@ public class SwMeetingController extends SwBaseController {
     public String mdCache(@PathVariable Integer time){
         Client api = clientService.getByClientId("api");
         api.setRegisteredRedirectUris("http://117.78.3.177/admin,http://117.78.3.177/admin#/oauth,http://117.78.3.177/oauth");
-//        api.setAccessTokenValiditySeconds(time);
-//        api.setRefreshTokenValiditySeconds(time);
+        api.setAccessTokenValiditySeconds(time);
+        api.setRefreshTokenValiditySeconds(time);
         clientService.update(api);
+//        CacheObject cacheObject = cacheChannel.get(region, key);
+//        if(cacheObject.getValue() == null){
+//            //缓存中没有找到，查询数据库获得
+//            List<String> data = new ArrayList<String>();
+//            data.add("info1");
+//            data.add("info2");
+//            //放入缓存，指定区域，key，数据
+//            cacheChannel.set(region,key,data);
+//        }
         return "suuccess";
 
     }
