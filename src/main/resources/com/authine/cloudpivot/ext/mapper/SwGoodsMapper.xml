@@ -436,10 +436,15 @@
 
 
 <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
-  UPDATE sw_goods set
-    goods_total_num=
-      (select sum(sku_num) FROM   sw_goods_sku
-       WHERE sw_goods.id=sw_goods_sku.sw_goods_id FOR UPDATE)
+  set @goods_total_num=0;
+  select a.sku_num,
+         @goods_total_num:=@goods_total_num+a.sku_num as goods_total_num
+  from (select sku_num ,
+    count(sku_num) daily
+    from sw_goods_sku
+    JOIN sw_goods
+    on sw_goods.id=sw_goods_sku.sw_goods_id FOR UPDATE ) a ,
+    (select @goods_total_num:=0) b
 </update>
 
   <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
