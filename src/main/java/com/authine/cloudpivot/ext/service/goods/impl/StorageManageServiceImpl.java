@@ -130,7 +130,7 @@ public class StorageManageServiceImpl implements StorageManageService {
    //更新
     @Transactional
     @Override
-    public synchronized void updatestock(SwUpdateStockDo swUpdateStockDo) {
+    public  void updatestock(SwUpdateStockDo swUpdateStockDo) {
 
         //检查仓库是否可用
         SwGoods swGoodsDo = new SwGoods();
@@ -162,7 +162,6 @@ public class StorageManageServiceImpl implements StorageManageService {
 
             //更新总库存
             swGoodsMapper.updatetotalnum(swUpdateStockDo);
-
 
 
         SwGoodsCriteria example=new SwGoodsCriteria();

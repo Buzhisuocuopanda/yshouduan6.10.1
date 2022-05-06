@@ -439,48 +439,47 @@
   UPDATE sw_goods set
     goods_total_num=
       (select sum(sku_num) FROM   sw_goods_sku
-       WHERE sw_goods.id=sw_goods_sku.sw_goods_id )
-
+       WHERE sw_goods.id=sw_goods_sku.sw_goods_id FOR UPDATE)
 </update>
 
   <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
      SELECT
-    DISTINCT
-    sw_goods.goods_code,
-    sw_goods.goods_name,
-    sw_goods.goods_company,
-    sw_goods.create_time,
-    sw_goods.goods_total_num,
-    sw_goods.sw_store_id,
-    sw_goods.sw_store_name,
-    sw_store.is_enabled
-    FROM sw_store
+
+    b.goods_code,
+    b.goods_name,
+    b.goods_company,
+    b.create_time,
+    b.goods_total_num,
+    b.sw_store_id,
+    b.sw_store_name,
+    a.is_enabled
+    FROM sw_store a
     INNER JOIN
-    sw_goods
-    on  sw_store.id=sw_goods.sw_store_id
+    sw_goods b
+    on  a.id=b.sw_store_id
 
     <where>
 
       <if test='isEnabled!=null and isEnabled!=""'>
-          sw_store.is_enabled=#{isEnabled}
+        b.is_enabled=#{isEnabled}
       </if>
 
-      <if test="startTime != null and startTime != ''">
-      AND sw_goods.create_time <![CDATA[>=]]> #{startTime}
+      <if test='startTime != null and startTime != ""'>
+      AND b.create_time <![CDATA[>=]]> #{startTime}
     </if>
 
-      <if test="endTime != null and endTime != ''">
-    AND sw_goods.create_time <![CDATA[<=]]>#{endTime}
+      <if test='endTime != null and endTime != ""'>
+    AND b.create_time <![CDATA[<=]]>#{endTime}
     </if>
 
     <if test='goodsName!=null and goodsName!=""'>
-          and  sw_goods.goods_name=#{goodsName}
+          and  b.goods_name=#{goodsName}
     </if>
 
       <if test='goodsCode!=null and goodsCode!=""'>
-        and  sw_goods.goods_code=#{goodsCode}
+        and  b.goods_code=#{goodsCode}
       </if>
-    Order By sw_goods.create_time Desc
+    Order By b.create_time Desc
 
     </where>
   </select>
