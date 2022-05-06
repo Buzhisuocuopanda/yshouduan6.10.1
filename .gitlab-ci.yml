@@ -1,57 +1,13 @@
-#image: $SONAR_MAVEN_JDK11_CP6
-#
-#
-#code_sonar:
-#  stage: test
-#  script:
-#    - ls -lh
-#    - echo "rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME"
-#    - mvn clean install -Dmaven.test.skip=true --settings /usr/local/mvn/settings.xml -U
-#    - mvn sonar:sonar -Dsonar.projectVersion=v1.0 -Dsonar.projectKey=rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME -Dsonar.projectName=rd4-java-h3bpm-backend-$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_ADMIN_TOKEN --settings /usr/local/mvn/settings.xml
-#  only:
-#    refs:
-#      - develop
+
 stages:
-#  # 代码规范、bug检测
-#  - sonar_preview
-  # maven 构建测试
-#  - maven_build
+
   # 项目启动
   - project_start
-#  # 项目启动-嘉兴
-#  - project_start_jiaxing
 
 
 variables:
   XINQIU_PROJECT: web-api
-  XINQIU_GIT_DIR: /usr/local/git/yshoutai
-  XINQIU_PORT: 8080
-  XINQIU_RUNDIR: /data/cloudpivot/program/backEnd/webapi
-  XINQIU_VERSION: 6.10.1
 
-# 代码规范、bug检测
-#sonar_preview:
-#  stage: sonar_preview
-#  tags:
-#    - sonar_qube_6.7
-#  # 定义作业不会运行的分支和标记的名称
-#  except:
-#    - master
-#    - /^test.*$/
-#  script:
-#    - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=https://sonar.chipparking.com -Dsonar.login=gitlab -Dsonar.password=%%oKHT7mEB*zd6s4 -Dsonar.analysis.mode=preview -Dsonar.gitlab.project_id=$CI_PROJECT_ID -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME
-
-# maven 构建测试
-#maven_build:
-#  stage: maven_build
-#  tags:
-#    - maven_3.6
-#  # 定义作业不会运行的分支和标记的名称
-#  except:
-#    - master
-#    - /^test.*$/
-#  script:
-#    - mvn clean package
 
 # 拉取代码
 project_start:
@@ -63,19 +19,4 @@ project_start:
   script:
     - cd /usr/local/git/
     - ./build.sh
-#    - nohup java -jar -Xms512m -Xmx1024m ${XINQIU_RUNDIR}/${XINQIU_PROJECT}-${XINQIU_VERSION}.jar > /home/gitlab-runner/springcloud/run/log/${XINQIU_PROJECT}.log 2>&1 &
-
-# 拉取代码
-#project_start_jiaxing:
-#  stage: project_start_jiaxing
-#  only:
-#    - testjiaxing
-#  tags:
-#    - jiaxing-jdk1.8_144
-#  script:
-#    - cd /home/gitlab-runner/springcloud/src
-#    - ./build.sh ${XINQIU_GIT_DIR} ${XINQIU_PROJECT} ${XINQIU_RUNDIR} ${XINQIU_PORT} ${XINQIU_VERSION}
-#    - nohup java -jar -Xms512m -Xmx1024m ${XINQIU_RUNDIR}/${XINQIU_PROJECT}-${XINQIU_VERSION}.jar > /home/gitlab-runner/springcloud/run/log/${XINQIU_PROJECT}.log 2>&1 &
-#
-#
 
