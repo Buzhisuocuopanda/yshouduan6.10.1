@@ -436,14 +436,18 @@
 
 
 <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
-  begin;
-  SELECT goods_total_num FROM sw_goods FOR UPDATE
+
+  SELECT goods_total_num FROM sw_goods
+  WHERE  sw_goods.tran_no=#{tranNo,jdbcType=VARCHAR}
+    FOR UPDATE
 
 </update>
   <update id="update" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
 
     UPDATE sw_goods  SET
     goods_total_num=#{goodsTotalNum,jdbcType=VARCHAR}+goods_total_num
+where
+  sw_goods.tran_no=#{tranNo,jdbcType=VARCHAR}
   </update>
   <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
      SELECT

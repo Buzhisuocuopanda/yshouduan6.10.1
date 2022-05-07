@@ -161,7 +161,7 @@ public class StorageManageServiceImpl implements StorageManageService {
 
 
             //更新总库存
-          //  swGoodsMapper.updatetotalnum(swUpdateStockDo);
+       swGoodsMapper.updatetotalnum(swUpdateStockDo);
             swGoodsMapper.update(swUpdateStockDo);
 
         SwGoodsCriteria example=new SwGoodsCriteria();
