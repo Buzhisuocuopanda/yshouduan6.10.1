@@ -3,16 +3,12 @@ package com.authine.cloudpivot.ext.mapper;
 import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.entity.SwGoodsCriteria;
 
-import java.util.Date;
 import java.util.List;
 
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
-import com.authine.cloudpivot.ext.model.dto.GoodsDto;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.SwGSlistVo;
 import com.authine.cloudpivot.ext.model.vo.SwGoodResult;
-import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
-import com.authine.cloudpivot.ext.model.vo.SwMeetingListVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface SwGoodsMapper {
@@ -45,7 +41,7 @@ public interface SwGoodsMapper {
     void updatetotalnum(SwUpdateStockDo swUpdateStockDo);
 
 
-    void update(SwUpdateStockDo swUpdateStockDo);
+    SwUpdateStockDo update(SwUpdateStockDo swUpdateStockDo);
     List<SwGoodResult> getInfo(GoodsQueryParam goodsQueryParam);
 
     List<SwGSlistVo> getgslist(String id);

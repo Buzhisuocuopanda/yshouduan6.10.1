@@ -11,6 +11,7 @@ import com.authine.cloudpivot.ext.model.doo.SwGoodsDo;
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
 import com.authine.cloudpivot.ext.model.dto.MeetingDetailModel;
 import com.authine.cloudpivot.ext.model.dto.Skudto;
+import com.authine.cloudpivot.ext.model.vo.SwGoodResult;
 import com.authine.cloudpivot.ext.model.vo.SwGoodsResult;
 import com.authine.cloudpivot.ext.service.goods.StorageManageService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
@@ -141,15 +142,17 @@ public class StorageManageServiceImpl implements StorageManageService {
         ) {
             throw new SwException("仓库无法使用");
         }*/
-        
+        //for update查询
+        SwUpdateStockDo update = swGoodsMapper.update(swUpdateStockDo);
+
         SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
          swGoods.setEndCommit(EndCommit.COMMIT.getCode());
          swGoods.setSequeceNo(swUpdateStockDo.getSequeceNo());
          swGoods.setTranNo(swUpdateStockDo.getTranNo());
          swGoods.setYsResult(swUpdateStockDo.getYsResult());
-
-         swGoods.setGoodsTotalNum(swGoodsSku.getSkuNum());
+      //相加
+         swGoods.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ update.getGoodsTotalNum());
 
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
             swGoods.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
@@ -158,12 +161,6 @@ public class StorageManageServiceImpl implements StorageManageService {
             swGoods.setBizObjectId(swUpdateStockDo.getBizObjectId());
 
         }
-
-
-            //更新总库存
-       swGoodsMapper.updatetotalnum(swUpdateStockDo);
-            swGoodsMapper.update(swUpdateStockDo);
-
         SwGoodsCriteria example=new SwGoodsCriteria();
         example
                 .createCriteria()

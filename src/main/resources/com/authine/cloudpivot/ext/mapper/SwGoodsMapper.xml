@@ -435,14 +435,14 @@
 
 
 
-<update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+<select id="update" resultType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
 
   SELECT goods_total_num FROM sw_goods
   WHERE  sw_goods.tran_no=#{tranNo,jdbcType=VARCHAR}
     FOR UPDATE
 
-</update>
-  <update id="update" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+</select>
+  <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
 
     UPDATE sw_goods  SET
     goods_total_num=#{goodsTotalNum,jdbcType=VARCHAR}+goods_total_num

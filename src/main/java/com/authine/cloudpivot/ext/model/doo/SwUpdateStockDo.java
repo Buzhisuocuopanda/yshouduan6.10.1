@@ -15,9 +15,13 @@ public class SwUpdateStockDo {
 
     private String bizObjectId;
 
+    public Integer getGoodsTotalNum() {
+        return goodsTotalNum;
+    }
+
     private String workflowInstance;
 
-    private String goodsTotalNum;
+    private Integer goodsTotalNum;
     @NotBlank(message = "流水号不能为空")
     private String sequeceNo;
 
