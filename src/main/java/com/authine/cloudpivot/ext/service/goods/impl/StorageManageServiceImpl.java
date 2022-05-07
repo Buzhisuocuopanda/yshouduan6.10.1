@@ -143,16 +143,17 @@ public class StorageManageServiceImpl implements StorageManageService {
             throw new SwException("仓库无法使用");
         }*/
         //for update查询
-        SwUpdateStockDo update = swGoodsMapper.update(swUpdateStockDo);
+        SwUpdateStockDo selectforupdate = swGoodsMapper.selectforupdate(swUpdateStockDo);
 
         SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
          swGoods.setEndCommit(EndCommit.COMMIT.getCode());
+         swGoods.setId(swUpdateStockDo.getId());
          swGoods.setSequeceNo(swUpdateStockDo.getSequeceNo());
          swGoods.setTranNo(swUpdateStockDo.getTranNo());
          swGoods.setYsResult(swUpdateStockDo.getYsResult());
       //相加
-         swGoods.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ update.getGoodsTotalNum());
+         swGoods.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
 
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
             swGoods.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
@@ -173,7 +174,6 @@ public class StorageManageServiceImpl implements StorageManageService {
         }
         else {
             log.info("更新失败");
-
         }
     }
 }

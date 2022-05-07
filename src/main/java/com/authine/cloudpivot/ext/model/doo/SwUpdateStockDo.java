@@ -7,6 +7,9 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class SwUpdateStockDo {
+
+    private String id;
+
     @NotBlank(message = "tranNo不能为空")
     private String tranNo;
 
