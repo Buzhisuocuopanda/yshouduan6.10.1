@@ -1,5 +1,6 @@
 package com.authine.cloudpivot.ext.service.goods.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.constant.SwStatusConstant;
 import com.authine.cloudpivot.ext.entity.*;
@@ -143,38 +144,41 @@ public class StorageManageServiceImpl implements StorageManageService {
             throw new SwException("仓库无法使用");
         }*/
         //for update查询
-        SwUpdateStockDo selectforupdate = swGoodsMapper.selectforupdate(swUpdateStockDo);
+        SwGoods selectforupdate = swGoodsMapper.selectforupdate(swUpdateStockDo);
+
+       /* BeanCopyUtils.coypToClass(selectforupdate, SwGoods.class, null);
 
         SwGoodsSku swGoodsSku=new SwGoodsSku();
-        SwGoods swGoods=new SwGoods();
-         swGoods.setEndCommit(EndCommit.COMMIT.getCode());
-         swGoods.setId(swUpdateStockDo.getId());
-         swGoods.setSequeceNo(swUpdateStockDo.getSequeceNo());
-         swGoods.setTranNo(swUpdateStockDo.getTranNo());
-         swGoods.setYsResult(swUpdateStockDo.getYsResult());
+        SwGoods swGoods=new SwGoods();*/
+
+        selectforupdate.setEndCommit(EndCommit.COMMIT.getCode());
+        selectforupdate.setId(swUpdateStockDo.getId());
+        selectforupdate.setSequeceNo(swUpdateStockDo.getSequeceNo());
+        selectforupdate.setTranNo(swUpdateStockDo.getTranNo());
+        selectforupdate.setYsResult(swUpdateStockDo.getYsResult());
       //相加
-         swGoods.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
+        if(selectforupdate.getGoodsTotalNum()==null){
+            throw new SwException("仓库总库存为null");
+        }
+        selectforupdate.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
+
 
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
-            swGoods.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
+            selectforupdate.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
         }
         if(StringUtils.isNotBlank(swUpdateStockDo.getBizObjectId())){
-            swGoods.setBizObjectId(swUpdateStockDo.getBizObjectId());
+            selectforupdate.setBizObjectId(swUpdateStockDo.getBizObjectId());
 
         }
-        SwGoodsCriteria example=new SwGoodsCriteria();
-        example
-                .createCriteria()
-                .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
-                .andTranNoEqualTo(swUpdateStockDo.getTranNo());
-        int i=swGoodsMapper.updateByExampleSelective(swGoods,example);
-        if(i>0){
-        log.info("更新成功");
-            return;
+
+        int i = swGoodsMapper.updateByPrimaryKey(selectforupdate);
+        if(i<=0){
+           // throw new SwException(swGoods.toString());
+
+            log.error("【更新货物】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(selectforupdate));
+
         }
-        else {
-            log.info("更新失败");
-        }
+return;
     }
 }
 

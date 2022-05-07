@@ -435,10 +435,12 @@
 
 
 
-<select id="selectforupdate" resultType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+<select id="selectforupdate" resultType="com.authine.cloudpivot.ext.entity.SwGoods">
 
-  SELECT goods_total_num FROM sw_goods
+  SELECT  * FROM sw_goods
   WHERE  sw_goods.id=#{id,jdbcType=VARCHAR}
+    and sw_goods.deleted=0
+    and  sw_goods.tran_no=#{tranNo,jdbcType=VARCHAR}
     FOR UPDATE
 
 </select>
