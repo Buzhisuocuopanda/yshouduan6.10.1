@@ -436,16 +436,16 @@
 
 
 <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
-  BEGIN;
-  SELECT goods_total_num FROM sw_goods FOR UPDATE;
-
-  UPDATE sw_goods a,sw_goods_sku b SET goods_total_num=
-    a.goods_total_num+b.sku_num
-  WHERE
-    a.id=b.sw_goods_id
-    COMMIT;
+  begin;
+  SELECT goods_total_num FROM sw_goods FOR UPDATE
+  commit;
 </update>
-
+  <update id="update" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
+    UPDATE sw_goods a,sw_goods_sku b SET goods_total_num=
+      a.goods_total_num+b.sku_num
+    WHERE
+      a.id=b.sw_goods_id
+  </update>
   <select id="getInfo" resultType="com.authine.cloudpivot.ext.model.dto.GoodsQueryParam">
      SELECT
 

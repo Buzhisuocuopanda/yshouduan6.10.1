@@ -132,7 +132,7 @@ public class StorageManageServiceImpl implements StorageManageService {
     @Override
     public  void updatestock(SwUpdateStockDo swUpdateStockDo) {
 
-        //检查仓库是否可用
+     /*   //检查仓库是否可用
         SwGoods swGoodsDo = new SwGoods();
         SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
         if (swStore == null ||
@@ -140,7 +140,7 @@ public class StorageManageServiceImpl implements StorageManageService {
                 SwStatusConstant.NOCANUSE.equals(swStore.getIsEnabled())
         ) {
             throw new SwException("仓库无法使用");
-        }
+        }*/
         
         SwGoodsSku swGoodsSku=new SwGoodsSku();
         SwGoods swGoods=new SwGoods();
@@ -161,8 +161,8 @@ public class StorageManageServiceImpl implements StorageManageService {
 
 
             //更新总库存
-            swGoodsMapper.updatetotalnum(swUpdateStockDo);
-
+          //  swGoodsMapper.updatetotalnum(swUpdateStockDo);
+            swGoodsMapper.update(swUpdateStockDo);
 
         SwGoodsCriteria example=new SwGoodsCriteria();
         example

@@ -44,6 +44,8 @@ public interface SwGoodsMapper {
 
     void updatetotalnum(SwUpdateStockDo swUpdateStockDo);
 
+
+    void update(SwUpdateStockDo swUpdateStockDo);
     List<SwGoodResult> getInfo(GoodsQueryParam goodsQueryParam);
 
     List<SwGSlistVo> getgslist(String id);
