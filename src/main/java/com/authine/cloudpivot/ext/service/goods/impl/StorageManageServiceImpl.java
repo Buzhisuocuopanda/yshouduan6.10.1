@@ -143,13 +143,17 @@ public class StorageManageServiceImpl implements StorageManageService {
         ) {
             throw new SwException("仓库无法使用");
         }*/
+
+
         //for update查询
         SwGoods selectforupdate = swGoodsMapper.selectforupdate(swUpdateStockDo);
 
-       /* BeanCopyUtils.coypToClass(selectforupdate, SwGoods.class, null);
-
-        SwGoodsSku swGoodsSku=new SwGoodsSku();
-        SwGoods swGoods=new SwGoods();*/
+          if(selectforupdate==null){
+              throw new SwException("货物传参selectforupdate为空");
+          }
+          if(selectforupdate.getDeleted()==DeleteFlagEnum.DELETE.getCode()){
+            throw new SwException("货物已被删除");
+          }
 
         selectforupdate.setEndCommit(EndCommit.COMMIT.getCode());
         selectforupdate.setId(swUpdateStockDo.getId());
@@ -157,9 +161,9 @@ public class StorageManageServiceImpl implements StorageManageService {
         selectforupdate.setTranNo(swUpdateStockDo.getTranNo());
         selectforupdate.setYsResult(swUpdateStockDo.getYsResult());
       //相加
-        if(selectforupdate.getGoodsTotalNum()==null){
+    /*    if(selectforupdate.getGoodsTotalNum()==null){
             throw new SwException("仓库总库存为null");
-        }
+        }*/
         selectforupdate.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
 
 

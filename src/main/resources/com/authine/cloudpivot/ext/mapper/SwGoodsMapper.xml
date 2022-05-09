@@ -439,9 +439,7 @@
 
   SELECT  * FROM sw_goods
   WHERE  sw_goods.id=#{id,jdbcType=VARCHAR}
-    and sw_goods.deleted=0
-    and  sw_goods.tran_no=#{tranNo,jdbcType=VARCHAR}
-    FOR UPDATE
+for update
 
 </select>
   <update id="updatetotalnum" parameterType="com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo">
