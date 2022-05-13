@@ -72,14 +72,14 @@ public class StorageManageServiceImpl implements StorageManageService {
         }
 
 
-        //检查仓库是否可用
+  /*      //检查仓库是否可用
         SwStore swStore = swStoreMapper.selectByPrimaryKey(swGoodsDo.getSwStoreId());
         if (swStore == null ||
                 DeleteFlagEnum.DELETE.getCode().equals(swStore.getDeleted()) ||
                 SwStatusConstant.NOCANUSE.equals(swStore.getIsEnabled())
         ) {
             throw new SwException("仓库无法使用");
-        }
+        }*/
 
 
 
