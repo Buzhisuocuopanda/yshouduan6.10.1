@@ -1,32 +1,24 @@
 package com.authine.cloudpivot.ext.controller.goods;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
-import com.authine.cloudpivot.ext.controller.goods.common.CommonPage;
-import com.authine.cloudpivot.ext.controller.goods.common.CommonResult;
 import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.exception.SwException;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
-import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
 import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.web.api.view.ResponseResult;
 import com.authine.cloudpivot.ext.controller.base.SwBaseController;
-import com.authine.cloudpivot.ext.utils.ValidUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +36,10 @@ public class SwGoodsController extends SwBaseController {
 @Resource
 private GoodsService goodsService;
 
+    @RequestMapping(value = "/version", method = RequestMethod.GET)
+    public int version(){
+        return 1;
+    }
 
 
 
