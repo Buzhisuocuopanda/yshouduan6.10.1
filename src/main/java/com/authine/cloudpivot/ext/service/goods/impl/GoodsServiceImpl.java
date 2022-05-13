@@ -67,9 +67,12 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
                .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
                .andIsEnabledEqualTo(StoreEnum.ISENDLED.getCode());
         List<SwStore> swStores = swStoreMapper.selectByExample(example);
+
         for(SwStore swStore : swStores){
             SwgetstoreVo swgetstoreVo = BeanCopyUtils.coypToClass(swStore, SwgetstoreVo.class, null);
             swgetstoreVo.setId(swStore.getId());
+
+
             res.add(swgetstoreVo);
         }
         return res;

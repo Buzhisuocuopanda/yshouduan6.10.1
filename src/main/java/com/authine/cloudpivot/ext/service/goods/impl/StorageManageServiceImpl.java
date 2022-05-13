@@ -164,7 +164,6 @@ public class StorageManageServiceImpl implements StorageManageService {
         selectforupdate.setYsResult(swUpdateStockDo.getYsResult());
         selectforupdate.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
 
-
         if(StringUtils.isNotBlank(swUpdateStockDo.getWorkflowInstance())){
             selectforupdate.setWorkflowInstance(swUpdateStockDo.getWorkflowInstance());
         }
