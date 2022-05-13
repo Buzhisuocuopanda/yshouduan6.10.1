@@ -38,7 +38,7 @@ private GoodsService goodsService;
 
     @RequestMapping(value = "/version", method = RequestMethod.GET)
     public int version(){
-        return 1;
+        return 2;
     }
 
 
