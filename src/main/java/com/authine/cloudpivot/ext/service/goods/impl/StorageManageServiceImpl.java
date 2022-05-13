@@ -124,6 +124,7 @@ public class StorageManageServiceImpl implements StorageManageService {
 
         SwGoodsResult swGoodsResult = new SwGoodsResult();
         swGoodsResult.setTranNo(swGoods.getTranNo());
+        swGoodsResult.setId(swGoods.getId());
         return swGoodsResult;
 
 

@@ -7,4 +7,6 @@ public class SwGoodsResult {
 
     private String tranNo;
 
+    private String id;
+
 }
