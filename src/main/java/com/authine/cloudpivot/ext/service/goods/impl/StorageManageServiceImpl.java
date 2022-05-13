@@ -27,6 +27,7 @@ import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -148,22 +149,18 @@ public class StorageManageServiceImpl implements StorageManageService {
         //for update查询
         SwGoods selectforupdate = swGoodsMapper.selectforupdate(swUpdateStockDo);
 
-          if(selectforupdate==null){
-              throw new SwException("货物传参selectforupdate为空");
+          if(selectforupdate==null && Objects.equals(selectforupdate.getDeleted(), DeleteFlagEnum.DELETE.getCode())){
+              throw new SwException("货物没找到");
           }
-          if(selectforupdate.getDeleted()==DeleteFlagEnum.DELETE.getCode()){
+          /*if(Objects.equals(selectforupdate.getDeleted(), DeleteFlagEnum.DELETE.getCode())){
             throw new SwException("货物已被删除");
-          }
+          }*/
 
         selectforupdate.setEndCommit(EndCommit.COMMIT.getCode());
         selectforupdate.setId(swUpdateStockDo.getId());
         selectforupdate.setSequeceNo(swUpdateStockDo.getSequeceNo());
         selectforupdate.setTranNo(swUpdateStockDo.getTranNo());
         selectforupdate.setYsResult(swUpdateStockDo.getYsResult());
-      //相加
-    /*    if(selectforupdate.getGoodsTotalNum()==null){
-            throw new SwException("仓库总库存为null");
-        }*/
         selectforupdate.setGoodsTotalNum(swUpdateStockDo.getGoodsTotalNum()+ selectforupdate.getGoodsTotalNum());
 
 
@@ -178,8 +175,8 @@ public class StorageManageServiceImpl implements StorageManageService {
         int i = swGoodsMapper.updateByPrimaryKey(selectforupdate);
         if(i<=0){
            // throw new SwException(swGoods.toString());
+            throw new SwException("更新不成功");
 
-            log.error("【更新货物】接口参数校验出现异常，参数${}$,异常${}$", JSONObject.toJSONString(selectforupdate));
 
         }
 return;
