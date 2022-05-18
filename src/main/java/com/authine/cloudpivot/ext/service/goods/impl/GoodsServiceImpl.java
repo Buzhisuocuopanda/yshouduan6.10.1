@@ -11,7 +11,9 @@ import com.authine.cloudpivot.ext.mapper.SwStoreMapper;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
+import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
+import com.authine.cloudpivot.ext.model.dto.SwGoodsListDto;
 import com.authine.cloudpivot.ext.model.vo.*;
 import com.authine.cloudpivot.ext.service.goods.GoodsService;
 import com.authine.cloudpivot.ext.utils.BeanCopyUtils;
@@ -23,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -172,4 +173,49 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
 
         return list;
     }
+
+    @Override
+    public SwPageVo<SwGoodsListtVo> goodsList(BaseSwQueryModel query) {
+        //开始分页
+        PageHelper.startPage(query.getPage(), query.getSize());
+        List<SwGoodsListtVo> SwGoodslistVos=swGoodsMapper.goodsList();
+        //获取分页结果
+        PageInfo<SwGoodsListtVo> pageInfo=new PageInfo<>(SwGoodslistVos);
+        //封装分页信息
+        SwPageVo<SwGoodsListtVo> pageVo=new SwPageVo<SwGoodsListtVo>(pageInfo);
+        return pageVo;
+    }
+
+    @Override
+    public SwGoodsListtVo goodList(String id) {
+        SwGoods swGoods = swGoodsMapper.selectByPrimaryKey(id);
+        SwGoodsListtVo swGoodsListtVo=BeanCopyUtils.coypToClass(swGoods,SwGoodsListtVo.class,null);
+        List<SwGoodsListDto> selectgoodlist = swGoodsMapper.selectgoodlist(swGoods.getId());
+        swGoodsListtVo.setGoodsname(swGoods.getGoodsName());
+        swGoodsListtVo.setGoodscode(swGoods.getGoodsCode());
+        swGoodsListtVo.setGoodscompany(swGoods.getGoodsCompany());
+        swGoodsListtVo.setSwstorename(swGoods.getSwStoreName());
+        swGoodsListtVo.setGoodstotalnum(swGoods.getGoodsTotalNum());
+        swGoodsListtVo.setId(swGoods.getId());
+        swGoodsListtVo.setGoodsdetail(swGoods.getGoodsDetail());
+        return swGoodsListtVo;
+    }
+
+    //货物删除
+    @Override
+    public void goodlistUpdate(SwMeetingZoomupdateDO swMeetingZoomupdateDO) {
+        List<String> ids=swMeetingZoomupdateDO.getIds();
+        for(String id:ids){
+            SwGoods swGoods=new SwGoods();
+            swGoods.setDeleted(DeleteFlagEnum.DELETE.getCode());
+            SwGoodsCriteria example=new SwGoodsCriteria();
+            example.createCriteria()
+                    .andDeletedEqualTo(DeleteFlagEnum.NOT_DELETE.getCode())
+                    .andIdEqualTo(id);
+            swGoodsMapper.updateByExampleSelective(swGoods,example);
+        }
+
+    }
+
+
 }

@@ -4,15 +4,12 @@ import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.model.base.BaseSwQueryModel;
 import com.authine.cloudpivot.ext.model.base.SwPageVo;
 import com.authine.cloudpivot.ext.model.doo.SwGoodsListDo;
+import com.authine.cloudpivot.ext.model.doo.SwMeetingZoomupdateDO;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
-import com.authine.cloudpivot.ext.model.vo.SwGSlistVo;
-import com.authine.cloudpivot.ext.model.vo.SwGoodResult;
-import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
-import com.authine.cloudpivot.ext.model.vo.SwgetstoreVo;
+import com.authine.cloudpivot.ext.model.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 @Service
 public interface GoodsService {
@@ -36,4 +33,10 @@ public interface GoodsService {
     List<SwgetstoreVo> getenableswstore();
 
    List <SwGSlistVo> getgslist(String id);
+
+    SwPageVo<SwGoodsListtVo> goodsList(BaseSwQueryModel queryModel);
+
+    SwGoodsListtVo goodList(String id);
+
+    void goodlistUpdate(SwMeetingZoomupdateDO swMeetingZoomupdateDO);
 }

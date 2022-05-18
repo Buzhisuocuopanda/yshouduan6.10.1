@@ -10,33 +10,33 @@ import java.util.List;
 @Data
 public class SwGSlistVo  {
 
+    private String id;
 
+    private String goodsname;
 
-    private String goodsName;
-
-    private String goodsCode;
-
-
-
-
-    private String goodsCompany;
-
-    private String swStoreName;
-
-    private Integer goodsTotalNum;
+    private String goodscode;
 
 
 
 
+    private String goodscompany;
 
-    private String storeAddress;
+    private String swstorename;
+
+    private Integer goodstotalnum;
 
 
 
-    private Integer storeGoodsNum;
 
-    private Integer storeGoodsSkuNum;
 
-    private String storeAdmin;
+    private String storeaddress;
+
+
+
+    private Integer storegoodsnum;
+
+    private Integer storegoodsskunum;
+
+    private String storeadmin;
 
 }

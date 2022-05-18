@@ -7,8 +7,12 @@ import java.util.List;
 
 import com.authine.cloudpivot.ext.model.doo.SwUpdateStockDo;
 import com.authine.cloudpivot.ext.model.dto.GoodsQueryParam;
+import com.authine.cloudpivot.ext.model.dto.SwGoodsListDto;
+import com.authine.cloudpivot.ext.model.dto.SwMeetingZoomDto;
 import com.authine.cloudpivot.ext.model.vo.SwGSlistVo;
 import com.authine.cloudpivot.ext.model.vo.SwGoodResult;
+import com.authine.cloudpivot.ext.model.vo.SwGoodsListtVo;
+import com.authine.cloudpivot.ext.model.vo.SwGoodslistVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface SwGoodsMapper {
@@ -45,5 +49,10 @@ public interface SwGoodsMapper {
     List<SwGoodResult> getInfo(GoodsQueryParam goodsQueryParam);
 
     List<SwGSlistVo> getgslist(String id);
+
+    List<SwGoodsListtVo> goodsList();
+
+    List<SwGoodsListDto> selectgoodlist(String id);
+
 
 }

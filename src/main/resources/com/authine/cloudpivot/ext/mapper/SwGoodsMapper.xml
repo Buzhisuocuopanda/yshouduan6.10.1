@@ -501,7 +501,8 @@ where
       sw_store.store_address,
       sw_store.store_goods_num,
       sw_store.store_goods_sku_num,
-      sw_store.store_admin
+      sw_store.store_admin,
+      sw_goods.id
     FROM
       sw_goods
         left join sw_store
@@ -514,4 +515,37 @@ where
       sw_goods.id=#{id};
   </select>
 
+  <select id="goodsList" resultType="com.authine.cloudpivot.ext.model.vo.SwGoodsListtVo">
+    SELECT
+      sw.goods_code,
+      sw.goods_company,
+      sw.goods_detail,
+      sw.goods_head_pic,
+      sw.id,
+      sw.goods_name,
+      sw.goods_total_num,
+      sw.sw_store_id,
+      sw.sw_store_name
+    FROM
+      `sw_goods` sw
+    WHERE
+      sw.deleted=0
+  </select>
+
+  <select id="selectgoodlist" resultType="com.authine.cloudpivot.ext.model.dto.SwGoodsListDto">
+    SELECT
+      sw.goods_code,
+      sw.goods_company,
+      sw.goods_detail,
+      sw.goods_head_pic,
+      sw.id,
+      sw.goods_name,
+      sw.goods_total_num,
+      sw.sw_store_id,
+      sw.sw_store_name
+    FROM
+      `sw_goods` sw
+    WHERE
+      sw.id=#{id}
+  </select>
 </mapper>
