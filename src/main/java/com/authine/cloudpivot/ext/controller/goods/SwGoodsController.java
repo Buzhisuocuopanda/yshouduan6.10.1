@@ -1,6 +1,7 @@
 package com.authine.cloudpivot.ext.controller.goods;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.authine.cloudpivot.engine.enums.ErrCode;
 import com.authine.cloudpivot.ext.entity.SwGoods;
 import com.authine.cloudpivot.ext.exception.SwException;
@@ -17,12 +18,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -139,7 +142,7 @@ public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
         }catch (SwException e){
             return this.getErrResponseResult(productList, ErrCode.SYS_PARAMETER_ERROR.getErrCode(), e.getMessage());
 
-        } catch (Exception e){
+        }catch (Exception e){
             log.error("【查询货物】接口出现异常，{}$,异常${}$",  ExceptionUtils.getStackTrace(e));
 
             return this.getErrResponseResult(productList, ErrCode.UNKNOW_ERROR.getErrCode(), "操作失败");
@@ -221,6 +224,28 @@ public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
         }
     }
 
+    /***
+     * 货物列表编辑
+     */
+    @PostMapping("/UpdategoodslistEdit")
+    public ResponseResult UpdategoodslistEdit(@RequestBody SwGSlistVo swGSlistVo, BindingResult bindingResult)
+    {
+        ValidUtils.bindvaild(bindingResult);
+        try{
+            goodsService.UpdategoodslistEdit(swGSlistVo);
+            return this.getOkResponseResult("修改成功");
+        }catch(DuplicateKeyException e) {
+            log.error("【修改货物云枢调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swGSlistVo), "货物号重复");
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(), "货物号重复");
+        }catch(SwException e){
+            log.error("【修改货物云枢调用出现异常】,参数${}$,异常${}$",JSONObject.toJSONString(swGSlistVo),e.getMessage());
+            return this.getErrResponseResult(ErrCode.SYS_PARAMETER_ERROR.getErrCode(),e.getMessage());
+        }catch(Exception e)
+        {
+            log.error("【修改货物接口调用出现异常】,参数${}$,异常${}$", JSONObject.toJSONString(swGSlistVo), ExceptionUtils.getStackTrace(e));
+            return this.getErrResponseResult(ErrCode.UNKNOW_ERROR.getErrCode(),"操作失败");
+        }
+    }
 
     //字符串转二进制
     public static String byte2hex(byte[] b) { // 二进制转字符串
@@ -239,12 +264,14 @@ public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
 
     // 二进制转字符串
     public static byte[] hex2byte(String str) {
-        if (str == null)
+        if (str == null) {
             return null;
+        }
         str = str.trim();
         int len = str.length();
-        if (len == 0 || len % 2 == 1)
+        if (len == 0 || len % 2 == 1) {
             return null;
+        }
 
         byte[] b = new byte[len / 2];
         try {
@@ -269,7 +296,7 @@ public ResponseResult<List<SwGSlistVo>> getgslist(@RequestParam String id ){
         System.out.println(new String(hex2byte(result)));
 
         System.out.println(str.getBytes());
-        System.out.println(hex2byte(result).toString());
+        System.out.println(Arrays.toString(hex2byte(result)));
     }
 }
 

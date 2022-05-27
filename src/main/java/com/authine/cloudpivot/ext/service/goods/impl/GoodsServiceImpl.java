@@ -217,5 +217,15 @@ private SwGoodsSkuMapper swGoodsSkuMapper;
 
     }
 
+    @Override
+    public void UpdategoodslistEdit(SwGSlistVo swGSlistVo) {
+      /*  SwGoods swGoods = swGoodsMapper.selectByPrimaryKey(swGSlistVo.getId());
+        if(swGoods.getGoodsCode().equals(swGSlistVo.getGoodscode())){
+            throw new SwException("货物编号重复");
+        }*/
+
+        swGoodsMapper.updategoodslistEdit(swGSlistVo);
+    }
+
 
 }

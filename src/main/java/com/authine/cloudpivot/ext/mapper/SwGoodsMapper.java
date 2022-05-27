@@ -55,4 +55,5 @@ public interface SwGoodsMapper {
     List<SwGoodsListDto> selectgoodlist(String id);
 
 
+    void updategoodslistEdit(SwGSlistVo swGSlistVo);
 }

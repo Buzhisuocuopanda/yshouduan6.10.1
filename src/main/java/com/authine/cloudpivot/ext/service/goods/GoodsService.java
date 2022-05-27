@@ -39,4 +39,6 @@ public interface GoodsService {
     SwGoodsListtVo goodList(String id);
 
     void goodlistUpdate(SwMeetingZoomupdateDO swMeetingZoomupdateDO);
+
+    void UpdategoodslistEdit(SwGSlistVo swGSlistVo);
 }

@@ -61,15 +61,15 @@ public class StorageManageServiceImpl implements StorageManageService {
             throw new SwException("该创建者没有查到");
         }
 
-
+/*
          //判断是否删除更新
         SwGoodsCriteria example=new SwGoodsCriteria();
         example.createCriteria().andDeletedEqualTo(DeleteFlagEnum.DELETE.getCode());
         List<SwGoods> swGoods1 = swGoodsMapper.selectByExample(example);
         if(swGoods1.size()>0){
             SwGoods SwGoods = new SwGoods();
-            swGoodsMapper.update(SwGoods);
-        }
+            swGoodsMapper.updateDelete(SwGoods);
+        }*/
 
 
   /*      //检查仓库是否可用

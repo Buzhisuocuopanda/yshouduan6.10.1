@@ -548,4 +548,15 @@ where
     WHERE
       sw.id=#{id}
   </select>
+
+  <update id="updategoodslistEdit" parameterType="com.authine.cloudpivot.ext.model.vo.SwGSlistVo">
+    UPDATE `sw_goods` m
+    set
+      m.goods_name=#{goodsname},
+      m.goods_code=#{goodscode},
+      m.goods_company=#{goodscompany},
+      m.sw_store_name=#{swstorename}
+    WHERE
+      m.id=#{id}
+  </update>
 </mapper>
